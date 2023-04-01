@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { GoogleLoginButton } from 'react-social-login-buttons';
 import { style } from 'typestyle';
 
-import { auth } from '../util/firebase';
+import { auth } from '../../util/firebase';
 
 const provider = new GoogleAuthProvider();
 

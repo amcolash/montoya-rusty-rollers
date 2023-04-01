@@ -38,6 +38,11 @@ export function Nav() {
   return (
     <nav className={navStyle}>
       <h1 style={{ margin: 0 }}>Montoya Rusty Rollers Restoration</h1>
+      {import.meta.env.DEV && location.pathname === '/' && (
+        <Link to="/admin" style={{ color: '#eee' }}>
+          Admin Page
+        </Link>
+      )}
       <ul className={navStyle}>
         <li>
           <Link to="#">Home</Link>

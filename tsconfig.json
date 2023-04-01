@@ -8,7 +8,9 @@
     },
     "strict": true,
     "target": "ES2015",
-    "allowSyntheticDefaultImports": true
+    "module": "ESNext",
+    "allowSyntheticDefaultImports": true,
+    "types": ["vite/client"]
   },
   "include": ["src/**/*"]
 }

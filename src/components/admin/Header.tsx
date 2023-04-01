@@ -3,7 +3,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 import { style } from 'typestyle';
 
-import { auth } from '../util/firebase';
+import { auth } from '../../util/firebase';
 
 const header = style({
   padding: '1rem',
