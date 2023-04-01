@@ -15,7 +15,8 @@
     "react": "^18.2.0",
     "react-contenteditable": "^3.3.7",
     "react-dom": "^18.2.0",
-    "react-firebase-hooks": "^5.1.1"
+    "react-firebase-hooks": "^5.1.1",
+    "react-focus-lock": "^2.9.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",

@@ -1,8 +1,9 @@
 import { ref, getDatabase } from 'firebase/database';
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { app } from './firebase';
+import { auth, database } from './firebase';
 import { useDb } from './useDb';
 import useDebounce from './useDebounce';
 
@@ -15,18 +16,16 @@ export enum TextId {
 
 interface EditableTextProps {
   id: TextId;
-  readonly: boolean;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
-const database = getDatabase(app);
-
 export function EditableText(props: EditableTextProps) {
-  const reference = ref(database, `text-${props.id}`);
+  const [user] = useAuthState(auth);
 
   const [current, setCurrent] = useState('');
   const debouncedValue = useDebounce(current, 1000);
 
+  const reference = ref(database, `text-${props.id}`);
   const [val, loading, error, setVal, saving] = useDb<string>(reference);
 
   useEffect(() => {
@@ -42,7 +41,7 @@ export function EditableText(props: EditableTextProps) {
 
   return (
     <div style={{ display: 'flex', ...props.style }}>
-      <ContentEditable disabled={props.readonly} style={{ flex: 1 }} html={current} onChange={(e) => setCurrent(e.target.value)} />
+      <ContentEditable disabled={!user} style={{ flex: 1 }} html={current} onChange={(e) => setCurrent(e.target.value)} />
       <div>{saving ? '⏳' : '✅'}</div>
     </div>
   );
