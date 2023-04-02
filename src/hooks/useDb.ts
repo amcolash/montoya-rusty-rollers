@@ -1,21 +1,30 @@
 import { DatabaseReference, remove, set } from 'firebase/database';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useObjectVal } from 'react-firebase-hooks/database';
 
-export function useDb<T>(ref: DatabaseReference): [T | undefined, boolean, Error | undefined, (val: T) => void, boolean] {
+export const loadingList: string[] = [];
+
+export function useDb<T>(ref: DatabaseReference): [T | undefined, boolean, Error | undefined, (val: T) => Promise<void>, boolean] {
   const [val, loading, error] = useObjectVal<T>(ref, {});
   const [saving, setSaving] = useState(false);
 
+  useEffect(() => {
+    if (loading) loadingList.push(ref.toString());
+    else loadingList.splice(loadingList.indexOf(ref.toString()), 1);
+  }, [loading]);
+
   const setVal = useCallback(
-    async (val: T) => {
+    async (newVal: T) => {
+      if (newVal === val) return;
+
       setSaving(true);
 
-      if (val) await set(ref, val);
+      if (newVal) await set(ref, newVal);
       else await remove(ref);
 
       setSaving(false);
     },
-    [ref]
+    [val, ref]
   );
 
   return [val, loading, error, setVal, saving];
