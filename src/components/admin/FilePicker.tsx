@@ -48,7 +48,7 @@ export function FilePicker(props: FilePickerProps) {
         top: 0,
         left: 0,
         background: 'rgba(0,0,0,0.5)',
-        zIndex: 1,
+        zIndex: 2,
         ...props.style,
       }}
       onMouseDown={(e) => {

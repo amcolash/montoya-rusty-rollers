@@ -3,7 +3,6 @@ import ReactFocusLock from 'react-focus-lock';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { auth } from '../../util/firebase';
-import { Header } from './Header';
 import { Login } from './Login';
 import { Website } from '../website/Website';
 import { FilePicker } from './FilePicker';
@@ -25,7 +24,6 @@ export function Admin() {
         </ReactFocusLock>
       )}
 
-      <Header />
       <Website />
     </div>
   );

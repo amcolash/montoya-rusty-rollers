@@ -20,7 +20,8 @@
     "react-global-hooks": "^1.3.3",
     "react-router-dom": "^6.10.0",
     "react-social-login-buttons": "^3.6.1",
-    "typestyle": "^2.4.0"
+    "typestyle": "^2.4.0",
+    "use-resize-observer": "^9.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",

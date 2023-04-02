@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { media, style } from 'typestyle';
+import useResizeObserver from 'use-resize-observer';
+import { auth } from '../../util/firebase';
+import { headerHeight } from '../../util/globalState';
 
 const navStyle = style(
   {
@@ -8,11 +11,8 @@ const navStyle = style(
     justifyContent: 'space-between',
     alignItems: 'center',
     flexWrap: 'wrap',
-    padding: '0.75rem 1rem',
-    color: '#eee',
-    background: '#333',
     marginRight: '-1.25rem',
-    width: 'calc(100% - 2rem)',
+    width: '100%',
 
     $nest: {
       '& ul': {
@@ -48,40 +48,55 @@ const navStyle = style(
 );
 
 export function Nav() {
+  const [globalHeight, setGlobalHeight] = headerHeight.use();
+  const { ref, width, height } = useResizeObserver<HTMLDivElement>({
+    box: 'border-box',
+  });
+
+  useEffect(() => {
+    document.body.style.scrollPaddingTop = height + 'px';
+    setGlobalHeight(height);
+  }, [height]);
+
   return (
-    <nav className={navStyle}>
-      <h1 style={{ margin: 0, textAlign: 'center' }}>Montoya Rusty Rollers Restoration</h1>
-      <ul>
-        {import.meta.env.DEV && location.pathname === '/' && (
+    <div
+      ref={ref}
+      style={{ position: 'sticky', top: 0, zIndex: 1, boxSizing: 'border-box', padding: '0.75rem 1rem', color: '#eee', background: '#333' }}
+    >
+      <nav className={navStyle}>
+        <h1 style={{ margin: 0, textAlign: 'center' }}>Montoya Rusty Rollers Restoration</h1>
+        <ul>
           <li>
-            <Link to="/admin" style={{ color: '#e3bd24' }}>
-              Admin Page
-            </Link>
+            <Link to="#">Home</Link>
           </li>
-        )}
-        {import.meta.env.DEV && location.pathname === '/admin' && (
           <li>
-            <Link to="/" style={{ color: '#e3bd24' }}>
-              Exit Admin
-            </Link>
+            <Link to="#services">Services</Link>
           </li>
-        )}
-        <li>
-          <Link to="#">Home</Link>
-        </li>
-        <li>
-          <Link to="#services">Services</Link>
-        </li>
-        <li>
-          <Link to="#our-work">Our Work</Link>
-        </li>
-        <li>
-          <Link to="#about-us">About Us</Link>
-        </li>
-        <li>
-          <Link to="#contact">Contact</Link>
-        </li>
-      </ul>
-    </nav>
+          <li>
+            <Link to="#our-work">Our Work</Link>
+          </li>
+          <li>
+            <Link to="#about-us">About Us</Link>
+          </li>
+          <li>
+            <Link to="#contact">Contact</Link>
+          </li>
+        </ul>
+      </nav>
+
+      {import.meta.env.DEV && location.pathname === '/' && (
+        <Link to="/admin" style={{ color: '#e3bd24' }}>
+          Admin Page
+        </Link>
+      )}
+      {location.pathname === '/admin' && (
+        <>
+          <Link to="/" style={{ color: '#e3bd24', fontStyle: 'italic', marginRight: '1rem' }}>
+            Exit Admin
+          </Link>
+          <button onClick={() => auth.signOut()}>Logout</button>
+        </>
+      )}
+    </div>
   );
 }
