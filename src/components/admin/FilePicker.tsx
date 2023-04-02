@@ -1,21 +1,22 @@
 import { DatabaseReference, set } from 'firebase/database';
 import React, { CSSProperties, useEffect } from 'react';
+import { filePickerState } from '../../util/globalState';
 
 interface FilePickerProps {
-  filePickerReference?: DatabaseReference;
-  setFilePickerReference: (reference: DatabaseReference | undefined) => void;
   style?: CSSProperties;
 }
 
 export const FilePicker = React.forwardRef(function FilePicker(props: FilePickerProps, ref) {
+  const [filePickerReference, setFilePickerReference] = filePickerState.use();
+
   useEffect(() => {
     const listener = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') props.setFilePickerReference(undefined);
+      if (event.key === 'Escape') setFilePickerReference(undefined);
     };
     document.addEventListener('keydown', listener);
 
     return () => document.removeEventListener('keydown', listener);
-  }, [props.setFilePickerReference]);
+  }, [setFilePickerReference]);
 
   const images = [
     { name: 'Image 100', url: 'https://placehold.it/100' },
@@ -46,7 +47,7 @@ export const FilePicker = React.forwardRef(function FilePicker(props: FilePicker
       }}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) {
-          props.setFilePickerReference(undefined);
+          setFilePickerReference(undefined);
           e.stopPropagation();
           e.preventDefault();
         }
@@ -61,16 +62,24 @@ export const FilePicker = React.forwardRef(function FilePicker(props: FilePicker
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'flex-end', background: '#ccc', padding: '0.5rem', marginBottom: '1rem' }}>
-          <button onClick={() => props.setFilePickerReference(undefined)}>X</button>
+          <button onClick={() => setFilePickerReference(undefined)}>X</button>
         </div>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignContent: 'flex-start', gap: '0.75rem', padding: '0.75rem' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '0.75rem',
+            padding: '0.75rem',
+          }}
+        >
           {images.map((i) => (
             <button
               key={i.url}
               onClick={async () => {
-                await set(props.filePickerReference!, i.url);
-                props.setFilePickerReference(undefined);
+                await set(filePickerReference!, i.url);
+                setFilePickerReference(undefined);
               }}
               style={{ width: '10rem', height: '10rem', padding: '0.25rem' }}
             >

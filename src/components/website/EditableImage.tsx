@@ -3,6 +3,7 @@ import React, { CSSProperties } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, database } from '../../util/firebase';
 import { useDb } from '../../hooks/useDb';
+import { filePickerState } from '../../util/globalState';
 
 export enum ImageId {
   header = 'header',
@@ -14,11 +15,11 @@ export enum ImageId {
 interface EditableImageProps {
   id: ImageId;
   style?: CSSProperties;
-  // setFilePickerReference: (reference: DatabaseReference | undefined) => void;
 }
 
 export function EditableImage(props: EditableImageProps) {
   const [user] = useAuthState(auth);
+  const [filePickerReference, setFilePickerReference] = filePickerState.use();
 
   const reference = ref(database, `image-${props.id}`);
   const [val, loading, error, setVal, saving] = useDb<string>(reference);
@@ -27,9 +28,9 @@ export function EditableImage(props: EditableImageProps) {
     <div style={{ position: 'relative', ...props.style }}>
       {user && (
         <div style={{ position: 'absolute', top: '0.25rem', right: '0.25rem' }}>
-          {/* <button onClick={() => props.setFilePickerReference(reference)} style={{ marginLeft: '0.5rem' }}>
+          <button onClick={() => setFilePickerReference(reference)} style={{ marginLeft: '0.5rem' }}>
             Edit
-          </button> */}
+          </button>
         </div>
       )}
       {val && <img src={val} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
