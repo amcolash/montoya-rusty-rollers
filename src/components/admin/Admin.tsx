@@ -13,7 +13,9 @@ export function Admin() {
   const [user, loading, error] = useAuthState(auth);
   const [filePickerReference, setFilePickerReference] = useState<DatabaseReference | undefined>();
 
-  if (!user || loading || error) return <Login />;
+  if (loading) return <div>Loading...</div>;
+
+  if (!user || error) return <Login />;
 
   return (
     <div>

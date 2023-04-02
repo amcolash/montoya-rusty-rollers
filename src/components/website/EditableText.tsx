@@ -28,13 +28,13 @@ export function EditableText(props: EditableTextProps) {
   const reference = ref(database, `text-${props.id}`);
   const [val, loading, error, setVal, saving] = useDb<string>(reference);
 
-  // useEffect(() => {
-  //   if (current !== val) setCurrent(val || '');
-  // }, [current, val]);
+  useEffect(() => {
+    setCurrent(val || '');
+  }, [val]);
 
-  // useEffect(() => {
-  //   if (val !== debouncedValue) setVal(debouncedValue);
-  // }, [val, debouncedValue]);
+  useEffect(() => {
+    if (debouncedValue && debouncedValue.length > 0) setVal(debouncedValue);
+  }, [debouncedValue]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -42,7 +42,7 @@ export function EditableText(props: EditableTextProps) {
   return (
     <div style={{ display: 'flex', ...props.style }}>
       <ContentEditable disabled={!user} style={{ flex: 1 }} html={current} onChange={(e) => setCurrent(e.target.value)} />
-      <div>{saving ? '⏳' : '✅'}</div>
+      {user && <div>{saving ? '⏳' : '✅'}</div>}
     </div>
   );
 }
