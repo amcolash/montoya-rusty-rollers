@@ -1,5 +1,5 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
 import { GoogleLoginButton } from 'react-social-login-buttons';
@@ -20,6 +20,14 @@ const container = style({
 
 export function Login() {
   const [user, loading, error] = useAuthState(auth);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (import.meta.env.DEV && !user) {
+        signInWithPopup(auth, provider);
+      }
+    }, 250);
+  }, [user]);
 
   if (loading) return <div className={container}>Loading...</div>;
   if (error) return <div className={container}>An error occurred: {error.message}</div>;
