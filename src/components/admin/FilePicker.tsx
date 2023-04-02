@@ -1,13 +1,31 @@
-import { DatabaseReference, set } from 'firebase/database';
-import React, { CSSProperties, useEffect } from 'react';
+import { set } from 'firebase/database';
+import { deleteObject, getDownloadURL, listAll, ref } from 'firebase/storage';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
+import { useUploadFile } from 'react-firebase-hooks/storage';
+import { useFileList } from '../../hooks/useFileList';
+
+import { storage } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
 
 interface FilePickerProps {
   style?: CSSProperties;
 }
 
-export const FilePicker = React.forwardRef(function FilePicker(props: FilePickerProps, ref) {
+interface Image {
+  name: string;
+  path: string;
+  url: string;
+}
+
+export function FilePicker(props: FilePickerProps) {
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const [uploadFile, uploading, snapshot, error] = useUploadFile();
+
+  const [reloadCounter, setReloadCounter] = useState(0);
+  const [images, loading] = useFileList('images/', reloadCounter);
 
   useEffect(() => {
     const listener = (event: KeyboardEvent) => {
@@ -17,18 +35,6 @@ export const FilePicker = React.forwardRef(function FilePicker(props: FilePicker
 
     return () => document.removeEventListener('keydown', listener);
   }, [setFilePickerReference]);
-
-  const images = [
-    { name: 'Image 100', url: 'https://placehold.it/100' },
-    { name: 'Image 150', url: 'https://placehold.it/150' },
-    { name: 'Image 200', url: 'https://placehold.it/200' },
-    { name: 'Image 250', url: 'https://placehold.it/250' },
-    { name: 'Image 300', url: 'https://placehold.it/300' },
-    { name: 'Image 350', url: 'https://placehold.it/350' },
-    { name: 'Image 400', url: 'https://placehold.it/400' },
-    { name: 'Image 450', url: 'https://placehold.it/450' },
-    { name: 'Image 500', url: 'https://placehold.it/500' },
-  ];
 
   return (
     <div
@@ -53,41 +59,103 @@ export const FilePicker = React.forwardRef(function FilePicker(props: FilePicker
         }
       }}
     >
-      <div
-        style={{
-          width: '85%',
-          height: '85%',
-          background: '#eee',
-          position: 'relative',
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'flex-end', background: '#ccc', padding: '0.5rem', marginBottom: '1rem' }}>
+      <div style={{ width: '85vw', background: '#eee', position: 'relative' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            background: '#ccc',
+            padding: '0.5rem',
+          }}
+        >
           <button onClick={() => setFilePickerReference(undefined)}>X</button>
         </div>
 
         <div
           style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '0.75rem',
-            padding: '0.75rem',
+            height: '85vh',
+            overflowY: 'auto',
           }}
         >
-          {images.map((i) => (
-            <button
-              key={i.url}
-              onClick={async () => {
-                await set(filePickerReference!, i.url);
-                setFilePickerReference(undefined);
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div
+              style={{
+                width: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'column',
+                gap: '1rem',
+                margin: '1rem',
+                borderBottom: '1px solid #bbb',
+                paddingBottom: '1.5rem',
               }}
-              style={{ width: '10rem', height: '10rem', padding: '0.25rem' }}
             >
-              <img src={i.url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </button>
-          ))}
+              <label htmlFor="file">Upload an Image</label>
+              <input
+                id="file"
+                type="file"
+                accept="image/*"
+                ref={inputRef}
+                onChange={(e) => {
+                  const file = e.target.files ? e.target.files[0] : undefined;
+                  setSelectedFile(file);
+                }}
+              />
+              <button
+                disabled={uploading || !selectedFile}
+                onClick={async () => {
+                  if (selectedFile) {
+                    const storageRef = ref(storage, 'images/' + selectedFile.name);
+                    const result = await uploadFile(storageRef, selectedFile, { contentType: selectedFile.type });
+
+                    if (inputRef.current) inputRef.current.value = '';
+                    setSelectedFile(undefined);
+                    setReloadCounter(() => reloadCounter + 1);
+                  }
+                }}
+              >
+                Upload
+              </button>
+
+              {uploading && '⏳'}
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: '1rem',
+              padding: '0.75rem',
+            }}
+          >
+            {loading && <div>Loading...</div>}
+            {!loading && images.length === 0 && <div>No Images</div>}
+            {!loading &&
+              images.map((i) => (
+                <div key={i.url} style={{ display: 'flex', flexDirection: 'column' }}>
+                  <button
+                    onClick={async () => {
+                      await set(filePickerReference!, i.url);
+                      setFilePickerReference(undefined);
+                    }}
+                    style={{ width: '10rem', height: '10rem', padding: '0.25rem', marginBottom: '0.5rem' }}
+                  >
+                    <img src={i.url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </button>
+                  <button
+                    onClick={async () => {
+                      await deleteObject(i.ref);
+                      setReloadCounter(() => reloadCounter + 1);
+                    }}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>
   );
-});
+}

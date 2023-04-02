@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { media, style } from 'typestyle';
-import { TextId } from './EditableText';
 
 const navStyle = style(
   {
@@ -57,6 +56,13 @@ export function Nav() {
           <li>
             <Link to="/admin" style={{ color: '#e3bd24' }}>
               Admin Page
+            </Link>
+          </li>
+        )}
+        {import.meta.env.DEV && location.pathname === '/admin' && (
+          <li>
+            <Link to="/" style={{ color: '#e3bd24' }}>
+              Exit Admin
             </Link>
           </li>
         )}

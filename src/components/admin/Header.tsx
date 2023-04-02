@@ -30,17 +30,14 @@ export function Header() {
       <div className={header}>
         <h3>Rusty Rollers Restoration</h3>
         <h3>[Admin Mode]</h3>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h3 style={{ marginRight: '1rem' }}>{user.displayName}</h3>
-          <button
-            onClick={() => {
-              auth.signOut();
-              navigate('/');
-            }}
-          >
-            Logout
-          </button>
-        </div>
+        <button
+          onClick={() => {
+            auth.signOut();
+            navigate('/');
+          }}
+        >
+          Logout
+        </button>
       </div>
     );
   }

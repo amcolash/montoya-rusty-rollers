@@ -1,11 +1,11 @@
-import { ref, getDatabase } from 'firebase/database';
+import { ref } from 'firebase/database';
 import React, { CSSProperties, useEffect, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
-import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { auth, database } from '../../util/firebase';
+import { database } from '../../util/firebase';
 import { useDb } from '../../hooks/useDb';
 import useDebounce from '../../hooks/useDebounce';
+import { useLocation } from 'react-router-dom';
 
 export enum TextId {
   header = 'header',
@@ -20,7 +20,7 @@ interface EditableTextProps {
 }
 
 export function EditableText(props: EditableTextProps) {
-  const [user] = useAuthState(auth);
+  const location = useLocation();
 
   const [current, setCurrent] = useState('');
   const debouncedValue = useDebounce(current, 1000);
@@ -41,8 +41,13 @@ export function EditableText(props: EditableTextProps) {
 
   return (
     <div style={{ display: 'flex', ...props.style }}>
-      <ContentEditable disabled={!user} style={{ flex: 1 }} html={current} onChange={(e) => setCurrent(e.target.value)} />
-      {user && <div>{saving ? '⏳' : '✅'}</div>}
+      <ContentEditable
+        disabled={location.pathname === '/'}
+        style={{ flex: 1 }}
+        html={current}
+        onChange={(e) => setCurrent(e.target.value)}
+      />
+      {location.pathname === '/admin' && <div>{saving ? '⏳' : '✅'}</div>}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, database } from '../../util/firebase';
 import { useDb } from '../../hooks/useDb';
 import { filePickerState } from '../../util/globalState';
+import { useLocation } from 'react-router-dom';
 
 export enum ImageId {
   header = 'header',
@@ -18,7 +19,8 @@ interface EditableImageProps {
 }
 
 export function EditableImage(props: EditableImageProps) {
-  const [user] = useAuthState(auth);
+  const location = useLocation();
+
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
 
   const reference = ref(database, `image-${props.id}`);
@@ -26,7 +28,7 @@ export function EditableImage(props: EditableImageProps) {
 
   return (
     <div style={{ position: 'relative', ...props.style }}>
-      {user && (
+      {location.pathname === '/admin' && (
         <div style={{ position: 'absolute', top: '0.25rem', right: '0.25rem' }}>
           <button onClick={() => setFilePickerReference(reference)} style={{ marginLeft: '0.5rem' }}>
             Edit
