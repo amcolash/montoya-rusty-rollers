@@ -5,5 +5,5 @@ interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
-  return <h1 style={{ borderBottom: '1px solid #333' }}>{props.children}</h1>;
+  return <h1 style={{ borderBottom: '1px solid var(--background)' }}>{props.children}</h1>;
 }

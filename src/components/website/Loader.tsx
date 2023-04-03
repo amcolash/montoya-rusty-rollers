@@ -17,8 +17,7 @@ const container = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  transform: 'scaleX(-1)',
-  background: '#eee',
+  background: 'var(--background)',
   zIndex: 2,
 });
 
@@ -40,6 +39,7 @@ const truckStyle = style({
   animation: `${truckAnimation} 2s linear infinite`,
   width: 250,
   height: 250,
+  color: 'var(--primary)',
 });
 
 const dustAnimation = keyframes({
@@ -56,7 +56,7 @@ const dustStyle = style({
   height: 75,
   position: 'absolute',
   zIndex: -1,
-  color: '#91724F',
+  color: '#aaa',
 });
 
 // Loader from Nikita Hlopov: https://codepen.io/nikitahl/pen/MZdZqa
@@ -69,7 +69,7 @@ export function Loader(props: LoaderProps) {
         className={dustStyle}
         style={{
           top: `calc(50% + 15px - ${Math.random() * 25 - 12}px)`,
-          left: `calc(50% + 75px - ${Math.random() * 150 - 75}px`,
+          left: `calc(50% - 150px - ${Math.random() * 150 - 75}px`,
           animationDuration: `${Math.random() * 0.5 + 1.5}s`,
           rotate: `${Math.random() * 360}deg`,
           animationDelay: `${Math.random()}s`,

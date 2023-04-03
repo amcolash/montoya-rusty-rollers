@@ -21,8 +21,13 @@ export function useFileList(path: string, refreshCounter: number): [File[], bool
       const urls = [];
 
       for (const item of result.items) {
-        const url = await getDownloadURL(item);
-        urls.push({ name: item.name, path: item.fullPath, url, ref: item });
+        const existing = files.find((f) => f.path === item.fullPath);
+        if (existing) {
+          urls.push(existing);
+        } else {
+          const url = await getDownloadURL(item);
+          urls.push({ name: item.name, path: item.fullPath, url, ref: item });
+        }
       }
 
       setFiles(urls);

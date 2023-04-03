@@ -18,7 +18,7 @@ export function Website() {
         clearInterval(timer);
 
         document.body.scrollTop = 0;
-        setTimeout(() => setLoaded(true), 1000);
+        setTimeout(() => setLoaded(true), 250);
       }
     }, 100);
   }, []);

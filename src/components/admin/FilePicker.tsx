@@ -1,7 +1,8 @@
 import { set } from 'firebase/database';
-import { deleteObject, getDownloadURL, listAll, ref } from 'firebase/storage';
+import { deleteObject, ref } from 'firebase/storage';
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { useUploadFile } from 'react-firebase-hooks/storage';
+import { FaFileImage, FaFileUpload, FaHourglassHalf, FaRegTrashAlt, FaTimes } from 'react-icons/fa';
 import { useFileList } from '../../hooks/useFileList';
 
 import { storage } from '../../util/firebase';
@@ -59,16 +60,23 @@ export function FilePicker(props: FilePickerProps) {
         }
       }}
     >
-      <div style={{ width: '85vw', background: '#eee', position: 'relative' }}>
+      <div style={{ width: '85vw', background: 'var(--primary)', position: 'relative' }}>
         <div
           style={{
             display: 'flex',
-            justifyContent: 'flex-end',
-            background: '#ccc',
+            justifyContent: 'center',
+            position: 'relative',
+            background: 'var(--background)',
+            color: 'var(--primary)',
             padding: '0.5rem',
           }}
         >
-          <button onClick={() => setFilePickerReference(undefined)}>X</button>
+          <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            Choose an Image <FaFileImage />
+          </h3>
+          <button onClick={() => setFilePickerReference(undefined)} style={{ position: 'absolute', right: '0.5rem' }}>
+            <FaTimes />
+          </button>
         </div>
 
         <div
@@ -113,11 +121,13 @@ export function FilePicker(props: FilePickerProps) {
                     setReloadCounter(() => reloadCounter + 1);
                   }
                 }}
+                style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
               >
-                Upload
+                <span>Upload</span>
+                <FaFileUpload />
               </button>
 
-              {uploading && '⏳'}
+              {uploading && <FaHourglassHalf />}
             </div>
           </div>
           <div
@@ -145,11 +155,14 @@ export function FilePicker(props: FilePickerProps) {
                   </button>
                   <button
                     onClick={async () => {
-                      await deleteObject(i.ref);
-                      setReloadCounter(() => reloadCounter + 1);
+                      if (confirm('Are you sure you want to delete this image?')) {
+                        await deleteObject(i.ref);
+                        setReloadCounter(() => reloadCounter + 1);
+                      }
                     }}
+                    style={{ padding: '0.15rem' }}
                   >
-                    X
+                    <FaRegTrashAlt />
                   </button>
                 </div>
               ))}

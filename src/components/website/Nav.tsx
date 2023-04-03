@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { FaSignOutAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { style } from 'typestyle';
 import useResizeObserver from 'use-resize-observer';
@@ -37,7 +38,7 @@ const navStyle = style({
 
       $nest: {
         '&:hover': {
-          color: '#eee',
+          color: 'var(--primary)',
         },
       },
     },
@@ -58,7 +59,17 @@ export function Nav() {
   return (
     <header
       ref={ref}
-      style={{ position: 'sticky', top: 0, zIndex: 1, boxSizing: 'border-box', padding: '0.75rem 1rem', color: '#eee', background: '#333' }}
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 1,
+        boxSizing: 'border-box',
+        padding: '0.75rem 1rem',
+        color: 'var(--primary)',
+        background: 'var(--background)',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
     >
       <nav className={navStyle}>
         <h1 style={{ margin: 0, textAlign: 'center' }}>Montoya Rusty Rollers Restoration</h1>
@@ -81,18 +92,38 @@ export function Nav() {
         </ul>
       </nav>
 
-      {import.meta.env.DEV && location.pathname === '/' && (
-        <Link to="/admin" style={{ color: '#e3bd24' }}>
-          Admin Page
-        </Link>
-      )}
-      {location.pathname === '/admin' && (
-        <>
-          <Link to="/" style={{ color: '#e3bd24', fontStyle: 'italic', marginRight: '1rem' }}>
-            Exit Admin
-          </Link>
-          <button onClick={() => auth.signOut()}>Logout</button>
-        </>
+      {(import.meta.env.DEV || location.pathname === '/admin') && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'var(--warning)',
+            margin: '-1rem',
+            marginTop: '1rem',
+            padding: '0.5rem',
+            color: 'var(--background)',
+            gap: '1rem',
+          }}
+        >
+          {import.meta.env.DEV && location.pathname === '/' && (
+            <Link to="/admin" style={{ color: 'var(--background)' }}>
+              Admin Page
+            </Link>
+          )}
+          {location.pathname === '/admin' && (
+            <>
+              <h3 style={{ margin: 0 }}>[ADMIN MODE]</h3>
+              <Link to="/" style={{ color: 'var(--background)', fontStyle: 'italic' }}>
+                Exit Admin
+              </Link>
+              <button onClick={() => auth.signOut()} style={{ display: 'flex', gap: '0.25rem' }}>
+                <span>Logout</span>
+                <FaSignOutAlt />
+              </button>
+            </>
+          )}
+        </div>
       )}
     </header>
   );

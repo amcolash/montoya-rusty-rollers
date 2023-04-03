@@ -6,6 +6,7 @@ import { database } from '../../util/firebase';
 import { useDb } from '../../hooks/useDb';
 import useDebounce from '../../hooks/useDebounce';
 import { useLocation } from 'react-router-dom';
+import { FaCheck, FaHourglassHalf } from 'react-icons/fa';
 
 export enum TextId {
   header = 'header',
@@ -47,7 +48,7 @@ export function EditableText(props: EditableTextProps) {
         html={current}
         onChange={(e) => setCurrent(e.target.value)}
       />
-      {location.pathname === '/admin' && <div>{saving ? '⏳' : '✅'}</div>}
+      {location.pathname === '/admin' && <div>{saving ? <FaHourglassHalf /> : <FaCheck />}</div>}
     </div>
   );
 }
