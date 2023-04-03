@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { style } from 'typestyle';
 import { loadingList } from '../../hooks/useDb';
-import { headerHeight } from '../../util/globalState';
-import { EditableImage, ImageId } from './EditableImage';
-import { EditableText, TextId } from './EditableText';
+import { Footer } from './Footer';
+import { Loader } from './Loader';
 import { Nav } from './Nav';
-import { Page } from './Page';
+import { About } from './sections/About';
+import { Banner } from './sections/Banner';
+import { Contact } from './sections/Contact';
+import { Services } from './sections/Services';
+import { Work } from './sections/Work';
 
 export function Website() {
   const [loaded, setLoaded] = React.useState(false);
@@ -13,35 +15,27 @@ export function Website() {
   useEffect(() => {
     let timer = setInterval(() => {
       if (loadingList.length === 0) {
-        setLoaded(true);
         clearInterval(timer);
+
+        document.body.scrollTop = 0;
+        setTimeout(() => setLoaded(true), 1000);
       }
     }, 100);
   }, []);
 
-  const height = headerHeight.useValue();
-  const pageStyle = style({ height: `calc(100vh - ${height}px)` });
-
   return (
     <>
-      <div style={{ display: loaded ? 'none' : undefined }}>Loading...</div>
+      <Loader style={{ opacity: loaded ? 0 : 1, transition: 'opacity 0.5s', pointerEvents: loaded ? 'none' : undefined }} />
 
-      <div style={{ display: loaded ? undefined : 'none' }}>
-        <Nav />
+      <Nav />
 
-        <Page className={pageStyle} style={{ background: 'hsl(0, 30%, 65%)' }}>
-          <EditableText id={TextId.header} />
-          <EditableText id={TextId.intro} />
-          <EditableText id={TextId.main} />
-          <EditableText id={TextId.footer} />
+      <Banner />
+      <Services />
+      <Work />
+      <About />
+      <Contact />
 
-          <EditableImage id={ImageId.header} style={{ width: '50%', height: '20vh' }} />
-        </Page>
-        <Page className={pageStyle} style={{ background: 'hsl(80, 30%, 65%)' }}></Page>
-        <Page className={pageStyle} style={{ background: 'hsl(240, 30%, 65%)' }}></Page>
-        <Page className={pageStyle} style={{ background: 'hsl(160, 30%, 65%)' }}></Page>
-        <Page className={pageStyle} style={{ background: 'hsl(320, 30%, 65%)' }}></Page>
-      </div>
+      <Footer />
     </>
   );
 }

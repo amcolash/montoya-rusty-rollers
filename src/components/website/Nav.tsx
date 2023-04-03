@@ -1,51 +1,48 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { media, style } from 'typestyle';
+import { style } from 'typestyle';
 import useResizeObserver from 'use-resize-observer';
 import { auth } from '../../util/firebase';
 import { headerHeight } from '../../util/globalState';
 
-const navStyle = style(
-  {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    marginRight: '-1.25rem',
-    width: '100%',
+const navStyle = style({
+  display: 'flex',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+  marginRight: '-1.25rem',
+  width: '100%',
 
-    $nest: {
-      '& ul': {
-        display: 'flex',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-        listStyle: 'none',
-        gap: '0.25rem 0.75rem',
-        margin: '0.5rem 0',
-        padding: 0,
-      },
-      '&: li': {
-        textAlign: 'center',
-      },
-      '& a': {
-        textAlign: 'center',
-        display: 'flex',
-        textDecoration: 'none',
-        fontWeight: 'bold',
-        color: '#bbb',
-        transition: 'color 0.35s',
-        padding: '0.35rem 0.75rem',
+  $nest: {
+    '& ul': {
+      display: 'flex',
+      justifyContent: 'center',
+      flexWrap: 'wrap',
+      listStyle: 'none',
+      gap: '0.25rem 0.75rem',
+      margin: '0.5rem 0',
+      padding: 0,
+    },
+    '&: li': {
+      textAlign: 'center',
+    },
+    '& a': {
+      textAlign: 'center',
+      display: 'flex',
+      textDecoration: 'none',
+      fontWeight: 'bold',
+      color: '#bbb',
+      transition: 'color 0.35s',
+      padding: '0.35rem 0.75rem',
 
-        $nest: {
-          '&:hover': {
-            color: '#eee',
-          },
+      $nest: {
+        '&:hover': {
+          color: '#eee',
         },
       },
     },
   },
-  media({ maxWidth: 915 }, { justifyContent: 'center' })
-);
+});
 
 export function Nav() {
   const [globalHeight, setGlobalHeight] = headerHeight.use();
@@ -59,7 +56,7 @@ export function Nav() {
   }, [height]);
 
   return (
-    <div
+    <header
       ref={ref}
       style={{ position: 'sticky', top: 0, zIndex: 1, boxSizing: 'border-box', padding: '0.75rem 1rem', color: '#eee', background: '#333' }}
     >
@@ -97,6 +94,6 @@ export function Nav() {
           <button onClick={() => auth.signOut()}>Logout</button>
         </>
       )}
-    </div>
+    </header>
   );
 }

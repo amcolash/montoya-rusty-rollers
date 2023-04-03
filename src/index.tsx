@@ -10,7 +10,7 @@ cssRule('html', {
 
 cssRule('body', {
   margin: 0,
-  fontFamily: 'sans-serif',
+  fontFamily: '"Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif',
   scrollSnapType: 'y proximity',
   overflowY: 'auto',
   height: '100vh',

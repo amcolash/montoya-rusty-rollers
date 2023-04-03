@@ -12,9 +12,7 @@ export function Admin() {
   const [user, loading, error] = useAuthState(auth);
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
 
-  if (loading) return <div>Loading...</div>;
-
-  if (!user || error) return <Login />;
+  if (!loading && (!user || error)) return <Login />;
 
   return (
     <div>
