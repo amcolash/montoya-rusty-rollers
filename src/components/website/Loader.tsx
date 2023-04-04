@@ -17,7 +17,9 @@ const container = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  flexDirection: 'column',
   background: 'var(--background)',
+  color: 'var(--primary)',
   zIndex: 2,
 });
 
@@ -39,7 +41,6 @@ const truckStyle = style({
   animation: `${truckAnimation} 2s linear infinite`,
   width: 250,
   height: 250,
-  color: 'var(--primary)',
 });
 
 const dustAnimation = keyframes({
@@ -82,6 +83,7 @@ export function Loader(props: LoaderProps) {
   return (
     <div className={container} style={props.style}>
       <Truck className={truckStyle} />
+      <h3>Loading...</h3>
 
       {clouds}
     </div>
