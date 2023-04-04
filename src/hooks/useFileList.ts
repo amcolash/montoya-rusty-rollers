@@ -1,6 +1,6 @@
-import { getDownloadURL, listAll, ref, StorageReference } from 'firebase/storage';
+import { getDownloadURL, getStorage, listAll, ref, StorageReference } from 'firebase/storage';
 import { useEffect, useState } from 'react';
-import { storage } from '../util/firebase';
+import { app } from '../util/firebase';
 
 interface File {
   name: string;
@@ -13,6 +13,7 @@ export function useFileList(path: string, refreshCounter: number): [File[], bool
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const storage = getStorage(app);
   const storageRef = ref(storage, path);
   useEffect(() => {
     setLoading(true);

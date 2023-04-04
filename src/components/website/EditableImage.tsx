@@ -29,7 +29,7 @@ export function EditableImage(props: EditableImageProps) {
 
   return (
     <div style={{ position: 'relative', ...props.style }}>
-      {location.pathname === '/admin' && (
+      {location.pathname.includes('/admin') && (
         <div style={{ position: 'absolute', top: '0.25rem', right: '0.25rem' }}>
           <button onClick={() => setFilePickerReference(reference)} style={{ marginLeft: '0.5rem', display: 'flex', gap: '0.25rem' }}>
             <span>Edit</span>

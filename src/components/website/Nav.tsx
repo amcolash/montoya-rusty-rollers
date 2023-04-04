@@ -92,7 +92,7 @@ export function Nav() {
         </ul>
       </nav>
 
-      {(import.meta.env.DEV || location.pathname === '/admin') && (
+      {(import.meta.env.DEV || location.pathname.includes('/admin')) && (
         <div
           style={{
             display: 'flex',
@@ -111,7 +111,7 @@ export function Nav() {
               Admin Page
             </Link>
           )}
-          {location.pathname === '/admin' && (
+          {location.pathname.includes('/admin') && (
             <>
               <h3 style={{ margin: 0 }}>[ADMIN MODE]</h3>
               <Link to="/" style={{ color: 'var(--background)', fontStyle: 'italic' }}>

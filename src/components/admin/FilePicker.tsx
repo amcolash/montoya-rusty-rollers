@@ -1,11 +1,11 @@
 import { set } from 'firebase/database';
-import { deleteObject, ref } from 'firebase/storage';
+import { deleteObject, getStorage, ref } from 'firebase/storage';
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { useUploadFile } from 'react-firebase-hooks/storage';
 import { FaFileImage, FaFileUpload, FaHourglassHalf, FaRegTrashAlt, FaTimes } from 'react-icons/fa';
 import { useFileList } from '../../hooks/useFileList';
+import { app } from '../../util/firebase';
 
-import { storage } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
 
 interface FilePickerProps {
@@ -19,6 +19,8 @@ interface Image {
 }
 
 export function FilePicker(props: FilePickerProps) {
+  const storage = getStorage(app);
+
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -60,6 +62,7 @@ export function FilePicker(props: FilePickerProps) {
         }
       }}
     >
+      PICKER
       <div style={{ width: '85vw', background: 'var(--primary)', position: 'relative' }}>
         <div
           style={{

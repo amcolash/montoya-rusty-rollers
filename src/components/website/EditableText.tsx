@@ -48,7 +48,7 @@ export function EditableText(props: EditableTextProps) {
         html={current}
         onChange={(e) => setCurrent(e.target.value)}
       />
-      {location.pathname === '/admin' && <div>{saving ? <FaHourglassHalf /> : <FaCheck />}</div>}
+      {location.pathname.includes('/admin') && <div>{saving ? <FaHourglassHalf /> : <FaCheck />}</div>}
     </div>
   );
 }
