@@ -1,15 +1,16 @@
-import React, { lazy, Suspense } from 'react';
+import { getAuth } from 'firebase/auth';
+import React, { Suspense } from 'react';
 import ReactFocusLock from 'react-focus-lock';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { auth } from '../../util/firebase';
+import { app } from '../../util/firebase';
 import { Login } from './Login';
 import { Website } from '../website/Website';
 import { filePickerState } from '../../util/globalState';
-
-const FilePickerLazy = lazy(() => import('./FilePicker').then((module) => ({ default: module.FilePicker })));
+import { FilePickerLazy } from '../LazyComponents';
 
 export function Admin() {
+  const auth = getAuth(app);
   const [user, loading, error] = useAuthState(auth);
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
 

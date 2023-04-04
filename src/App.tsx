@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { Admin } from './components/admin/Admin';
+import { AdminLazy } from './components/LazyComponents';
 import { Website } from './components/website/Website';
 
 export function App() {
@@ -12,7 +12,11 @@ export function App() {
     },
     {
       path: '/admin',
-      element: <Admin />,
+      element: (
+        <Suspense fallback="OOP">
+          <AdminLazy />
+        </Suspense>
+      ),
     },
   ]);
 

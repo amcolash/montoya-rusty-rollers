@@ -62,6 +62,10 @@ const dustStyle = style({
 
 // Loader from Nikita Hlopov: https://codepen.io/nikitahl/pen/MZdZqa
 export function Loader(props: LoaderProps) {
+  // Clear initial loading screen if visible
+  const loader = document.getElementById('loading');
+  setTimeout(() => loader?.classList.add('hidden'));
+
   const clouds = [];
   for (let i = 0; i < 15; i++) {
     clouds.push(

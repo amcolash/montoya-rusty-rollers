@@ -1,7 +1,6 @@
-import { DatabaseReference, ref } from 'firebase/database';
+import { ref } from 'firebase/database';
 import React, { CSSProperties } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, database } from '../../util/firebase';
+import { database } from '../../util/firebase';
 import { useDb } from '../../hooks/useDb';
 import { filePickerState } from '../../util/globalState';
 import { useLocation } from 'react-router-dom';
@@ -30,8 +29,8 @@ export function EditableImage(props: EditableImageProps) {
   return (
     <div style={{ position: 'relative', ...props.style }}>
       {location.pathname.includes('/admin') && (
-        <div style={{ position: 'absolute', top: '0.25rem', right: '0.25rem' }}>
-          <button onClick={() => setFilePickerReference(reference)} style={{ marginLeft: '0.5rem', display: 'flex', gap: '0.25rem' }}>
+        <div style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
+          <button onClick={() => setFilePickerReference(reference)} style={{ display: 'flex', gap: '0.25rem' }}>
             <span>Edit</span>
             <FaRegEdit />
           </button>
