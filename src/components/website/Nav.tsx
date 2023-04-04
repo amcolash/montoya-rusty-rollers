@@ -46,7 +46,7 @@ const navStyle = style({
 
 export function Nav() {
   const [globalHeight, setGlobalHeight] = headerHeight.use();
-  const { ref, width, height } = useResizeObserver<HTMLDivElement>({
+  const { ref, height } = useResizeObserver<HTMLDivElement>({
     box: 'border-box',
   });
 

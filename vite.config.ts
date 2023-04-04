@@ -1,13 +1,9 @@
 import { defineConfig } from 'vite';
+import eslint from 'vite-plugin-eslint';
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
-  plugins: [svgr()],
-  esbuild: {
-    jsxFactory: 'h',
-    jsxFragment: 'Fragment',
-    jsxInject: `import { h, Fragment } from 'preact'`,
-  },
+  plugins: [eslint({ emitWarning: false }), svgr()],
   resolve: {
     alias: {
       react: 'preact/compat',

@@ -12,12 +12,6 @@ interface FilePickerProps {
   style?: CSSProperties;
 }
 
-interface Image {
-  name: string;
-  path: string;
-  url: string;
-}
-
 export function FilePicker(props: FilePickerProps) {
   const storage = getStorage(app);
 
@@ -38,6 +32,8 @@ export function FilePicker(props: FilePickerProps) {
 
     return () => document.removeEventListener('keydown', listener);
   }, [setFilePickerReference]);
+
+  if (!filePickerReference) return null;
 
   return (
     <div
@@ -62,7 +58,6 @@ export function FilePicker(props: FilePickerProps) {
         }
       }}
     >
-      PICKER
       <div style={{ width: '85vw', background: 'var(--primary)', position: 'relative' }}>
         <div
           style={{
@@ -117,10 +112,14 @@ export function FilePicker(props: FilePickerProps) {
                 onClick={async () => {
                   if (selectedFile) {
                     const storageRef = ref(storage, 'images/' + selectedFile.name);
-                    const result = await uploadFile(storageRef, selectedFile, { contentType: selectedFile.type });
+                    try {
+                      await uploadFile(storageRef, selectedFile, { contentType: selectedFile.type });
+                      if (inputRef.current) inputRef.current.value = '';
+                      setSelectedFile(undefined);
+                    } catch (err) {
+                      console.error(err);
+                    }
 
-                    if (inputRef.current) inputRef.current.value = '';
-                    setSelectedFile(undefined);
                     setReloadCounter(() => reloadCounter + 1);
                   }
                 }}
@@ -149,7 +148,7 @@ export function FilePicker(props: FilePickerProps) {
                 <div key={i.url} style={{ display: 'flex', flexDirection: 'column' }}>
                   <button
                     onClick={async () => {
-                      await set(filePickerReference!, i.url);
+                      await set(filePickerReference, i.url);
                       setFilePickerReference(undefined);
                     }}
                     style={{ width: '10rem', height: '10rem', padding: '0.25rem', marginBottom: '0.5rem' }}

@@ -13,7 +13,7 @@ export function Website() {
   const [loaded, setLoaded] = React.useState(false);
 
   useEffect(() => {
-    let timer = setInterval(() => {
+    const timer = setInterval(() => {
       if (loadingList.length === 0) {
         clearInterval(timer);
 
@@ -21,6 +21,8 @@ export function Website() {
         setTimeout(() => setLoaded(true), 250);
       }
     }, 100);
+
+    return () => clearInterval(timer);
   }, []);
 
   return (
