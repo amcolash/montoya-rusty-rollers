@@ -6,14 +6,27 @@ import { database } from '../../util/firebase';
 import { useDb } from '../../hooks/useDb';
 import useDebounce from '../../hooks/useDebounce';
 import { useLocation } from 'react-router-dom';
-import { FaCheck, FaHourglassHalf } from 'react-icons/fa';
+import { FaHourglassHalf, FaSave } from 'react-icons/fa';
+import { style } from 'typestyle';
 
 export enum TextId {
-  header = 'header',
-  footer = 'footer',
-  main = 'main',
-  intro = 'intro',
+  services1 = 'services1',
+  services2 = 'services2',
+  services3 = 'services3',
 }
+
+const editable = style({
+  $nest: {
+    '& > div': {
+      color: 'inherit !important',
+      backgroundColor: 'inherit !important',
+      fontFamily: 'inherit !important',
+      fontSize: 'inherit !important',
+      lineHeight: 'inherit !important',
+      whiteSpace: 'inherit !important',
+    },
+  },
+});
 
 interface EditableTextProps {
   id: TextId;
@@ -47,8 +60,9 @@ export function EditableText(props: EditableTextProps) {
         style={{ flex: 1 }}
         html={current}
         onChange={(e) => setCurrent(e.target.value)}
+        className={editable}
       />
-      {location.pathname.includes('/admin') && <div>{saving ? <FaHourglassHalf /> : <FaCheck />}</div>}
+      {location.pathname.includes('/admin') && <div>{saving ? <FaHourglassHalf /> : <FaSave />}</div>}
     </div>
   );
 }

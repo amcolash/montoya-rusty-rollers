@@ -14,7 +14,7 @@ export function AdminNav() {
         alignItems: 'center',
         justifyContent: 'center',
         background: 'var(--warning)',
-        margin: '-1rem',
+        margin: '0 -1rem -0.75rem',
         marginTop: '1rem',
         padding: '0.5rem',
         color: 'var(--background)',

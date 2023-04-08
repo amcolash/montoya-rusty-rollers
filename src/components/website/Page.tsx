@@ -19,7 +19,6 @@ export function Page(props: PageProps) {
     height: `calc(100vh - ${height || 0}px)`,
     boxSizing: 'border-box',
     scrollSnapAlign: 'start',
-    padding: '1rem',
   });
 
   return (

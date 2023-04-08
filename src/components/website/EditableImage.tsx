@@ -8,9 +8,7 @@ import { FaRegEdit } from 'react-icons/fa';
 
 export enum ImageId {
   header = 'header',
-  footer = 'footer',
-  main = 'main',
-  intro = 'intro',
+  services = 'services',
 }
 
 interface EditableImageProps {
