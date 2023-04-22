@@ -37,7 +37,7 @@ const navStyle = style({
 
       $nest: {
         '&:hover': {
-          color: 'var(--primary)',
+          color: 'var(--light)',
         },
       },
     },
@@ -64,8 +64,8 @@ export function Nav() {
         zIndex: 1,
         boxSizing: 'border-box',
         padding: '0.75rem 1rem',
-        color: 'var(--primary)',
-        background: 'var(--background)',
+        color: 'var(--light)',
+        background: 'var(--dark)',
         display: 'flex',
         flexDirection: 'column',
       }}

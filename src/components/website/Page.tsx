@@ -16,6 +16,9 @@ export function Page(props: PageProps) {
   const page = style({
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+
     height: `calc(100vh - ${height || 0}px)`,
     boxSizing: 'border-box',
     scrollSnapAlign: 'start',

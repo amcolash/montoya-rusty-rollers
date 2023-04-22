@@ -18,8 +18,8 @@ const container = style({
   justifyContent: 'center',
   alignItems: 'center',
   flexDirection: 'column',
-  background: 'var(--background)',
-  color: 'var(--primary)',
+  background: 'var(--dark)',
+  color: 'var(--light)',
   zIndex: 2,
 });
 

@@ -4,7 +4,8 @@ import { database } from '../../util/firebase';
 import { useDb } from '../../hooks/useDb';
 import { filePickerState } from '../../util/globalState';
 import { useLocation } from 'react-router-dom';
-import { FaRegEdit } from 'react-icons/fa';
+import { FaFileImage } from 'react-icons/fa';
+import { IconButton } from '../IconButton';
 
 export enum ImageId {
   header = 'header',
@@ -27,11 +28,10 @@ export function EditableImage(props: EditableImageProps) {
   return (
     <div style={{ position: 'relative', ...props.style }}>
       {location.pathname.includes('/admin') && (
-        <div style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
-          <button onClick={() => setFilePickerReference(reference)} style={{ display: 'flex', gap: '0.25rem' }}>
-            <span>Edit</span>
-            <FaRegEdit />
-          </button>
+        <div style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
+          <IconButton icon={<FaFileImage />} onClick={() => setFilePickerReference(reference)} style={{ display: 'flex', gap: '0.25rem' }}>
+            Choose Photo
+          </IconButton>
         </div>
       )}
       {val && <img src={val} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}

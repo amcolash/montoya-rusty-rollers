@@ -8,10 +8,24 @@
 
     <style>
       :root {
-        --background: #333;
-        --primary: #eee;
-        --secondary: #999;
-        --warning: #e3bd24;
+        --dark: #333;
+        --light: #eee;
+
+        --cta: hsl(209, 35%, 55%);
+        --cta-hover: hsl(209, 35%, 50%);
+        --cta-border: hsl(209, 35%, 25%);
+
+        --destructive: hsl(0, 35%, 55%);
+        --destructive-hover: hsl(0, 35%, 50%);
+        --destructive-border: hsl(0, 35%, 25%);
+
+        --success: hsl(120, 35%, 55%);
+        --success-hover: hsl(120, 35%, 50%);
+        --success-border: hsl(120, 35%, 25%);
+
+        --warning: hsl(60, 65%, 55%);
+        --warning-hover: hsl(60, 65%, 50%);
+        --warning-border: hsl(60, 65%, 35%);
       }
       html {
         height: 100vh;
@@ -20,7 +34,7 @@
       body {
         margin: 0;
         font-family: 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-        scroll-snap-type: y proximity;
+        /* scroll-snap-type: y proximity; */
         overflow-y: auto;
         height: 100vh;
       }
@@ -35,8 +49,8 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        background: var(--background);
-        color: var(--primary);
+        background: var(--dark);
+        color: var(--light);
         z-index: 2;
         transition: opacity 0.5s;
       }

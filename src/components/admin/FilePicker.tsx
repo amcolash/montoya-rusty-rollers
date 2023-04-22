@@ -7,6 +7,30 @@ import { useFileList } from '../../hooks/useFileList';
 import { app } from '../../util/firebase';
 
 import { filePickerState } from '../../util/globalState';
+import { IconButton } from '../IconButton';
+import { style } from 'typestyle';
+
+const imageButton = style({
+  width: '10rem',
+  height: '10rem',
+  padding: '0.25rem',
+  marginBottom: '0.5rem',
+  background: 'transparent',
+  border: '1px solid',
+  borderRadius: '0.5rem',
+
+  $nest: {
+    '&:hover': {
+      background: 'lightgrey',
+    },
+    '& img': {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      borderRadius: '0.5rem',
+    },
+  },
+});
 
 interface FilePickerProps {
   style?: CSSProperties;
@@ -58,21 +82,21 @@ export function FilePicker(props: FilePickerProps) {
         }
       }}
     >
-      <div style={{ width: '85vw', background: 'var(--primary)', position: 'relative' }}>
+      <div style={{ width: '85vw', background: 'var(--light)', position: 'relative' }}>
         <div
           style={{
             display: 'flex',
             justifyContent: 'center',
             position: 'relative',
-            background: 'var(--background)',
-            color: 'var(--primary)',
+            background: 'var(--dark)',
+            color: 'var(--light)',
             padding: '0.5rem',
           }}
         >
           <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             Choose an Image <FaFileImage />
           </h3>
-          <button onClick={() => setFilePickerReference(undefined)} style={{ position: 'absolute', right: '0.5rem' }}>
+          <button onClick={() => setFilePickerReference(undefined)} style={{ position: 'absolute', right: '0.5rem', paddingTop: '0.2rem' }}>
             <FaTimes />
           </button>
         </div>
@@ -96,7 +120,6 @@ export function FilePicker(props: FilePickerProps) {
                 paddingBottom: '1.5rem',
               }}
             >
-              <label htmlFor="file">Upload an Image</label>
               <input
                 id="file"
                 type="file"
@@ -107,7 +130,8 @@ export function FilePicker(props: FilePickerProps) {
                   setSelectedFile(file);
                 }}
               />
-              <button
+              <IconButton
+                icon={<FaFileUpload />}
                 disabled={uploading || !selectedFile}
                 onClick={async () => {
                   if (selectedFile) {
@@ -125,9 +149,8 @@ export function FilePicker(props: FilePickerProps) {
                 }}
                 style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
               >
-                <span>Upload</span>
-                <FaFileUpload />
-              </button>
+                Upload Image
+              </IconButton>
 
               {uploading && <FaHourglassHalf />}
             </div>
@@ -147,15 +170,18 @@ export function FilePicker(props: FilePickerProps) {
               images.map((i) => (
                 <div key={i.url} style={{ display: 'flex', flexDirection: 'column' }}>
                   <button
+                    className={imageButton}
                     onClick={async () => {
                       await set(filePickerReference, i.url);
                       setFilePickerReference(undefined);
                     }}
-                    style={{ width: '10rem', height: '10rem', padding: '0.25rem', marginBottom: '0.5rem' }}
                   >
-                    <img src={i.url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={i.url} />
                   </button>
-                  <button
+
+                  <IconButton
+                    icon={<FaRegTrashAlt />}
+                    buttonType="destructive"
                     onClick={async () => {
                       if (confirm('Are you sure you want to delete this image?')) {
                         await deleteObject(i.ref);
@@ -163,9 +189,7 @@ export function FilePicker(props: FilePickerProps) {
                       }
                     }}
                     style={{ padding: '0.15rem' }}
-                  >
-                    <FaRegTrashAlt />
-                  </button>
+                  />
                 </div>
               ))}
           </div>
