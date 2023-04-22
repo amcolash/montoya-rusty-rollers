@@ -5,7 +5,7 @@ import { Page } from '../Page';
 
 export function Banner() {
   return (
-    <Page id="banner">
+    <Page id="home">
       <EditableImage id={ImageId.header} style={{ width: '100%', height: '100%' }} />
     </Page>
   );

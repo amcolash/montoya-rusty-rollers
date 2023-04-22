@@ -39,10 +39,22 @@ const navStyle = style({
         '&:hover': {
           color: 'var(--light)',
         },
+
+        '&.active': {
+          color: 'red',
+        },
       },
     },
   },
 });
+
+const links = [
+  { id: '#home', label: 'Home' },
+  { id: '#services', label: 'Services' },
+  { id: '#our-work', label: 'Our Work' },
+  { id: '#about-us', label: 'About Us' },
+  { id: '#contact', label: 'Contact' },
+];
 
 export function Nav() {
   const [globalHeight, setGlobalHeight] = headerHeight.use();
@@ -73,21 +85,11 @@ export function Nav() {
       <nav className={navStyle}>
         <h1 style={{ margin: 0, textAlign: 'center' }}>Montoya Rusty Rollers Restoration</h1>
         <ul>
-          <li>
-            <Link to="#">Home</Link>
-          </li>
-          <li>
-            <Link to="#services">Services</Link>
-          </li>
-          <li>
-            <Link to="#our-work">Our Work</Link>
-          </li>
-          <li>
-            <Link to="#about-us">About Us</Link>
-          </li>
-          <li>
-            <Link to="#contact">Contact</Link>
-          </li>
+          {links.map(({ id, label }) => (
+            <li key={id}>
+              <Link to={id}>{label}</Link>
+            </li>
+          ))}
         </ul>
       </nav>
 

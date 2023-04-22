@@ -25,7 +25,6 @@ export function Services() {
   return (
     <Page id="services" style={{ position: 'relative', color: 'var(--light)', maxHeight: '50vh' }}>
       <EditableImage id={ImageId.services} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />
-      {/* <div style={{ display: 'flex', flexDirection: 'column', height: '100%', alignItems: 'center', justifyContent: 'center' }}> */}
       <Header color="var(--light)" style={{ width: '100%' }}>
         Services
       </Header>
@@ -46,7 +45,6 @@ export function Services() {
           <EditableText id={TextId.services3} />
         </div>
       </div>
-      {/* </div> */}
     </Page>
   );
 }

@@ -4,7 +4,7 @@ import { Page } from '../Page';
 
 export function Work() {
   return (
-    <Page id="work">
+    <Page id="our-work">
       <Header>Our Work</Header>
     </Page>
   );

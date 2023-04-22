@@ -1,12 +1,13 @@
 import { getAuth } from 'firebase/auth';
 import React from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { app } from '../../util/firebase';
 import { IconButton } from '../IconButton';
 
 export function AdminNav() {
   const auth = getAuth(app);
+  const location = useLocation();
 
   return (
     <div
