@@ -2,7 +2,7 @@ import { set } from 'firebase/database';
 import { deleteObject, getStorage, ref } from 'firebase/storage';
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { useUploadFile } from 'react-firebase-hooks/storage';
-import { FaFileImage, FaFileUpload, FaHourglassHalf, FaRegTrashAlt, FaTimes } from 'react-icons/fa';
+import { FaFileDownload, FaFileImage, FaFileUpload, FaHourglassHalf, FaRegTrashAlt, FaTimes } from 'react-icons/fa';
 import { useFileList } from '../../hooks/useFileList';
 import { app } from '../../util/firebase';
 
@@ -179,17 +179,25 @@ export function FilePicker(props: FilePickerProps) {
                     <img src={i.url} />
                   </button>
 
-                  <IconButton
-                    icon={<FaRegTrashAlt />}
-                    buttonType="destructive"
-                    onClick={async () => {
-                      if (confirm('Are you sure you want to delete this image?')) {
-                        await deleteObject(i.ref);
-                        setReloadCounter(() => reloadCounter + 1);
-                      }
-                    }}
-                    style={{ padding: '0.15rem' }}
-                  />
+                  <div style={{ display: 'flex', gap: '0.25rem' }}>
+                    <IconButton
+                      icon={<FaFileDownload />}
+                      onClick={() => window.open(i.url, '_blank')}
+                      style={{ width: '100%', padding: '0.25rem' }}
+                    />
+
+                    <IconButton
+                      icon={<FaRegTrashAlt />}
+                      buttonType="destructive"
+                      onClick={async () => {
+                        if (confirm('Are you sure you want to delete this image?')) {
+                          await deleteObject(i.ref);
+                          setReloadCounter(() => reloadCounter + 1);
+                        }
+                      }}
+                      style={{ width: '100%', padding: '0.25rem' }}
+                    />
+                  </div>
                 </div>
               ))}
           </div>

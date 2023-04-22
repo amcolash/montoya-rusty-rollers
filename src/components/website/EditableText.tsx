@@ -1,18 +1,20 @@
 import { ref } from 'firebase/database';
 import React, { CSSProperties, useEffect, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
+import { FaCheck, FaHourglassHalf } from 'react-icons/fa';
+import { useLocation } from 'react-router-dom';
+import { classes, style } from 'typestyle';
 
-import { database } from '../../util/firebase';
 import { useDb } from '../../hooks/useDb';
 import useDebounce from '../../hooks/useDebounce';
-import { useLocation } from 'react-router-dom';
-import { FaHourglassHalf, FaSave } from 'react-icons/fa';
-import { style } from 'typestyle';
+import { database } from '../../util/firebase';
 
 export enum TextId {
+  banner = 'banner',
   services1 = 'services1',
   services2 = 'services2',
   services3 = 'services3',
+  ourWork = 'ourWork',
 }
 
 const editable = style({
@@ -28,9 +30,12 @@ const editable = style({
   },
 });
 
+const adminStyles = style({ border: '3px solid orange', padding: '0.25rem', minWidth: '2rem' });
+
 interface EditableTextProps {
   id: TextId;
   style?: CSSProperties;
+  className?: string;
 }
 
 export function EditableText(props: EditableTextProps) {
@@ -53,16 +58,22 @@ export function EditableText(props: EditableTextProps) {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
+  const admin = location.pathname.includes('/admin');
+
   return (
-    <div style={{ display: 'flex', ...props.style }}>
+    <div className={props.className} style={{ display: 'flex', position: 'relative', ...props.style }}>
       <ContentEditable
         disabled={location.pathname === '/'}
         style={{ flex: 1 }}
         html={current}
         onChange={(e) => setCurrent(e.target.value)}
-        className={editable}
+        className={classes(editable, admin && adminStyles)}
       />
-      {location.pathname.includes('/admin') && <div>{saving ? <FaHourglassHalf /> : <FaSave />}</div>}
+      {admin && (
+        <div style={{ position: 'absolute', bottom: '0.25rem', right: '0.25rem', fontSize: 16, lineHeight: 0, color: 'orange' }}>
+          {saving ? <FaHourglassHalf /> : <FaCheck />}
+        </div>
+      )}
     </div>
   );
 }
