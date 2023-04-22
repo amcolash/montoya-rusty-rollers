@@ -10,6 +10,10 @@ export function IconButton(props: IconButtonProps) {
   const type = props.buttonType || 'cta';
 
   const buttonStyle = style({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.25rem',
     padding: '0.5rem 1rem',
     background: `var(--${type})`,
     border: `1px solid var(--${type}-border)`,

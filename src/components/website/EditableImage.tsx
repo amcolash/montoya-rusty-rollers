@@ -10,6 +10,7 @@ import { IconButton } from '../IconButton';
 export enum ImageId {
   header = 'header',
   services = 'services',
+  work = 'work',
 }
 
 interface EditableImageProps {
@@ -30,12 +31,8 @@ export function EditableImage(props: EditableImageProps) {
     <div style={{ position: 'relative', ...props.style }}>
       {location.pathname.includes('/admin') && (
         <div style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
-          <IconButton
-            icon={<FaFileImage />}
-            onClick={() => setFilePickerReference({ ref: reference, multi: props.multi === true })}
-            style={{ display: 'flex', gap: '0.25rem' }}
-          >
-            Choose Photo
+          <IconButton icon={<FaFileImage />} onClick={() => setFilePickerReference({ ref: reference, multi: props.multi === true })}>
+            {props.multi ? 'Choose Photos' : 'Choose Photo'}
           </IconButton>
         </div>
       )}

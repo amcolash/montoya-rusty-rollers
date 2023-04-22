@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaFileImage } from 'react-icons/fa';
 import { filePickerState } from '../../util/globalState';
 import { FileUpload } from './FileUpload';
-import { ImageGrid } from './FileGrid';
+import { ImageGrid } from './ImageGrid';
 import { Dialog } from './Dialog';
 
 export function FilePicker() {

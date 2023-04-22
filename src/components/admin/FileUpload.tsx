@@ -59,7 +59,6 @@ export function FileUpload(props: FileUploadProps) {
               props.reloadFiles();
             }
           }}
-          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
         >
           Upload Image
         </IconButton>

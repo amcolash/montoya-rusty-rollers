@@ -34,11 +34,7 @@ export function AdminNav() {
           <Link to="/" style={{ color: 'var(--dark)', fontStyle: 'italic' }}>
             Exit Admin
           </Link>
-          <IconButton
-            icon={<FaSignOutAlt />}
-            onClick={() => auth.signOut()}
-            style={{ display: 'flex', gap: '0.25rem', marginLeft: '1.5rem' }}
-          >
+          <IconButton icon={<FaSignOutAlt />} onClick={() => auth.signOut()} style={{ marginLeft: '1.5rem' }}>
             <span>Logout</span>
           </IconButton>
         </>
