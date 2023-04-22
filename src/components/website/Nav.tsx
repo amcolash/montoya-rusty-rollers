@@ -2,6 +2,7 @@ import React, { Suspense, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { style } from 'typestyle';
 import useResizeObserver from 'use-resize-observer';
+
 import { headerHeight } from '../../util/globalState';
 import { AdminNavLazy } from '../LazyComponents';
 
@@ -73,7 +74,7 @@ export function Nav() {
       style={{
         position: 'sticky',
         top: 0,
-        zIndex: 1,
+        zIndex: 10,
         boxSizing: 'border-box',
         padding: '0.75rem 1rem',
         color: 'var(--light)',

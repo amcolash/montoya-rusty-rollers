@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaCarCrash, FaOilCan, FaTools } from 'react-icons/fa';
 import { style } from 'typestyle';
+
 import { EditableImage, ImageId } from '../EditableImage';
 import { EditableText, TextId } from '../EditableText';
 import { Header } from '../Header';
@@ -24,25 +25,28 @@ const section = style({
 export function Services() {
   return (
     <Page id="services" style={{ position: 'relative', color: 'var(--light)', maxHeight: '50vh' }}>
-      <EditableImage id={ImageId.services} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: -1 }} />
-      <Header color="var(--light)" style={{ width: '100%' }}>
-        Services
-      </Header>
-      <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', gap: '2rem', width: 'calc(100% - 4rem)' }}>
-        <div className={section}>
-          <FaCarCrash className="icon" />
-          <h3>Repairs</h3>
-          <EditableText id={TextId.services1} />
-        </div>
-        <div className={section}>
-          <FaOilCan className="icon" />
-          <h3>Maintenance</h3>
-          <EditableText id={TextId.services2} />
-        </div>
-        <div className={section}>
-          <FaTools className="icon" />
-          <h3>Mechanical</h3>
-          <EditableText id={TextId.services3} />
+      <EditableImage id={ImageId.services} style={{ position: 'absolute', width: '100%', height: '100%' }} />
+
+      <div style={{ zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Header color="var(--light)" style={{ width: '100%' }}>
+          Services
+        </Header>
+        <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', gap: 'min(3vw, 2rem)', width: 'calc(100% - 4rem)' }}>
+          <div className={section}>
+            <FaCarCrash className="icon" />
+            <h3>Repairs</h3>
+            <EditableText id={TextId.services1} />
+          </div>
+          <div className={section}>
+            <FaOilCan className="icon" />
+            <h3>Maintenance</h3>
+            <EditableText id={TextId.services2} />
+          </div>
+          <div className={section}>
+            <FaTools className="icon" />
+            <h3>Mechanical</h3>
+            <EditableText id={TextId.services3} />
+          </div>
         </div>
       </div>
     </Page>

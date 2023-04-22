@@ -1,11 +1,12 @@
 import { ref } from 'firebase/database';
 import React, { CSSProperties } from 'react';
-import { database } from '../../util/firebase';
-import { useDb } from '../../hooks/useDb';
-import { filePickerState } from '../../util/globalState';
-import { useLocation } from 'react-router-dom';
 import { FaFileImage } from 'react-icons/fa';
+import { useLocation } from 'react-router-dom';
+
 import { IconButton } from '../IconButton';
+import { useDb } from '../../hooks/useDb';
+import { database } from '../../util/firebase';
+import { filePickerState } from '../../util/globalState';
 
 export enum ImageId {
   header = 'header',
@@ -32,11 +33,18 @@ export function EditableImage(props: EditableImageProps) {
       {location.pathname.includes('/admin') && (
         <div style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
           <IconButton icon={<FaFileImage />} onClick={() => setFilePickerReference({ ref: reference, multi: props.multi === true })}>
-            {props.multi ? 'Choose Photos' : 'Choose Photo'}
+            {props.multi ? 'Choose Multiple Photos' : 'Choose Photo'}
           </IconButton>
         </div>
       )}
-      {val && <img src={val} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+      {val && !props.multi && <img src={val} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+      {val && props.multi && (
+        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+          {JSON.parse(val).map((url: string) => (
+            <img src={url} key={url} style={{ width: '14rem', height: '14rem', objectFit: 'cover' }} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

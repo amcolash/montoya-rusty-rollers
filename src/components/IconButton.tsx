@@ -3,7 +3,7 @@ import { style } from 'typestyle';
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: React.ReactNode;
-  buttonType?: 'cta' | 'destructive';
+  buttonType?: 'cta' | 'destructive' | 'warning' | 'success';
 }
 
 export function IconButton(props: IconButtonProps) {

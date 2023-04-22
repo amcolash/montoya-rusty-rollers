@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { FaFileImage } from 'react-icons/fa';
-import { filePickerState } from '../../util/globalState';
+
+import { Dialog } from './Dialog';
 import { FileUpload } from './FileUpload';
 import { ImageGrid } from './ImageGrid';
-import { Dialog } from './Dialog';
+import { filePickerState } from '../../util/globalState';
 
 export function FilePicker() {
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
@@ -13,9 +14,9 @@ export function FilePicker() {
   return (
     <Dialog
       title={
-        <span>
+        <>
           Choose an Image <FaFileImage />
-        </span>
+        </>
       }
       onClose={() => setFilePickerReference(undefined)}
     >
