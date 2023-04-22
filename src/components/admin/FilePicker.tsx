@@ -1,52 +1,16 @@
-import { set } from 'firebase/database';
-import { deleteObject, getStorage, ref } from 'firebase/storage';
-import React, { CSSProperties, useEffect, useRef, useState } from 'react';
-import { useUploadFile } from 'react-firebase-hooks/storage';
-import { FaFileDownload, FaFileImage, FaFileUpload, FaHourglassHalf, FaRegTrashAlt, FaTimes } from 'react-icons/fa';
-import { useFileList } from '../../hooks/useFileList';
-import { app } from '../../util/firebase';
-
+import React, { CSSProperties, useEffect, useState } from 'react';
+import { FaFileImage, FaTimes } from 'react-icons/fa';
 import { filePickerState } from '../../util/globalState';
-import { IconButton } from '../IconButton';
-import { style } from 'typestyle';
-
-const imageButton = style({
-  width: '10rem',
-  height: '10rem',
-  padding: '0.25rem',
-  marginBottom: '0.5rem',
-  background: 'transparent',
-  border: '1px solid',
-  borderRadius: '0.5rem',
-
-  $nest: {
-    '&:hover': {
-      background: 'lightgrey',
-    },
-    '& img': {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
-      borderRadius: '0.5rem',
-    },
-  },
-});
+import { FileUpload } from './FileUpload';
+import { ImageGrid } from './FileGrid';
 
 interface FilePickerProps {
   style?: CSSProperties;
 }
 
 export function FilePicker(props: FilePickerProps) {
-  const storage = getStorage(app);
-
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = useState<File>();
-  const [uploadFile, uploading, snapshot, error] = useUploadFile();
-
   const [reloadCounter, setReloadCounter] = useState(0);
-  const [images, loading] = useFileList('images/', reloadCounter);
 
   useEffect(() => {
     const listener = (event: KeyboardEvent) => {
@@ -107,100 +71,8 @@ export function FilePicker(props: FilePickerProps) {
             overflowY: 'auto',
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div
-              style={{
-                width: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'column',
-                gap: '1rem',
-                margin: '1rem',
-                borderBottom: '1px solid #bbb',
-                paddingBottom: '1.5rem',
-              }}
-            >
-              <input
-                id="file"
-                type="file"
-                accept="image/*"
-                ref={inputRef}
-                onChange={(e) => {
-                  const file = e.target.files ? e.target.files[0] : undefined;
-                  setSelectedFile(file);
-                }}
-              />
-              <IconButton
-                icon={<FaFileUpload />}
-                disabled={uploading || !selectedFile}
-                onClick={async () => {
-                  if (selectedFile) {
-                    const storageRef = ref(storage, 'images/' + selectedFile.name);
-                    try {
-                      await uploadFile(storageRef, selectedFile, { contentType: selectedFile.type });
-                      if (inputRef.current) inputRef.current.value = '';
-                      setSelectedFile(undefined);
-                    } catch (err) {
-                      console.error(err);
-                    }
-
-                    setReloadCounter(() => reloadCounter + 1);
-                  }
-                }}
-                style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
-              >
-                Upload Image
-              </IconButton>
-
-              {uploading && <FaHourglassHalf />}
-            </div>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              gap: '1rem',
-              padding: '0.75rem',
-            }}
-          >
-            {loading && <div>Loading...</div>}
-            {!loading && images.length === 0 && <div>No Images</div>}
-            {!loading &&
-              images.map((i) => (
-                <div key={i.url} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <button
-                    className={imageButton}
-                    onClick={async () => {
-                      await set(filePickerReference, i.url);
-                      setFilePickerReference(undefined);
-                    }}
-                  >
-                    <img src={i.url} />
-                  </button>
-
-                  <div style={{ display: 'flex', gap: '0.25rem' }}>
-                    <IconButton
-                      icon={<FaFileDownload />}
-                      onClick={() => window.open(i.url, '_blank')}
-                      style={{ width: '100%', padding: '0.25rem' }}
-                    />
-
-                    <IconButton
-                      icon={<FaRegTrashAlt />}
-                      buttonType="destructive"
-                      onClick={async () => {
-                        if (confirm('Are you sure you want to delete this image?')) {
-                          await deleteObject(i.ref);
-                          setReloadCounter(() => reloadCounter + 1);
-                        }
-                      }}
-                      style={{ width: '100%', padding: '0.25rem' }}
-                    />
-                  </div>
-                </div>
-              ))}
-          </div>
+          <FileUpload reloadFiles={() => setReloadCounter(() => reloadCounter + 1)} />
+          <ImageGrid reloadCounter={reloadCounter} setReloadCounter={setReloadCounter} />
         </div>
       </div>
     </div>

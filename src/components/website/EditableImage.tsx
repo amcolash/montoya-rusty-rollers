@@ -15,6 +15,7 @@ export enum ImageId {
 interface EditableImageProps {
   id: ImageId;
   style?: CSSProperties;
+  multi?: boolean;
 }
 
 export function EditableImage(props: EditableImageProps) {
@@ -29,7 +30,11 @@ export function EditableImage(props: EditableImageProps) {
     <div style={{ position: 'relative', ...props.style }}>
       {location.pathname.includes('/admin') && (
         <div style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
-          <IconButton icon={<FaFileImage />} onClick={() => setFilePickerReference(reference)} style={{ display: 'flex', gap: '0.25rem' }}>
+          <IconButton
+            icon={<FaFileImage />}
+            onClick={() => setFilePickerReference({ ref: reference, multi: props.multi === true })}
+            style={{ display: 'flex', gap: '0.25rem' }}
+          >
             Choose Photo
           </IconButton>
         </div>
