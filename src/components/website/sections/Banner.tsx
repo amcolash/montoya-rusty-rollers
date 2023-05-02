@@ -13,7 +13,7 @@ const bannerAnimation = keyframes({
 const bannerStyle = style({
   position: 'absolute !important',
   top: 'calc(min(1vw, 2rem) + 3rem)',
-  right: 'min(1vw, 2rem)',
+  right: 'min(3vw, 3rem)',
 
   color: 'white',
   textShadow: '0.1rem 0.1rem 0.25rem var(--dark)',
