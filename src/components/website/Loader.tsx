@@ -20,7 +20,7 @@ const container = style({
   flexDirection: 'column',
   background: 'var(--dark)',
   color: 'var(--light)',
-  zIndex: 2,
+  zIndex: 99,
 });
 
 const truckAnimation = keyframes({

@@ -55,7 +55,7 @@
         flex-direction: column;
         background: var(--dark);
         color: var(--light);
-        z-index: 2;
+        z-index: 99;
         transition: opacity 0.5s;
       }
       #loading.hidden {
@@ -116,10 +116,11 @@
           fill="currentcolor"
         />
       </svg>
-
       <h3>Loading...</h3>
     </div>
+
     <div id="root"></div>
+
     <script type="module" src="./src/index.tsx"></script>
   </body>
 </html>
