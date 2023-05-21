@@ -1,4 +1,3 @@
-import { set } from 'firebase/database';
 import { deleteObject } from 'firebase/storage';
 import React from 'react';
 import { FaFileDownload, FaRegTrashAlt, FaSave } from 'react-icons/fa';
@@ -50,10 +49,33 @@ export function ImageGrid(props: ImageGridProps) {
     <div
       style={{
         display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
       }}
     >
+      <div style={{ borderBottom: '1px solid #bbb', width: '80%', margin: '0 0 1rem', textAlign: 'center' }}></div>
+
+      {!loading && images.length > 0 && filePickerReference.multi && (
+        <IconButton
+          icon={<FaSave />}
+          buttonType="success"
+          onClick={async () => {
+            if (gridRef.current) {
+              const checkboxes = gridRef.current.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+              const images = Array.from(checkboxes)
+                .filter((c) => c.checked)
+                .map((c) => c.getAttribute('data-url'));
+
+              setVal(JSON.stringify(images));
+              setFilePickerReference(undefined);
+            }
+          }}
+          style={{ margin: '0.75rem' }}
+        >
+          Save Selected Images
+        </IconButton>
+      )}
+
       <div
         ref={gridRef}
         style={{
@@ -64,7 +86,7 @@ export function ImageGrid(props: ImageGridProps) {
           padding: '0.75rem',
         }}
       >
-        {loading && <div>Loading...</div>}
+        {loading && <div>Loading Images...</div>}
         {!loading && images.length === 0 && <div>No Images</div>}
         {!loading &&
           images.map((i) => {
@@ -120,27 +142,6 @@ export function ImageGrid(props: ImageGridProps) {
             );
           })}
       </div>
-
-      {!loading && images.length > 0 && filePickerReference.multi && (
-        <IconButton
-          icon={<FaSave />}
-          buttonType="success"
-          onClick={async () => {
-            if (gridRef.current) {
-              const checkboxes = gridRef.current.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
-              const images = Array.from(checkboxes)
-                .filter((c) => c.checked)
-                .map((c) => c.getAttribute('data-url'));
-
-              setVal(JSON.stringify(images));
-              setFilePickerReference(undefined);
-            }
-          }}
-          style={{ marginTop: '3rem' }}
-        >
-          Save Selected Images
-        </IconButton>
-      )}
     </div>
   );
 }

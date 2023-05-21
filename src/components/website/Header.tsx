@@ -17,6 +17,7 @@ export function Header(props: HeaderProps) {
         color: props.color || 'var(--dark)',
         marginTop: 0,
         marginBottom: '3rem',
+        width: '100%',
         ...props.style,
       }}
     >

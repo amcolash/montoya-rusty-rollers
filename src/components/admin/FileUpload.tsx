@@ -5,10 +5,29 @@ import { FaFileUpload, FaHourglassHalf } from 'react-icons/fa';
 
 import { IconButton } from '../IconButton';
 import { app } from '../../util/firebase';
+import { style } from 'typestyle';
 
 interface FileUploadProps {
   reloadFiles: () => void;
 }
+
+const fileInput = style({
+  $nest: {
+    '&::file-selector-button': {
+      marginRight: '20px',
+      padding: '0.5rem 1rem',
+      background: `var(--cta)`,
+      border: `1px solid var(--cta-border)`,
+      color: 'white',
+      cursor: 'pointer',
+      transition: 'background .2s ease-in-out',
+    },
+
+    '&::file-selector-button:hover': {
+      background: 'var(--cta-hover)',
+    },
+  },
+});
 
 export function FileUpload(props: FileUploadProps) {
   const storage = getStorage(app);
@@ -22,26 +41,27 @@ export function FileUpload(props: FileUploadProps) {
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div
         style={{
-          width: '50%',
           display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'column',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
           gap: '1rem',
           margin: '1rem',
-          borderBottom: '1px solid #bbb',
-          paddingBottom: '1.5rem',
         }}
       >
-        <input
-          id="file"
-          type="file"
-          accept="image/*"
-          ref={inputRef}
-          onChange={(e) => {
-            const file = e.target.files ? e.target.files[0] : undefined;
-            setSelectedFile(file);
-          }}
-        />
+        <div>
+          <input
+            id="file"
+            type="file"
+            accept="image/*"
+            ref={inputRef}
+            onChange={(e) => {
+              const file = e.target.files ? e.target.files[0] : undefined;
+              setSelectedFile(file);
+            }}
+            className={fileInput}
+          />
+        </div>
         <IconButton
           icon={<FaFileUpload />}
           disabled={uploading || !selectedFile}
