@@ -2,9 +2,8 @@ import React from 'react';
 import { FaCarCrash, FaOilCan, FaTools } from 'react-icons/fa';
 import { style } from 'typestyle';
 
-import { EditableImage, ImageId } from '../EditableImage';
+import { ImageId } from '../EditableImage';
 import { EditableText, TextId } from '../EditableText';
-import { Header } from '../Header';
 import { Page } from '../Page';
 
 const section = style({
@@ -22,30 +21,29 @@ const section = style({
   },
 });
 
+function Section(props: { icon: React.ReactNode; title: string; textId: TextId }) {
+  return (
+    <div className={section}>
+      {props.icon}
+      <h3>{props.title}</h3>
+      <EditableText id={props.textId} />
+    </div>
+  );
+}
+
 export function Services() {
   return (
-    <Page id="services" style={{ position: 'relative', color: 'var(--light)', maxHeight: '50vh' }}>
-      <EditableImage id={ImageId.services} style={{ position: 'absolute', width: '100%', height: '100%' }} />
-
-      <div style={{ zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Header color="var(--light)">Services</Header>
-        <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', gap: 'min(3vw, 2rem)', width: 'calc(100% - 4rem)' }}>
-          <div className={section}>
-            <FaCarCrash className="icon" />
-            <h3>Repairs</h3>
-            <EditableText id={TextId.services1} />
-          </div>
-          <div className={section}>
-            <FaOilCan className="icon" />
-            <h3>Maintenance</h3>
-            <EditableText id={TextId.services2} />
-          </div>
-          <div className={section}>
-            <FaTools className="icon" />
-            <h3>Mechanical</h3>
-            <EditableText id={TextId.services3} />
-          </div>
-        </div>
+    <Page
+      id="services"
+      header="Services"
+      image={ImageId.services}
+      style={{ color: 'var(--light)', maxHeight: '50vh' }}
+      headerProps={{ color: 'var(--light)' }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', gap: 'min(3vw, 2rem)' }}>
+        <Section icon={<FaCarCrash className="icon" />} title="Repairs" textId={TextId.services1} />
+        <Section icon={<FaOilCan className="icon" />} title="Maintenance" textId={TextId.services2} />
+        <Section icon={<FaTools className="icon" />} title="Mechanical" textId={TextId.services3} />
       </div>
     </Page>
   );

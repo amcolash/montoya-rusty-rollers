@@ -1,7 +1,6 @@
 import { ref } from 'firebase/database';
 import React, { CSSProperties, useEffect, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
-import { FaCheck, FaHourglassHalf } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { classes, style } from 'typestyle';
 
@@ -14,20 +13,17 @@ export enum TextId {
   services1 = 'services1',
   services2 = 'services2',
   services3 = 'services3',
-  ourWork = 'ourWork',
+  work = 'work',
+  about = 'about',
 }
 
 const editable = style({
-  $nest: {
-    '& > div': {
-      color: 'inherit !important',
-      backgroundColor: 'inherit !important',
-      fontFamily: 'inherit !important',
-      fontSize: 'inherit !important',
-      lineHeight: 'inherit !important',
-      whiteSpace: 'inherit !important',
-    },
-  },
+  color: 'inherit !important',
+  backgroundColor: 'inherit !important',
+  fontFamily: 'inherit !important',
+  fontSize: 'inherit !important',
+  lineHeight: 'inherit !important',
+  whiteSpace: 'pre-line !important',
 });
 
 const adminStyles = style({ border: '3px solid orange', padding: '0.25rem', minWidth: '2rem' });

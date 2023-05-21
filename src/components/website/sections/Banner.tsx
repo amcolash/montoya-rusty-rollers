@@ -1,7 +1,7 @@
 import React from 'react';
 import { keyframes, style } from 'typestyle';
 
-import { EditableImage, ImageId } from '../EditableImage';
+import { ImageId } from '../EditableImage';
 import { EditableText, TextId } from '../EditableText';
 import { Page } from '../Page';
 
@@ -30,8 +30,7 @@ const bannerStyle = style({
 
 export function Banner() {
   return (
-    <Page id="home">
-      <EditableImage id={ImageId.header} style={{ width: '100%', height: '100%' }} />
+    <Page id="home" image={ImageId.header}>
       <EditableText id={TextId.banner} className={bannerStyle} />
     </Page>
   );

@@ -15,12 +15,16 @@ export enum ImageId {
   header = 'header',
   services = 'services',
   work = 'work',
+  about = 'about',
+  aboutCert = 'aboutCert',
 }
 
 interface EditableImageProps {
   id: ImageId;
   style?: CSSProperties;
+  imageStyle?: CSSProperties;
   multi?: boolean;
+  readOnly?: boolean;
 }
 
 export function EditableImage(props: EditableImageProps) {
@@ -36,14 +40,14 @@ export function EditableImage(props: EditableImageProps) {
 
   return (
     <div style={{ position: 'relative', ...props.style }}>
-      {admin && (
+      {admin && !props.readOnly && (
         <div style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
           <IconButton icon={<FaFileImage />} onClick={() => setFilePickerReference({ ref: reference, multi: props.multi === true })}>
             {props.multi ? 'Choose Multiple Photos' : 'Choose Photo'}
           </IconButton>
         </div>
       )}
-      {val && !props.multi && <img src={val} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+      {val && !props.multi && <img src={val} style={{ width: '100%', height: '100%', objectFit: 'cover', ...props.imageStyle }} />}
       {val && props.multi && (
         <div
           style={{
@@ -60,7 +64,7 @@ export function EditableImage(props: EditableImageProps) {
               key={url}
               style={{ background: 'none', border: 'none', padding: '0.5rem', cursor: 'pointer' }}
             >
-              <img src={url} style={{ height: '14rem', objectFit: 'cover' }} />
+              <img src={url} style={{ height: '14rem', objectFit: 'cover', ...props.imageStyle }} />
             </button>
           ))}
 

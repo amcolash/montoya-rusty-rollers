@@ -2,17 +2,13 @@ import React from 'react';
 
 import { EditableText, TextId } from '../EditableText';
 import { EditableImage, ImageId } from '../EditableImage';
-import { Header } from '../Header';
 import { Page } from '../Page';
 
 export function Work() {
   return (
-    <Page id="our-work">
-      <Header>Our Work</Header>
-      <div style={{ width: 'calc(100% - 4rem)', maxWidth: 'var(--max-width)' }}>
-        <EditableText id={TextId.ourWork} />
-        <EditableImage id={ImageId.work} multi={true} style={{ marginTop: '3rem' }} />
-      </div>
+    <Page id="our-work" header="Our Work" containerStyle={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <EditableText id={TextId.work} />
+      <EditableImage id={ImageId.work} multi={true} style={{ marginTop: '3rem', width: 'unset', height: 'unset' }} />
     </Page>
   );
 }
