@@ -71,11 +71,6 @@ export function EditableText(props: EditableTextProps) {
         className={classes(editable, admin && adminStyles)}
         innerRef={contentRef}
       />
-      {admin && (
-        <div style={{ position: 'absolute', bottom: '0.25rem', right: '0.25rem', fontSize: 16, lineHeight: 0, color: 'orange' }}>
-          {saving ? <FaHourglassHalf /> : <FaCheck />}
-        </div>
-      )}
     </div>
   );
 }

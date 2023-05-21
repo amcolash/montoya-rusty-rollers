@@ -1,13 +1,10 @@
-import { getAuth } from 'firebase/auth';
 import React from 'react';
-import { FaSignOutAlt } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
-import { app } from '../../util/firebase';
-import { IconButton } from '../IconButton';
+import { EditState, editingState } from '../../util/globalState';
 
 export function AdminNav() {
-  const auth = getAuth(app);
   const location = useLocation();
+  const [editState] = editingState.use();
 
   return (
     <div
@@ -34,9 +31,15 @@ export function AdminNav() {
           <Link to="/" style={{ color: 'var(--dark)', fontStyle: 'italic' }}>
             Exit Admin
           </Link>
-          <IconButton icon={<FaSignOutAlt />} onClick={() => auth.signOut()} style={{ marginLeft: '1.5rem' }}>
+          {/* <IconButton icon={<FaSignOutAlt />} onClick={() => auth.signOut()} style={{ marginLeft: '1.5rem' }}>
             <span>Logout</span>
-          </IconButton>
+          </IconButton> */}
+
+          <div style={{ flex: 1, textAlign: 'right' }}>
+            {editState === EditState.None && 'All Changes Saved'}
+            {editState === EditState.Saving && 'Saving Changes...'}
+            {editState === EditState.Error && 'Error Saving Changes'}
+          </div>
         </>
       )}
     </div>

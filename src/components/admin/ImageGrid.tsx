@@ -78,7 +78,7 @@ export function ImageGrid(props: ImageGridProps) {
                     if (filePickerReference.multi && checkboxRef.current) {
                       checkboxRef.current.checked = !checkboxRef.current.checked;
                     } else {
-                      await set(filePickerReference.ref, i.url);
+                      setVal(i.url);
                       setFilePickerReference(undefined);
                     }
                   }}
@@ -132,7 +132,7 @@ export function ImageGrid(props: ImageGridProps) {
                 .filter((c) => c.checked)
                 .map((c) => c.getAttribute('data-url'));
 
-              await set(filePickerReference.ref, JSON.stringify(images));
+              setVal(JSON.stringify(images));
               setFilePickerReference(undefined);
             }
           }}
