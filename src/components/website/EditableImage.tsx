@@ -29,7 +29,7 @@ export function EditableImage(props: EditableImageProps) {
 
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
 
-  const reference = ref(database, `image-${props.id}`);
+  const reference = ref(database, `content/images/${props.id}`);
   const [val, loading, error, setVal, saving] = useDb<string>(reference);
 
   const [index, setIndex] = useState(-1);

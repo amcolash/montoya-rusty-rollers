@@ -42,9 +42,10 @@ export function EditableText(props: EditableTextProps) {
   const location = useLocation();
 
   const [current, setCurrent] = useState('');
+  const contentRef = React.useRef<HTMLDivElement>(null);
   const debouncedValue = useDebounce(current, 1000);
 
-  const reference = ref(database, `text-${props.id}`);
+  const reference = ref(database, `content/text/${props.id}`);
   const [val, loading, error, setVal, saving] = useDb<string>(reference);
 
   useEffect(() => {
@@ -66,8 +67,9 @@ export function EditableText(props: EditableTextProps) {
         disabled={location.pathname === '/'}
         style={{ flex: 1 }}
         html={current}
-        onChange={(e) => setCurrent(e.target.value)}
+        onChange={(e) => setCurrent(contentRef.current?.innerText || '')}
         className={classes(editable, admin && adminStyles)}
+        innerRef={contentRef}
       />
       {admin && (
         <div style={{ position: 'absolute', bottom: '0.25rem', right: '0.25rem', fontSize: 16, lineHeight: 0, color: 'orange' }}>
