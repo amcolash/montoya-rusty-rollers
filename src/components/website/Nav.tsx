@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { style } from 'typestyle';
 import useResizeObserver from 'use-resize-observer';
 
@@ -62,6 +62,7 @@ export function Nav() {
   const { ref, height } = useResizeObserver<HTMLDivElement>({
     box: 'border-box',
   });
+  const location = useLocation();
 
   useEffect(() => {
     document.body.style.scrollPaddingTop = height + 'px';
@@ -94,7 +95,7 @@ export function Nav() {
         </ul>
       </nav>
 
-      {(import.meta.env.DEV || location.pathname.includes('/admin')) && (
+      {location.pathname.includes('/admin') && (
         <Suspense>
           <AdminNavLazy />
         </Suspense>
