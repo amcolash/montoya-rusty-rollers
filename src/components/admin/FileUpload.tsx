@@ -42,7 +42,7 @@ export function FileUpload(props: FileUploadProps) {
       <div
         style={{
           display: 'flex',
-          alignItems: 'flex-end',
+          alignItems: 'center',
           justifyContent: 'center',
           flexWrap: 'wrap',
           gap: '1rem',
@@ -60,6 +60,7 @@ export function FileUpload(props: FileUploadProps) {
               setSelectedFile(file);
             }}
             className={fileInput}
+            disabled={uploading}
           />
         </div>
         <IconButton

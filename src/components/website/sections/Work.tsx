@@ -9,7 +9,7 @@ export function Work() {
   return (
     <Page id="our-work">
       <Header>Our Work</Header>
-      <div style={{ width: 'calc(100% - 4rem)' }}>
+      <div style={{ width: 'calc(100% - 4rem)', maxWidth: 'var(--max-width)' }}>
         <EditableText id={TextId.ourWork} />
         <EditableImage id={ImageId.work} multi={true} style={{ marginTop: '3rem' }} />
       </div>
