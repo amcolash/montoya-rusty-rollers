@@ -13,6 +13,7 @@ const navStyle = style({
   flexWrap: 'wrap',
   marginRight: '-1.25rem',
   width: '100%',
+  maxWidth: 'calc(var(--max-width) + 200px)',
 
   $nest: {
     '& ul': {
@@ -82,6 +83,7 @@ export function Nav() {
         background: 'var(--dark)',
         display: 'flex',
         flexDirection: 'column',
+        alignItems: 'center',
       }}
     >
       <nav className={navStyle}>
