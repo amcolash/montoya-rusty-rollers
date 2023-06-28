@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { EditState, editingState } from '../../util/globalState';
 import { IconButton } from '../IconButton';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { app } from '../../util/firebase';
 import { getAuth } from 'firebase/auth';
+import { useLocation } from '../../hooks/useLocation';
 
 export function AdminNav() {
   const auth = getAuth(app);
-  const location = useLocation();
+  const { adminMode } = useLocation();
   const [editState] = editingState.use();
 
   return (
@@ -23,19 +23,20 @@ export function AdminNav() {
         padding: '0.5rem',
         color: 'var(--dark)',
         gap: '1rem',
+        width: 'calc(100vw - 2rem)',
       }}
     >
-      {import.meta.env.DEV && location.pathname === '/' && (
-        <Link to="/admin" style={{ color: 'var(--dark)' }}>
+      {import.meta.env.DEV && !adminMode && (
+        <a href="#/admin" style={{ color: 'var(--dark)' }}>
           Admin Page
-        </Link>
+        </a>
       )}
-      {location.pathname.includes('/admin') && (
+      {adminMode && (
         <>
           <h3 style={{ margin: 0 }}>[ADMIN MODE]</h3>
-          <Link to="/" style={{ color: 'var(--dark)', fontStyle: 'italic' }}>
+          <a href="/" style={{ color: 'var(--dark)', fontStyle: 'italic' }}>
             Exit Admin
-          </Link>
+          </a>
 
           <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
             {editState === EditState.None && 'All Changes Saved'}

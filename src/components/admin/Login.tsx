@@ -1,7 +1,6 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Link } from 'react-router-dom';
 import { GoogleLoginButton } from 'react-social-login-buttons';
 import { style } from 'typestyle';
 import { app } from '../../util/firebase';
@@ -38,9 +37,9 @@ export function Login() {
         <h2>To access this page, you need to login</h2>
         <GoogleLoginButton onClick={() => signInWithPopup(auth, provider)} style={{ width: 'fit-content' }} />
 
-        <Link to="/" style={{ marginTop: '4rem' }}>
+        <a href="/" style={{ marginTop: '4rem' }}>
           Return to Website
-        </Link>
+        </a>
       </div>
     );
 

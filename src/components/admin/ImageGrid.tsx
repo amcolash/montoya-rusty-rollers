@@ -116,7 +116,7 @@ export function ImageGrid(props: ImageGridProps) {
                       checked={JSON.parse(val || '').includes(i.url)}
                     />
                   )}
-                  <img src={i.url} />
+                  <img src={i.url} loading="lazy" />
                 </button>
 
                 <div style={{ display: 'flex', gap: '0.25rem' }}>

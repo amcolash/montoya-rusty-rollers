@@ -8,7 +8,6 @@ import { Banner } from './sections/Banner';
 import { Contact } from './sections/Contact';
 import { Services } from './sections/Services';
 import { Work } from './sections/Work';
-import ScrollToHashElement from '../ScrollToHashElement';
 
 export function Website() {
   const [loaded, setLoaded] = React.useState(false);
@@ -30,7 +29,6 @@ export function Website() {
     <>
       <Loader style={{ opacity: loaded ? 0 : 1, transition: 'opacity 0.5s', pointerEvents: loaded ? 'none' : undefined }} />
 
-      <ScrollToHashElement />
       <Nav />
 
       <Banner />

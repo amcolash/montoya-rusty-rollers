@@ -1,12 +1,12 @@
 import { ref } from 'firebase/database';
 import React, { CSSProperties, useEffect, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
-import { useLocation } from 'react-router-dom';
 import { classes, style } from 'typestyle';
 
 import { useDb } from '../../hooks/useDb';
 import useDebounce from '../../hooks/useDebounce';
 import { database } from '../../util/firebase';
+import { useLocation } from '../../hooks/useLocation';
 
 export enum TextId {
   banner = 'banner',
@@ -35,7 +35,7 @@ interface EditableTextProps {
 }
 
 export function EditableText(props: EditableTextProps) {
-  const location = useLocation();
+  const { adminMode } = useLocation();
 
   const [current, setCurrent] = useState('');
   const contentRef = React.useRef<HTMLDivElement>(null);
@@ -55,16 +55,14 @@ export function EditableText(props: EditableTextProps) {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const admin = location.pathname.includes('/admin');
-
   return (
     <div className={props.className} style={{ display: 'flex', position: 'relative', ...props.style }}>
       <ContentEditable
-        disabled={location.pathname === '/'}
+        disabled={!adminMode}
         style={{ flex: 1 }}
         html={current}
         onChange={(e) => setCurrent(contentRef.current?.innerText || '')}
-        className={classes(editable, admin && adminStyles)}
+        className={classes(editable, adminMode && adminStyles)}
         innerRef={contentRef}
       />
     </div>

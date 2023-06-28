@@ -1,10 +1,10 @@
 import React, { Suspense, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { style } from 'typestyle';
 import useResizeObserver from 'use-resize-observer';
 
 import { headerHeight } from '../../util/globalState';
 import { AdminNavLazy } from '../LazyComponents';
+import { useLocation } from '../../hooks/useLocation';
 
 const navStyle = style({
   display: 'flex',
@@ -63,7 +63,7 @@ export function Nav() {
   const { ref, height } = useResizeObserver<HTMLDivElement>({
     box: 'border-box',
   });
-  const location = useLocation();
+  const { adminMode, hash } = useLocation();
 
   useEffect(() => {
     document.body.style.scrollPaddingTop = height + 'px';
@@ -91,13 +91,15 @@ export function Nav() {
         <ul>
           {links.map(({ id, label }) => (
             <li key={id}>
-              <Link to={id}>{label}</Link>
+              <a href={id} className={hash === id ? 'active' : ''}>
+                {label}
+              </a>
             </li>
           ))}
         </ul>
       </nav>
 
-      {location.pathname.includes('/admin') && (
+      {adminMode && (
         <Suspense>
           <AdminNavLazy />
         </Suspense>
