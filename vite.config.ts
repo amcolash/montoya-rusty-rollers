@@ -1,17 +1,10 @@
 import { defineConfig } from 'vite';
+import preact from '@preact/preset-vite';
 import eslint from 'vite-plugin-eslint';
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
-  plugins: [eslint({ emitWarning: false }), svgr()],
-  resolve: {
-    alias: {
-      react: 'preact/compat',
-      'react-dom': 'preact/compat',
-      'react/jsx-runtime': 'preact/jsx-runtime',
-    },
-  },
-
+  plugins: [eslint({ emitWarning: false }), svgr(), preact()],
   base: './',
   build: {
     outDir: 'build',
