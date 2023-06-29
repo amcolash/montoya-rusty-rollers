@@ -25,10 +25,8 @@ export function useFileList(path: string, refreshCounter: number): [File[], bool
       for (const item of result.items) {
         if (item.name.includes('200x200') || item.name.includes('400x400') || item.name.includes('1000x1000')) continue;
 
-        const url = `https://firebasestorage.googleapis.com/v0/b/${item.bucket}/o/${encodeURIComponent(item.fullPath)}?alt=media`;
-
-        const lastDot = url.lastIndexOf('.');
-        const thumbnail = url.includes('.svg') ? url : url.slice(0, lastDot) + '_200x200' + url.slice(lastDot);
+        const url = getImageUrl(item, Size.Original);
+        const thumbnail = getImageUrl(item, Size.Thumbnail);
 
         urls.push({ name: item.name, path: item.fullPath, url, thumbnail, ref: item });
       }
@@ -39,4 +37,24 @@ export function useFileList(path: string, refreshCounter: number): [File[], bool
   }, [refreshCounter]);
 
   return [files, loading];
+}
+
+enum Size {
+  Original,
+  Thumbnail = '_200x200',
+  Medium = '_400x400',
+  Large = '_1000x1000',
+}
+
+function getImageUrl(item: StorageReference, size: Size): string {
+  const url = `https://firebasestorage.googleapis.com/v0/b/${item.bucket}/o/${encodeURIComponent(item.fullPath)}?alt=media`;
+  const lastDot = url.lastIndexOf('.');
+
+  if (!url.includes('.svg')) {
+    if (size === Size.Thumbnail) return url.slice(0, lastDot) + Size.Thumbnail + url.slice(lastDot);
+    if (size === Size.Medium) return url.slice(0, lastDot) + Size.Medium + url.slice(lastDot);
+    if (size === Size.Large) return url.slice(0, lastDot) + Size.Large + url.slice(lastDot);
+  }
+
+  return url;
 }
