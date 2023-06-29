@@ -105,6 +105,7 @@ export function ImageGrid(props: ImageGridProps) {
                     }
                   }}
                   style={{ position: 'relative' }}
+                  title={i.name}
                 >
                   {filePickerReference.multi && (
                     <input
@@ -116,7 +117,7 @@ export function ImageGrid(props: ImageGridProps) {
                       checked={JSON.parse(val || '').includes(i.url)}
                     />
                   )}
-                  <img src={i.url} loading="lazy" />
+                  <img src={i.thumbnail} loading="lazy" />
                 </button>
 
                 <div style={{ display: 'flex', gap: '0.25rem' }}>
@@ -124,6 +125,7 @@ export function ImageGrid(props: ImageGridProps) {
                     icon={<FaFileDownload />}
                     onClick={() => window.open(i.url, '_blank')}
                     style={{ width: '100%', padding: '0.25rem' }}
+                    title="Download Image"
                   />
 
                   <IconButton
@@ -136,6 +138,7 @@ export function ImageGrid(props: ImageGridProps) {
                       }
                     }}
                     style={{ width: '100%', padding: '0.25rem' }}
+                    title="Delete Image"
                   />
                 </div>
               </div>
