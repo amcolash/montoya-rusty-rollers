@@ -38,7 +38,7 @@ export function AdminNav() {
             Exit Admin
           </a>
 
-          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
             {editState === EditState.None && 'All Changes Saved'}
             {editState === EditState.Saving && 'Saving Changes...'}
             {editState === EditState.Error && 'Error Saving Changes'}

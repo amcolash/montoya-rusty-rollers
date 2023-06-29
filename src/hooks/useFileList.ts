@@ -46,7 +46,7 @@ enum Size {
   Large = '_1000x1000',
 }
 
-function getImageUrl(item: StorageReference, size: Size): string {
+export function getImageUrl(item: StorageReference, size: Size): string {
   const url = `https://firebasestorage.googleapis.com/v0/b/${item.bucket}/o/${encodeURIComponent(item.fullPath)}?alt=media`;
   const lastDot = url.lastIndexOf('.');
 
@@ -57,4 +57,17 @@ function getImageUrl(item: StorageReference, size: Size): string {
   }
 
   return url;
+}
+
+export function getImageRefs(item: StorageReference): StorageReference[] {
+  if (item.fullPath.includes('.svg')) return [item];
+
+  const storage = getStorage(app);
+
+  return [
+    item,
+    ref(storage, getImageUrl(item, Size.Thumbnail)),
+    ref(storage, getImageUrl(item, Size.Medium)),
+    ref(storage, getImageUrl(item, Size.Large)),
+  ];
 }

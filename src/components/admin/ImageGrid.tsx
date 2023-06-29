@@ -4,7 +4,7 @@ import { FaFileDownload, FaRegTrashAlt, FaSave } from 'react-icons/fa';
 import { style } from 'typestyle';
 
 import { IconButton } from '../IconButton';
-import { useFileList } from '../../hooks/useFileList';
+import { getImageRefs, useFileList } from '../../hooks/useFileList';
 import { useDb } from '../../hooks/useDb';
 import { filePickerState } from '../../util/globalState';
 
@@ -117,7 +117,17 @@ export function ImageGrid(props: ImageGridProps) {
                       checked={JSON.parse(val || '').includes(i.url)}
                     />
                   )}
-                  <img src={i.thumbnail} loading="lazy" />
+                  <img
+                    src={i.thumbnail}
+                    loading="lazy"
+                    onError={(e) =>
+                      setTimeout(() => {
+                        console.log(e);
+                        e.target.src = '';
+                        e.target.src = i.thumbnail;
+                      }, 1500)
+                    }
+                  />
                 </button>
 
                 <div style={{ display: 'flex', gap: '0.25rem' }}>
@@ -133,7 +143,9 @@ export function ImageGrid(props: ImageGridProps) {
                     buttonType="destructive"
                     onClick={async () => {
                       if (confirm('Are you sure you want to delete this image?')) {
-                        await deleteObject(i.ref);
+                        const refs = getImageRefs(i.ref);
+                        await Promise.all(refs.map((r) => deleteObject(r)));
+
                         props.setReloadCounter(props.reloadCounter + 1);
                       }
                     }}
