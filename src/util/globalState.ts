@@ -1,4 +1,4 @@
-import { DatabaseReference } from '@firebase/database';
+import { DatabaseReference } from 'firebase/database';
 import { createGlobalState } from 'react-global-hooks';
 
 interface FilePickerState {

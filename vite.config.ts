@@ -11,10 +11,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          firebase_app: ['@firebase/app'],
-          firebase_auth: ['@firebase/auth'],
-          firebase_database: ['@firebase/database'],
-          firebase_storage: ['@firebase/storage'],
+          firebase_app: ['firebase/app'],
+          firebase_auth: ['firebase/auth'],
+          firebase_database: ['firebase/database'],
+          firebase_storage: ['firebase/storage'],
         },
       },
     },
