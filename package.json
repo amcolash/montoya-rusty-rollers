@@ -7,7 +7,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "typewatch": "tsc --noEmit --watch"
+    "typewatch": "tsc --noEmit --watch",
+    "visualize": "vite-bundle-visualizer"
   },
   "license": "MIT",
   "dependencies": {
@@ -32,8 +33,10 @@
     "babel-preset-nano-react-app": "^0.1.0",
     "eslint": "^8.43.0",
     "eslint-plugin-react": "^7.32.2",
+    "rollup-plugin-cleanup": "^3.2.1",
     "typescript": "^5.1.5",
     "vite": "^4.3.9",
+    "vite-bundle-visualizer": "^0.8.0",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-svgr": "^3.2.0"
   }

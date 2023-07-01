@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
 import eslint from 'vite-plugin-eslint';
 import svgr from 'vite-plugin-svgr';
+import cleanup from 'rollup-plugin-cleanup';
 
 export default defineConfig({
   plugins: [eslint({ emitWarning: false }), svgr(), preact()],
@@ -17,6 +18,9 @@ export default defineConfig({
           firebase_storage: ['firebase/storage'],
         },
       },
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      /** @ts-ignore */
+      plugins: [cleanup({ comments: 'none' })],
     },
   },
 });

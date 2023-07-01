@@ -38,7 +38,7 @@ export function Services() {
       header="Services"
       image={ImageId.services}
       style={{ color: 'var(--light)', maxHeight: '50vh' }}
-      headerProps={{ color: 'var(--light)' }}
+      headerProps={{ color: 'var(--light)', style: { marginBottom: '5rem' } }}
     >
       <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', gap: 'min(3vw, 2rem)' }}>
         <Section icon={<FaCarCrash className="icon" />} title="Repairs" textId={TextId.services1} />

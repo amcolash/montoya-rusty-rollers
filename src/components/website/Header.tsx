@@ -18,6 +18,7 @@ export function Header(props: HeaderProps) {
         marginTop: 0,
         marginBottom: '3rem',
         width: '100%',
+        userSelect: 'none',
         ...props.style,
       }}
     >
