@@ -23,6 +23,9 @@ export function IconButton(props: IconButtonProps) {
       '&:hover': {
         background: `var(--${type}-hover)`,
       },
+      '&:disabled': {
+        background: `var(--${type}-disabled)`,
+      },
     },
   });
 

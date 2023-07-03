@@ -1,5 +1,5 @@
 import { deleteObject } from 'firebase/storage';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaFileDownload, FaRegTrashAlt, FaSave } from 'react-icons/fa';
 import { style } from 'typestyle';
 
@@ -36,16 +36,32 @@ interface ImageGridProps {
 }
 
 export function ImageGrid(props: ImageGridProps) {
-  const gridRef = React.useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const [images, loading] = useFileList('images/', props.reloadCounter);
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
+  const [multiDirty, setMultiDirty] = useState(false);
 
   if (!filePickerReference) return null;
 
   const [val, loadingDb, error, setVal, saving] = useDb<string>(filePickerReference.ref);
 
-  if (filePickerReference.multi) console.log(val);
+  const [selectedImages, setSelectedImages] = useState<{ url: string; thumbnail: string; itemPath: string }[]>([]);
+
+  useEffect(() => {
+    if (!val || !filePickerReference.multi) {
+      setSelectedImages([]);
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(val || '') as { url: string; thumbnail: string; itemPath: string }[];
+      setSelectedImages(parsed);
+    } catch (err) {
+      console.error(err);
+      setSelectedImages([]);
+    }
+  }, [val]);
 
   return (
     <div
@@ -61,24 +77,12 @@ export function ImageGrid(props: ImageGridProps) {
         <IconButton
           icon={<FaSave />}
           buttonType="success"
-          onClick={async () => {
-            if (gridRef.current) {
-              const checkboxes = gridRef.current.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
-              const images = Array.from(checkboxes)
-                .filter((c) => c.checked)
-                .map((c) => {
-                  return {
-                    url: c.getAttribute('data-url'),
-                    thumbnail: c.getAttribute('data-thumbnail'),
-                    itemPath: c.getAttribute('data-item-path'),
-                  };
-                });
-
-              setVal(JSON.stringify(images));
-              setFilePickerReference(undefined);
-            }
+          onClick={() => {
+            setVal(JSON.stringify(selectedImages));
+            setFilePickerReference(undefined);
           }}
           style={{ margin: '0.75rem' }}
+          disabled={!multiDirty || saving}
         >
           Save Selected Images
         </IconButton>
@@ -98,24 +102,15 @@ export function ImageGrid(props: ImageGridProps) {
         {!loading && images.length === 0 && <div>No Images Have Been Uploaded</div>}
         {!loading &&
           images.map((i) => {
-            const checkboxRef = React.useRef<HTMLInputElement>(null);
-
-            let checked = false;
-
-            try {
-              const parsed = JSON.parse(val || '') as { url: string; thumbnail: string; itemPath: string }[];
-              checked = parsed.find((image) => image.url === i.url) !== undefined;
-            } catch (err) {
-              console.error(err);
-            }
+            const checkboxRef = useRef<HTMLInputElement>(null);
 
             return (
               <div key={i.url} style={{ display: 'flex', flexDirection: 'column' }}>
                 <button
                   className={imageButton}
-                  onClick={async () => {
+                  onClick={(e) => {
                     if (filePickerReference.multi && checkboxRef.current) {
-                      checkboxRef.current.checked = !checkboxRef.current.checked;
+                      checkboxRef.current.click();
                     } else {
                       setVal(JSON.stringify({ url: i.url, itemPath: i.ref.fullPath }));
                       setFilePickerReference(undefined);
@@ -128,12 +123,24 @@ export function ImageGrid(props: ImageGridProps) {
                     <input
                       type="checkbox"
                       ref={checkboxRef}
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setMultiDirty(true);
+
+                        setSelectedImages((prev) => {
+                          if (e.target.checked) {
+                            return [...prev, { url: i.url, thumbnail: i.thumbnail, itemPath: i.ref.fullPath }];
+                          } else {
+                            return prev.filter((p) => p.url !== i.url);
+                          }
+                        });
+                      }}
+                      // onChange={() => setMultiDirty(true)}
                       style={{ position: 'absolute', top: '0.25rem', right: '0.25rem' }}
                       data-url={i.url}
                       data-thumbnail={i.thumbnail}
                       data-item-path={i.ref.fullPath}
-                      checked={checked}
+                      checked={selectedImages.some((s) => s.url === i.url)}
                     />
                   )}
                   <img

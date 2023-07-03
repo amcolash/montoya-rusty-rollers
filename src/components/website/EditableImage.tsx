@@ -1,6 +1,6 @@
 import { ref } from 'firebase/database';
 import React, { CSSProperties, useState } from 'react';
-import { FaFileImage } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaFileImage, FaTimes } from 'react-icons/fa';
 
 import { IconButton } from '../IconButton';
 import { useDb } from '../../hooks/useDb';
@@ -91,18 +91,52 @@ export function EditableImage(props: EditableImageProps) {
             display: 'flex',
             justifyContent: 'center',
             flexWrap: 'wrap',
-            gap: '0.5rem',
+            gap: '0.25rem',
             border: adminMode ? '3px solid orange' : undefined,
           }}
         >
           {JSON.parse(val).map((value: { url: string; thumbnail: string }, i: number) => (
-            <button
-              onClick={() => setIndex(i)}
-              key={value.url}
-              style={{ background: 'none', border: 'none', padding: '0.5rem', cursor: 'pointer' }}
-            >
-              <img src={value.thumbnail} style={{ height: '14rem', objectFit: 'cover', borderRadius: '0.25rem', ...props.imageStyle }} />
-            </button>
+            <div key={value.url} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0.5rem' }}>
+              <button onClick={() => setIndex(i)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                <img
+                  src={value.thumbnail}
+                  style={{ width: '100%', height: '14rem', objectFit: 'cover', borderRadius: '0.25rem', ...props.imageStyle }}
+                />
+              </button>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <IconButton
+                  icon={<FaChevronLeft />}
+                  disabled={i === 0}
+                  onClick={() => {
+                    const arr = JSON.parse(val);
+                    const temp = arr[i];
+                    arr[i] = arr[i - 1];
+                    arr[i - 1] = temp;
+                    setVal(JSON.stringify(arr));
+                  }}
+                />
+                <IconButton
+                  icon={<FaChevronRight />}
+                  disabled={i === JSON.parse(val).length - 1}
+                  onClick={() => {
+                    const arr = JSON.parse(val);
+                    const temp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
+                    setVal(JSON.stringify(arr));
+                  }}
+                />
+                <IconButton
+                  icon={<FaTimes />}
+                  buttonType="destructive"
+                  onClick={() => {
+                    const arr = JSON.parse(val);
+                    arr.splice(i, 1);
+                    setVal(JSON.stringify(arr));
+                  }}
+                />
+              </div>
+            </div>
           ))}
 
           <Lightbox
