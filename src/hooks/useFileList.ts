@@ -23,10 +23,16 @@ export function useFileList(path: string, refreshCounter: number): [File[], bool
       const urls: File[] = [];
 
       for (const item of result.items) {
-        if (item.name.includes('200x200') || item.name.includes('400x400') || item.name.includes('1000x1000')) continue;
+        if (
+          item.name.includes('200x200') ||
+          item.name.includes('400x400') ||
+          item.name.includes('1000x1000') ||
+          item.name.includes('2000x2000')
+        )
+          continue;
 
-        const url = getImageUrl(item, Size.Original);
-        const thumbnail = getImageUrl(item, Size.Thumbnail);
+        const url = getImageUrl(item.fullPath, Size.Original);
+        const thumbnail = getImageUrl(item.fullPath, Size.Medium);
 
         urls.push({ name: item.name, path: item.fullPath, url, thumbnail, ref: item });
       }
@@ -40,22 +46,29 @@ export function useFileList(path: string, refreshCounter: number): [File[], bool
 }
 
 enum Size {
-  Original,
+  Original = '',
   Thumbnail = '_200x200',
   Medium = '_400x400',
   Large = '_1000x1000',
+  ExtraLarge = '_2000x2000',
 }
 
-export function getImageUrl(item: StorageReference, size: Size): string {
-  const url = `https://firebasestorage.googleapis.com/v0/b/${item.bucket}/o/${encodeURIComponent(item.fullPath)}?alt=media`;
-  const lastDot = url.lastIndexOf('.');
+const bucket = 'montoya-rusty-rollers.appspot.com';
 
-  if (!url.includes('.svg')) {
-    if (size === Size.Thumbnail) return url.slice(0, lastDot) + Size.Thumbnail + url.slice(lastDot);
-    if (size === Size.Medium) return url.slice(0, lastDot) + Size.Medium + url.slice(lastDot);
-    if (size === Size.Large) return url.slice(0, lastDot) + Size.Large + url.slice(lastDot);
+export function getImageUrl(itemPath: string, size: string, webp?: boolean): string {
+  if (!itemPath.includes('.svg')) {
+    let lastDot = itemPath.lastIndexOf('.');
+
+    if (size === Size.Thumbnail) itemPath = itemPath.slice(0, lastDot) + Size.Thumbnail + itemPath.slice(lastDot);
+    if (size === Size.Medium) itemPath = itemPath.slice(0, lastDot) + Size.Medium + itemPath.slice(lastDot);
+    if (size === Size.Large) itemPath = itemPath.slice(0, lastDot) + Size.Large + itemPath.slice(lastDot);
+    if (size === Size.ExtraLarge) itemPath = itemPath.slice(0, lastDot) + Size.ExtraLarge + itemPath.slice(lastDot);
+
+    lastDot = itemPath.lastIndexOf('.');
+    if (webp) itemPath = itemPath.slice(0, lastDot) + '.webp';
   }
 
+  const url = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(itemPath)}?alt=media`;
   return url;
 }
 
@@ -66,8 +79,17 @@ export function getImageRefs(item: StorageReference): StorageReference[] {
 
   return [
     item,
-    ref(storage, getImageUrl(item, Size.Thumbnail)),
-    ref(storage, getImageUrl(item, Size.Medium)),
-    ref(storage, getImageUrl(item, Size.Large)),
+
+    ref(storage, getImageUrl(item.fullPath, Size.Thumbnail)),
+    ref(storage, getImageUrl(item.fullPath, Size.Thumbnail, true)),
+
+    ref(storage, getImageUrl(item.fullPath, Size.Medium)),
+    ref(storage, getImageUrl(item.fullPath, Size.Medium, true)),
+
+    ref(storage, getImageUrl(item.fullPath, Size.Large)),
+    ref(storage, getImageUrl(item.fullPath, Size.Large, true)),
+
+    ref(storage, getImageUrl(item.fullPath, Size.ExtraLarge)),
+    ref(storage, getImageUrl(item.fullPath, Size.ExtraLarge, true)),
   ];
 }

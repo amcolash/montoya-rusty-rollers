@@ -45,6 +45,8 @@ export function ImageGrid(props: ImageGridProps) {
 
   const [val, loadingDb, error, setVal, saving] = useDb<string>(filePickerReference.ref);
 
+  if (filePickerReference.multi) console.log(val);
+
   return (
     <div
       style={{
@@ -64,7 +66,13 @@ export function ImageGrid(props: ImageGridProps) {
               const checkboxes = gridRef.current.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
               const images = Array.from(checkboxes)
                 .filter((c) => c.checked)
-                .map((c) => c.getAttribute('data-url'));
+                .map((c) => {
+                  return {
+                    url: c.getAttribute('data-url'),
+                    thumbnail: c.getAttribute('data-thumbnail'),
+                    itemPath: c.getAttribute('data-item-path'),
+                  };
+                });
 
               setVal(JSON.stringify(images));
               setFilePickerReference(undefined);
@@ -87,10 +95,19 @@ export function ImageGrid(props: ImageGridProps) {
         }}
       >
         {loading && <div>Loading Images...</div>}
-        {!loading && images.length === 0 && <div>No Images</div>}
+        {!loading && images.length === 0 && <div>No Images Have Been Uploaded</div>}
         {!loading &&
           images.map((i) => {
             const checkboxRef = React.useRef<HTMLInputElement>(null);
+
+            let checked = false;
+
+            try {
+              const parsed = JSON.parse(val || '') as { url: string; thumbnail: string; itemPath: string }[];
+              checked = parsed.find((image) => image.url === i.url) !== undefined;
+            } catch (err) {
+              console.error(err);
+            }
 
             return (
               <div key={i.url} style={{ display: 'flex', flexDirection: 'column' }}>
@@ -100,7 +117,7 @@ export function ImageGrid(props: ImageGridProps) {
                     if (filePickerReference.multi && checkboxRef.current) {
                       checkboxRef.current.checked = !checkboxRef.current.checked;
                     } else {
-                      setVal(i.url);
+                      setVal(JSON.stringify({ url: i.url, itemPath: i.ref.fullPath }));
                       setFilePickerReference(undefined);
                     }
                   }}
@@ -114,7 +131,9 @@ export function ImageGrid(props: ImageGridProps) {
                       onClick={(e) => e.stopPropagation()}
                       style={{ position: 'absolute', top: '0.25rem', right: '0.25rem' }}
                       data-url={i.url}
-                      checked={JSON.parse(val || '').includes(i.url)}
+                      data-thumbnail={i.thumbnail}
+                      data-item-path={i.ref.fullPath}
+                      checked={checked}
                     />
                   )}
                   <img
@@ -122,7 +141,6 @@ export function ImageGrid(props: ImageGridProps) {
                     loading="lazy"
                     onError={(e) =>
                       setTimeout(() => {
-                        console.log(e);
                         e.target.src = '';
                         e.target.src = i.thumbnail;
                       }, 1500)

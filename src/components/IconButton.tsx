@@ -27,7 +27,7 @@ export function IconButton(props: IconButtonProps) {
   });
 
   return (
-    <button {...props} className={buttonStyle}>
+    <button {...props} icon={undefined} className={buttonStyle}>
       {props.icon}
       {props.children}
     </button>

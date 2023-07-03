@@ -16,6 +16,12 @@ export function About() {
         width: 'calc(100% - 2rem - 8vw)',
       }}
     >
+      <EditableImage
+        id={ImageId.aboutTruck}
+        style={{ marginTop: '2rem', textAlign: 'center' }}
+        imageStyle={{ height: 200, width: undefined, marginBottom: '3rem' }}
+        readOnly={true}
+      />
       <EditableText id={TextId.about} />
       <EditableImage
         id={ImageId.aboutCert}

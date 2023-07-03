@@ -8,7 +8,7 @@ export function Work() {
   return (
     <Page id="our-work" header="Our Work" containerStyle={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <EditableText id={TextId.work} />
-      <EditableImage id={ImageId.work} multi={true} style={{ marginTop: '3rem', width: 'unset', height: 'unset' }} />
+      <EditableImage id={ImageId.work} multi={true} style={{ marginTop: '3rem' }} />
     </Page>
   );
 }
