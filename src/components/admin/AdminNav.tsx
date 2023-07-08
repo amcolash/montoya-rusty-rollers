@@ -26,11 +26,6 @@ export function AdminNav() {
         width: 'calc(100vw - 2rem)',
       }}
     >
-      {import.meta.env.DEV && !adminMode && (
-        <a href="#/admin" style={{ color: 'var(--dark)' }}>
-          Admin Page
-        </a>
-      )}
       {adminMode && (
         <>
           <h3 style={{ margin: 0 }}>[ADMIN MODE]</h3>

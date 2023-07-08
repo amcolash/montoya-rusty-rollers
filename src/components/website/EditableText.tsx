@@ -15,6 +15,7 @@ export enum TextId {
   services3 = 'services3',
   work = 'work',
   about = 'about',
+  contact = 'contact',
 }
 
 const editable = style({
@@ -61,7 +62,7 @@ export function EditableText(props: EditableTextProps) {
         disabled={!adminMode}
         style={{ flex: 1 }}
         html={current}
-        onChange={(e) => setCurrent(contentRef.current?.innerText || '')}
+        onChange={(e) => setCurrent(contentRef.current?.innerHTML || '')}
         className={classes(editable, adminMode && adminStyles)}
         innerRef={contentRef}
       />

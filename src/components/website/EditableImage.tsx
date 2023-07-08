@@ -46,7 +46,7 @@ export function EditableImage(props: EditableImageProps) {
           <IconButton icon={<FaFileImage />} onClick={() => setFilePickerReference({ ref: reference, multi: props.multi === true })}>
             {props.multi ? 'Choose Multiple Photos' : 'Choose Photo'}
           </IconButton>
-          {!props.multi && val && (
+          {!props.multi && val && import.meta.env.DEV && (
             <div>
               <select
                 onChange={(e) => {
@@ -103,39 +103,41 @@ export function EditableImage(props: EditableImageProps) {
                   style={{ width: '100%', height: '14rem', objectFit: 'cover', borderRadius: '0.25rem', ...props.imageStyle }}
                 />
               </button>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <IconButton
-                  icon={<FaChevronLeft />}
-                  disabled={i === 0}
-                  onClick={() => {
-                    const arr = JSON.parse(val);
-                    const temp = arr[i];
-                    arr[i] = arr[i - 1];
-                    arr[i - 1] = temp;
-                    setVal(JSON.stringify(arr));
-                  }}
-                />
-                <IconButton
-                  icon={<FaChevronRight />}
-                  disabled={i === JSON.parse(val).length - 1}
-                  onClick={() => {
-                    const arr = JSON.parse(val);
-                    const temp = arr[i];
-                    arr[i] = arr[i + 1];
-                    arr[i + 1] = temp;
-                    setVal(JSON.stringify(arr));
-                  }}
-                />
-                <IconButton
-                  icon={<FaTimes />}
-                  buttonType="destructive"
-                  onClick={() => {
-                    const arr = JSON.parse(val);
-                    arr.splice(i, 1);
-                    setVal(JSON.stringify(arr));
-                  }}
-                />
-              </div>
+              {adminMode && (
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <IconButton
+                    icon={<FaChevronLeft />}
+                    disabled={i === 0}
+                    onClick={() => {
+                      const arr = JSON.parse(val);
+                      const temp = arr[i];
+                      arr[i] = arr[i - 1];
+                      arr[i - 1] = temp;
+                      setVal(JSON.stringify(arr));
+                    }}
+                  />
+                  <IconButton
+                    icon={<FaChevronRight />}
+                    disabled={i === JSON.parse(val).length - 1}
+                    onClick={() => {
+                      const arr = JSON.parse(val);
+                      const temp = arr[i];
+                      arr[i] = arr[i + 1];
+                      arr[i + 1] = temp;
+                      setVal(JSON.stringify(arr));
+                    }}
+                  />
+                  <IconButton
+                    icon={<FaTimes />}
+                    buttonType="destructive"
+                    onClick={() => {
+                      const arr = JSON.parse(val);
+                      arr.splice(i, 1);
+                      setVal(JSON.stringify(arr));
+                    }}
+                  />
+                </div>
+              )}
             </div>
           ))}
 

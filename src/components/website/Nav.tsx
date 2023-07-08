@@ -99,6 +99,12 @@ export function Nav() {
         </ul>
       </nav>
 
+      {import.meta.env.DEV && !adminMode && (
+        <a href="#/admin" style={{ color: 'var(--warning)', position: 'absolute', right: '1rem', top: '1.5rem' }}>
+          Admin Page
+        </a>
+      )}
+
       {adminMode && (
         <Suspense>
           <AdminNavLazy />
