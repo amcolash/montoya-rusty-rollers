@@ -43,6 +43,7 @@
         --warning-border: hsl(60, 65%, 35%);
 
         --max-width: 1200px;
+        --fonts: 'Poppins', 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
       }
       html {
         height: 100vh;
@@ -50,10 +51,28 @@
       }
       body {
         margin: 0;
-        font-family: 'Poppins', 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+        font-family: var(--fonts);
         /* scroll-snap-type: y proximity; */
         overflow-y: auto;
         height: 100vh;
+      }
+      button,
+      input,
+      textarea {
+        width: 100%;
+        padding: 0.5rem;
+        box-sizing: border-box;
+        border-radius: 0.25rem;
+        border: 1px solid #ddd;
+        font-family: var(--fonts);
+      }
+      button {
+        background: var(--cta);
+        color: var(--light);
+        border: none;
+      }
+      textarea {
+        resize: vertical;
       }
 
       #loading {
@@ -120,7 +139,7 @@
         }
       }
     </style>
-    <script type="module" crossorigin src="./assets/index-a50aaf6a.js"></script>
+    <script type="module" crossorigin src="./assets/index-ec50e68f.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/firebase_app-08d7da12.js">
     <link rel="modulepreload" crossorigin href="./assets/firebase_database-12542b98.js">
     <link rel="modulepreload" crossorigin href="./assets/firebase_storage-3d3d4e70.js">
