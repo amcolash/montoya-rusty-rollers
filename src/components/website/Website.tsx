@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { loadingList } from '../../hooks/useDb';
 import { Footer } from './Footer';
 import { Loader } from './Loader';
@@ -33,7 +34,9 @@ export function Website() {
   return (
     <>
       {!loaderRemoved && (
-        <Loader style={{ opacity: loaded ? 0 : 1, transition: 'opacity 0.5s', pointerEvents: loaded ? 'none' : undefined }} />
+        <Loader
+          style={{ opacity: loaded ? 0 : 1, transition: 'opacity 0.5s', pointerEvents: loaded ? 'none' : undefined }}
+        />
       )}
 
       <Nav />

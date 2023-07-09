@@ -23,7 +23,9 @@ export function Header(props: HeaderProps) {
       }}
     >
       {props.children}
-      <span style={{ width: '20%', borderBottom: `3px solid ${props.color || 'var(--dark)'}`, marginTop: '0.75rem' }}></span>
+      <span
+        style={{ width: '20%', borderBottom: `3px solid ${props.color || 'var(--dark)'}`, marginTop: '0.75rem' }}
+      ></span>
     </h1>
   );
 }

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Page } from '../Page';
-import { EditableText, TextId } from '../EditableText';
-import { EditableImage, ImageId } from '../EditableImage';
+
 import { cardStyle } from '../../../util/styles';
+import { EditableImage, ImageId } from '../EditableImage';
+import { EditableText, TextId } from '../EditableText';
+import { Page } from '../Page';
 
 export function About() {
   return (

@@ -3,10 +3,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FaFileDownload, FaRegTrashAlt, FaSave } from 'react-icons/fa';
 import { style } from 'typestyle';
 
-import { IconButton } from '../IconButton';
-import { getImageRefs, useFileList } from '../../hooks/useFileList';
 import { useDb } from '../../hooks/useDb';
+import { getImageRefs, useFileList } from '../../hooks/useFileList';
 import { filePickerState } from '../../util/globalState';
+import { IconButton } from '../IconButton';
 
 const imageButton = style({
   width: '10rem',

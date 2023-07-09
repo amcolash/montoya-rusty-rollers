@@ -1,10 +1,11 @@
+import { getAuth } from 'firebase/auth';
 import React from 'react';
+import { FaSignOutAlt } from 'react-icons/fa';
+
+import { useLocation } from '../../hooks/useLocation';
+import { app } from '../../util/firebase';
 import { EditState, editingState } from '../../util/globalState';
 import { IconButton } from '../IconButton';
-import { FaSignOutAlt } from 'react-icons/fa';
-import { app } from '../../util/firebase';
-import { getAuth } from 'firebase/auth';
-import { useLocation } from '../../hooks/useLocation';
 
 export function AdminNav() {
   const auth = getAuth(app);

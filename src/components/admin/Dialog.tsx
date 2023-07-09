@@ -51,7 +51,10 @@ export function Dialog(props: DialogProps) {
           }}
         >
           <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>{props.title}</h3>
-          <button onClick={() => props.onClose()} style={{ position: 'absolute', right: '0.5rem', paddingTop: '0.2rem' }}>
+          <button
+            onClick={() => props.onClose()}
+            style={{ position: 'absolute', right: '0.5rem', paddingTop: '0.2rem' }}
+          >
             <FaTimes />
           </button>
         </div>

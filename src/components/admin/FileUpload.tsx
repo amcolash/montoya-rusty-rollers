@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
 import { getStorage, ref } from 'firebase/storage';
+import React, { useRef, useState } from 'react';
 import { useUploadFile } from 'react-firebase-hooks/storage';
 import { FaFileUpload, FaHourglassHalf } from 'react-icons/fa';
-
-import { IconButton } from '../IconButton';
-import { app } from '../../util/firebase';
 import { style } from 'typestyle';
+
+import { app } from '../../util/firebase';
+import { IconButton } from '../IconButton';
 
 interface FileUploadProps {
   reloadFiles: () => void;

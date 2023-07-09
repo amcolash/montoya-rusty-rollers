@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { cssRule } from 'typestyle';
 
 interface Field {
@@ -10,8 +10,9 @@ interface Field {
 
 interface FormProps {
   fields: Field[];
-  onSubmit?: (values: FormData) => Promise<void>;
+  onSubmit?: (values: FormData) => Promise<any>;
   style?: React.CSSProperties;
+  ref?: React.RefObject<HTMLFormElement>;
 }
 
 enum FormState {
@@ -40,7 +41,11 @@ cssRule('form', {
       boxSizing: 'border-box',
       borderRadius: '0.25rem',
       border: 'none',
+      fontFamily: 'var(--fonts)'
     },
+    '& textarea': {
+      resize: 'vertical',
+    }
   },
 });
 
@@ -68,37 +73,46 @@ export function Form(props: FormProps) {
         }
       }}
       style={props.style}
+      ref={props.ref}
     >
       {props.fields.map((field) => {
         const id = field.name.toLowerCase().replace(/ /g, '-');
-        const label = field.label || field.name;
         const required = field.required === undefined || field.required;
 
         switch (field.type) {
           case 'textarea':
             return (
-              <div key={id} className="field">
-                <label htmlFor={id}>
-                  {label}
-                  {required && <span style={{ color: 'var(--destructive)' }}> *</span>}
-                </label>
-                <textarea id={id} name={id} value="test value" required={required} />
-              </div>
+              <Field field={field} element={<textarea id={id} name={id} value="test value" required={required} />} />
             );
           default:
             return (
-              <div key={id} className="field">
-                <label htmlFor={id}>
-                  {label}
-                  {required && <span style={{ color: 'var(--destructive)' }}> *</span>}
-                </label>
-                <input type="text" id={id} name={id} value="test value" required={required} />
-              </div>
+              <Field
+                field={field}
+                element={<input type="text" id={id} name={id} value="test value" required={required} />}
+              />
             );
         }
       })}
 
       {props.onSubmit && <button type="submit">{formState}</button>}
     </form>
+  );
+}
+
+function Field(props: { field: Field; element: React.ReactElement }) {
+  const { field, element } = props;
+
+  const id = field.name.toLowerCase().replace(/ /g, '-');
+  const label = field.label || field.name;
+  const required = field.required === undefined || field.required;
+
+  return (
+    <div key={id} className="field">
+      <label htmlFor={id}>
+        {label}
+        {required && <span style={{ color: 'var(--destructive-hover)' }}> *</span>}
+      </label>
+      {element}
+    </div>
   );
 }

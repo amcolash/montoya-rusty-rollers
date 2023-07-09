@@ -2,9 +2,9 @@ import React, { Suspense, useEffect } from 'react';
 import { style } from 'typestyle';
 import useResizeObserver from 'use-resize-observer';
 
+import { useLocation } from '../../hooks/useLocation';
 import { headerHeight } from '../../util/globalState';
 import { AdminNavLazy } from '../LazyComponents';
-import { useLocation } from '../../hooks/useLocation';
 
 const navStyle = style({
   display: 'flex',
@@ -100,7 +100,7 @@ export function Nav() {
       </nav>
 
       {import.meta.env.DEV && !adminMode && (
-        <a href="#/admin" style={{ color: 'var(--warning)', position: 'absolute', right: '1rem', top: '1.5rem' }}>
+        <a href="#/admin" style={{ color: 'var(--warning)', position: 'absolute', right: '0.25rem', top: '3rem' }}>
           Admin Page
         </a>
       )}

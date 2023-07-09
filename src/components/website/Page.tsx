@@ -2,8 +2,8 @@ import React from 'react';
 import { classes, style } from 'typestyle';
 
 import { headerHeight } from '../../util/globalState';
-import { Header, HeaderProps } from './Header';
 import { EditableImage, ImageId } from './EditableImage';
+import { Header, HeaderProps } from './Header';
 
 interface PageProps {
   children?: React.ReactNode;
@@ -35,7 +35,9 @@ export function Page(props: PageProps) {
 
   return (
     <div id={props.id} className={classes(page, props.className)} style={props.style}>
-      {props.image && <EditableImage id={props.image} style={{ position: 'absolute', width: '100%', height: '100%' }} />}
+      {props.image && (
+        <EditableImage id={props.image} style={{ position: 'absolute', width: '100%', height: '100%' }} />
+      )}
 
       <div style={{ width: 'calc(100% - 4rem)', maxWidth: 'var(--max-width)', zIndex: 1, ...props.containerStyle }}>
         {props.header && <Header {...props.headerProps}>{props.header}</Header>}

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { FaFileImage } from 'react-icons/fa';
 
+import { filePickerState } from '../../util/globalState';
 import { Dialog } from './Dialog';
 import { FileUpload } from './FileUpload';
 import { ImageGrid } from './ImageGrid';
-import { filePickerState } from '../../util/globalState';
 
 export function FilePicker() {
   const [filePickerReference, setFilePickerReference] = filePickerState.use();

@@ -1,16 +1,15 @@
 import { ref } from 'firebase/database';
 import React, { CSSProperties, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaFileImage, FaTimes } from 'react-icons/fa';
-
-import { IconButton } from '../IconButton';
-import { useDb } from '../../hooks/useDb';
-import { database } from '../../util/firebase';
-import { filePickerState } from '../../util/globalState';
-
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
-import { useLocation } from '../../hooks/useLocation';
+
+import { useDb } from '../../hooks/useDb';
 import { getImageUrl } from '../../hooks/useFileList';
+import { useLocation } from '../../hooks/useLocation';
+import { database } from '../../util/firebase';
+import { filePickerState } from '../../util/globalState';
+import { IconButton } from '../IconButton';
 
 export enum ImageId {
   header = 'header',
@@ -43,7 +42,10 @@ export function EditableImage(props: EditableImageProps) {
     <div style={{ position: 'relative', minWidth: 225, minHeight: 50, ...props.style }}>
       {adminMode && !props.readOnly && (
         <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 9 }}>
-          <IconButton icon={<FaFileImage />} onClick={() => setFilePickerReference({ ref: reference, multi: props.multi === true })}>
+          <IconButton
+            icon={<FaFileImage />}
+            onClick={() => setFilePickerReference({ ref: reference, multi: props.multi === true })}
+          >
             {props.multi ? 'Choose Multiple Photos' : 'Choose Photo'}
           </IconButton>
           {!props.multi && val && import.meta.env.DEV && (
@@ -83,7 +85,10 @@ export function EditableImage(props: EditableImageProps) {
         </div>
       )}
       {val && !props.multi && (
-        <img src={JSON.parse(val).url} style={{ width: '100%', height: '100%', objectFit: 'cover', ...props.imageStyle }} />
+        <img
+          src={JSON.parse(val).url}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', ...props.imageStyle }}
+        />
       )}
       {val && props.multi && JSON.parse(val).length > 0 && (
         <div
@@ -96,11 +101,20 @@ export function EditableImage(props: EditableImageProps) {
           }}
         >
           {JSON.parse(val).map((value: { url: string; thumbnail: string }, i: number) => (
-            <div key={value.url} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0.5rem' }}>
+            <div
+              key={value.url}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0.5rem' }}
+            >
               <button onClick={() => setIndex(i)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                 <img
                   src={value.thumbnail}
-                  style={{ width: '100%', height: '14rem', objectFit: 'cover', borderRadius: '0.25rem', ...props.imageStyle }}
+                  style={{
+                    width: '100%',
+                    height: '14rem',
+                    objectFit: 'cover',
+                    borderRadius: '0.25rem',
+                    ...props.imageStyle,
+                  }}
                 />
               </button>
               {adminMode && (

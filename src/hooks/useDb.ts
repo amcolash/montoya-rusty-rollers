@@ -1,11 +1,14 @@
 import { DatabaseReference, remove, set } from 'firebase/database';
 import { useCallback, useEffect, useState } from 'react';
 import { useObjectVal } from 'react-firebase-hooks/database';
+
 import { EditState, editingState } from '../util/globalState';
 
 export const loadingList: string[] = [];
 
-export function useDb<T>(ref: DatabaseReference): [T | undefined, boolean, Error | undefined, (val: T) => Promise<void>, boolean] {
+export function useDb<T>(
+  ref: DatabaseReference
+): [T | undefined, boolean, Error | undefined, (val: T) => Promise<void>, boolean] {
   const [val, loading, error] = useObjectVal<T>(ref, {});
   const [saving, setSaving] = useState(false);
   const [editState, setEditState] = editingState.use();

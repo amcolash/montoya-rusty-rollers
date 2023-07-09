@@ -5,8 +5,8 @@ import { classes, style } from 'typestyle';
 
 import { useDb } from '../../hooks/useDb';
 import useDebounce from '../../hooks/useDebounce';
-import { database } from '../../util/firebase';
 import { useLocation } from '../../hooks/useLocation';
+import { database } from '../../util/firebase';
 
 export enum TextId {
   banner = 'banner',

@@ -1,5 +1,6 @@
-import { getStorage, listAll, ref, StorageReference } from 'firebase/storage';
+import { StorageReference, getStorage, listAll, ref } from 'firebase/storage';
 import { useEffect, useState } from 'react';
+
 import { app } from '../util/firebase';
 
 interface File {
