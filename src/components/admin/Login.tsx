@@ -14,7 +14,7 @@ const container = style({
   justifyContent: 'center',
   alignItems: 'center',
   width: '100vw',
-  height: '100vh',
+  height: '100dvh',
 });
 
 export function Login() {

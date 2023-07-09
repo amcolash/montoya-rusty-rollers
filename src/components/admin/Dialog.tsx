@@ -1,11 +1,14 @@
 import React, { ReactNode, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
+import { style } from 'typestyle';
 
 interface DialogProps {
   title: ReactNode;
   children: ReactNode;
   onClose: () => void;
 }
+
+const dialogStyle = style({});
 
 export function Dialog(props: DialogProps) {
   useEffect(() => {
@@ -24,7 +27,7 @@ export function Dialog(props: DialogProps) {
         justifyContent: 'center',
         alignItems: 'center',
         width: '100vw',
-        height: '100vh',
+        height: '100dvh',
         position: 'absolute',
         top: 0,
         left: 0,
@@ -61,7 +64,7 @@ export function Dialog(props: DialogProps) {
 
         <div
           style={{
-            height: '85vh',
+            height: '85dvh',
             overflowY: 'auto',
           }}
         >

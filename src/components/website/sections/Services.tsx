@@ -37,7 +37,7 @@ export function Services() {
       id="services"
       header="Services"
       image={ImageId.services}
-      style={{ color: 'var(--light)', maxHeight: '50vh' }}
+      style={{ color: 'var(--light)' }}
       headerProps={{ color: 'var(--light)', style: { marginBottom: '5rem' } }}
     >
       <div

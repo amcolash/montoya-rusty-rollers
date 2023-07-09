@@ -29,7 +29,7 @@ export function Contact() {
           }}
         >
           Call Us:
-          <a href="tel:1-800-555-5555">1-800-555-5555</a>
+          <a href="tel:505-710-1342">505-710-1342</a>
           <FaPhone />
         </div>
 
