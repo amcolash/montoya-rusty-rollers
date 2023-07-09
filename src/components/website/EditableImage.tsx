@@ -15,9 +15,11 @@ export enum ImageId {
   header = 'header',
   services = 'services',
   work = 'work',
+  workGrid = 'workGrid',
   about = 'about',
   aboutCert = 'aboutCert',
   aboutTruck = 'aboutTruck',
+  contact = 'contact',
 }
 
 interface EditableImageProps {
@@ -85,9 +87,17 @@ export function EditableImage(props: EditableImageProps) {
         </div>
       )}
       {val && !props.multi && (
-        <img
-          src={JSON.parse(val).url}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', ...props.imageStyle }}
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            backgroundImage: `url(${JSON.parse(val).url})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'contain',
+            backgroundPosition: 'center',
+            ...props.imageStyle,
+          }}
         />
       )}
       {val && props.multi && JSON.parse(val).length > 0 && (
@@ -118,7 +128,7 @@ export function EditableImage(props: EditableImageProps) {
                 />
               </button>
               {adminMode && (
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
                   <IconButton
                     icon={<FaChevronLeft />}
                     disabled={i === 0}

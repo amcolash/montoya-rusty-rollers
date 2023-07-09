@@ -14,10 +14,8 @@ export function IconButton(props: IconButtonProps) {
     alignItems: 'center',
     justifyContent: 'center',
     gap: '0.25rem',
-    padding: '0.5rem 1rem',
     background: `var(--${type})`,
     border: `1px solid var(--${type}-border)`,
-    color: 'white',
 
     $nest: {
       '&:hover': {

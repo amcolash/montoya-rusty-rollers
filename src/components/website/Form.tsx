@@ -92,7 +92,11 @@ export function Form(props: FormProps) {
         }
       })}
 
-      {props.onSubmit && <button type="submit">{formState}</button>}
+      {props.onSubmit && (
+        <button type="submit" style={{ width: '100%', fontSize: '1.1rem' }}>
+          {formState}
+        </button>
+      )}
     </form>
   );
 }

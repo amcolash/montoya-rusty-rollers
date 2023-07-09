@@ -10,6 +10,7 @@ interface PageProps {
   style?: React.CSSProperties;
   header?: string;
   image?: ImageId;
+  imageStyle?: React.CSSProperties;
   headerProps?: Partial<HeaderProps>;
   containerStyle?: React.CSSProperties;
   className?: string;
@@ -36,7 +37,11 @@ export function Page(props: PageProps) {
   return (
     <div id={props.id} className={classes(page, props.className)} style={props.style}>
       {props.image && (
-        <EditableImage id={props.image} style={{ position: 'absolute', width: '100%', height: '100%' }} />
+        <EditableImage
+          id={props.image}
+          style={{ position: 'absolute', width: '100%', height: '100%' }}
+          imageStyle={{ backgroundSize: 'cover', ...props.imageStyle }}
+        />
       )}
 
       <div style={{ width: 'calc(100% - 4rem)', maxWidth: 'var(--max-width)', zIndex: 1, ...props.containerStyle }}>

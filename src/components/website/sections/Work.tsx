@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { cardStyle } from '../../../util/styles';
 import { EditableImage, ImageId } from '../EditableImage';
 import { EditableText, TextId } from '../EditableText';
 import { Page } from '../Page';
@@ -9,10 +10,12 @@ export function Work() {
     <Page
       id="our-work"
       header="Our Work"
-      containerStyle={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.65)' }}
+      image={ImageId.work}
+      imageStyle={{ backgroundRepeat: 'repeat', backgroundSize: 'unset' }}
     >
       <EditableText id={TextId.work} />
-      <EditableImage id={ImageId.work} multi={true} style={{ marginTop: '3rem' }} />
+      <EditableImage id={ImageId.workGrid} multi={true} style={{ marginTop: '3rem' }} />
     </Page>
   );
 }

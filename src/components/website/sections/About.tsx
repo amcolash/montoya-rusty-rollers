@@ -11,7 +11,7 @@ export function About() {
       id="about-us"
       header="About Us"
       image={ImageId.about}
-      containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.35)' }}
+      containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.65)' }}
     >
       <EditableImage
         id={ImageId.aboutTruck}

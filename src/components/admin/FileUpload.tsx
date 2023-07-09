@@ -18,6 +18,7 @@ const fileInput = style({
       padding: '0.5rem 1rem',
       background: `var(--cta)`,
       border: `1px solid var(--cta-border)`,
+      borderRadius: '0.25rem',
       color: 'white',
       cursor: 'pointer',
       transition: 'background .2s ease-in-out',

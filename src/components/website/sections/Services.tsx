@@ -40,7 +40,25 @@ export function Services() {
       style={{ color: 'var(--light)', maxHeight: '50vh' }}
       headerProps={{ color: 'var(--light)', style: { marginBottom: '5rem' } }}
     >
-      <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', gap: 'min(3vw, 2rem)' }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0, 0, 0, 0.8)',
+          zIndex: -1,
+        }}
+      />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          textAlign: 'center',
+          gap: 'min(3vw, 2rem)',
+        }}
+      >
         <Section icon={<FaCarCrash className="icon" />} title="Repairs" textId={TextId.services1} />
         <Section icon={<FaOilCan className="icon" />} title="Maintenance" textId={TextId.services2} />
         <Section icon={<FaTools className="icon" />} title="Mechanical" textId={TextId.services3} />

@@ -1,8 +1,9 @@
 import emailjs from '@emailjs/browser';
 import React, { useRef } from 'react';
+import { FaPhone } from 'react-icons/fa';
 
 import { cardStyle } from '../../../util/styles';
-import { EditableText, TextId } from '../EditableText';
+import { ImageId } from '../EditableImage';
 import { Form } from '../Form';
 import { Page } from '../Page';
 
@@ -10,23 +11,29 @@ export function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
 
   return (
-    <Page id="contact" header="Contact Us" containerStyle={cardStyle}>
+    <Page
+      id="contact"
+      header="Contact Us"
+      containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(0.25rem)' }}
+      image={ImageId.contact}
+    >
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
         <div
           style={{
-            border: '1px solid #ddd',
-            background: '#fafafa',
-            padding: '1.5rem',
-            borderRadius: '0.5rem',
-            flex: 1,
-            minWidth: '15rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            fontSize: '1.2rem',
+            gap: '0.5rem',
           }}
         >
-          <h3 style={{ marginTop: 0 }}>Our Info</h3>
-          <EditableText id={TextId.contact} />
+          Call Us:
+          <a href="tel:1-800-555-5555">1-800-555-5555</a>
+          <FaPhone />
         </div>
+
         <Form
-          style={{ minWidth: '15rem', flex: 4 }}
           fields={[
             { name: 'Name' },
             { name: 'Email' },
