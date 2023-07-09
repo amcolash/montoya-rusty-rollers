@@ -24,12 +24,14 @@ export function Contact() {
             { name: 'Phone', label: 'Phone Number' },
             { name: 'Message', type: 'textarea' },
           ]}
-          ref={formRef}
+          formRef={formRef}
           onSubmit={() => {
             const serviceID = 'default_service';
             const templateID = 'template_zhcnuwt';
 
-            return emailjs.sendForm(serviceID, templateID, formRef.current!);
+            return new Promise((resolve, reject) => {
+              emailjs.sendForm(serviceID, templateID, formRef.current!).then(resolve, (err) => reject(err));
+            });
           }}
         />
       </div>

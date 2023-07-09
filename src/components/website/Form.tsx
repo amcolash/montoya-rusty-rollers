@@ -6,13 +6,14 @@ interface Field {
   label?: string;
   type?: 'text' | 'textarea';
   required?: boolean;
+  placeholder?: string;
 }
 
 interface FormProps {
   fields: Field[];
   onSubmit?: (values: FormData) => Promise<any>;
   style?: React.CSSProperties;
-  ref?: React.RefObject<HTMLFormElement>;
+  formRef?: React.RefObject<HTMLFormElement>;
 }
 
 enum FormState {
@@ -41,11 +42,11 @@ cssRule('form', {
       boxSizing: 'border-box',
       borderRadius: '0.25rem',
       border: 'none',
-      fontFamily: 'var(--fonts)'
+      fontFamily: 'var(--fonts)',
     },
     '& textarea': {
       resize: 'vertical',
-    }
+    },
   },
 });
 
@@ -64,7 +65,10 @@ export function Form(props: FormProps) {
           props
             .onSubmit(data)
             .then(() => setFormState(FormState.Sent))
-            .catch((err) => setFormState(FormState.Error))
+            .catch((err) => {
+              setFormState(FormState.Error);
+              console.error(err);
+            })
             .finally(() =>
               setTimeout(() => {
                 setFormState(FormState.Default);
@@ -73,7 +77,7 @@ export function Form(props: FormProps) {
         }
       }}
       style={props.style}
-      ref={props.ref}
+      ref={props.formRef}
     >
       {props.fields.map((field) => {
         const id = field.name.toLowerCase().replace(/ /g, '-');
@@ -82,13 +86,16 @@ export function Form(props: FormProps) {
         switch (field.type) {
           case 'textarea':
             return (
-              <Field field={field} element={<textarea id={id} name={id} value="test value" required={required} />} />
+              <Field
+                field={field}
+                element={<textarea id={id} name={id} placeholder={field.placeholder} required={required} />}
+              />
             );
           default:
             return (
               <Field
                 field={field}
-                element={<input type="text" id={id} name={id} value="test value" required={required} />}
+                element={<input type="text" id={id} name={id} placeholder={field.placeholder} required={required} />}
               />
             );
         }
