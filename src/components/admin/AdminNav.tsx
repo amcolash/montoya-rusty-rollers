@@ -30,21 +30,21 @@ export function AdminNav() {
       {adminMode && (
         <>
           <h3 style={{ margin: 0 }}>[ADMIN MODE]</h3>
-          <a href="/" style={{ color: 'var(--dark)', fontStyle: 'italic' }}>
-            Exit Admin
-          </a>
 
-          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+          <div style={{ flex: 1, textAlign: 'center' }}>
             {editState === EditState.None && 'All Changes Saved'}
             {editState === EditState.Saving && 'Saving Changes...'}
             {editState === EditState.Error && 'Error Saving Changes'}
-
-            {import.meta.env.DEV && (
-              <IconButton icon={<FaSignOutAlt />} onClick={() => auth.signOut()} style={{ marginLeft: '1.5rem' }}>
-                <span>Logout</span>
-              </IconButton>
-            )}
           </div>
+
+          <a href="/" style={{ color: 'var(--dark)', fontStyle: 'italic' }}>
+            Exit Admin
+          </a>
+          {import.meta.env.DEV && (
+            <IconButton icon={<FaSignOutAlt />} onClick={() => auth.signOut()}>
+              <span>Logout</span>
+            </IconButton>
+          )}
         </>
       )}
     </div>

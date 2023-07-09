@@ -51,7 +51,7 @@ export function EditableImage(props: EditableImageProps) {
             {props.multi ? 'Choose Multiple Photos' : 'Choose Photo'}
           </IconButton>
           {!props.multi && val && import.meta.env.DEV && (
-            <div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.5rem' }}>
               <select
                 onChange={(e) => {
                   const itemPath = JSON.parse(val).itemPath;

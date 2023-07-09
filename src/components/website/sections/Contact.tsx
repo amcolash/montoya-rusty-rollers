@@ -14,7 +14,7 @@ export function Contact() {
     <Page
       id="contact"
       header="Contact Us"
-      containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(0.25rem)' }}
+      containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(0.25rem)' }}
       image={ImageId.contact}
     >
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
