@@ -56,6 +56,24 @@
         overflow-y: auto;
         height: 100vh;
       }
+      button,
+      input,
+      textarea {
+        width: 100%;
+        padding: 0.5rem;
+        box-sizing: border-box;
+        border-radius: 0.25rem;
+        border: 1px solid #ddd;
+        font-family: var(--fonts);
+      }
+      button {
+        background: var(--cta);
+        color: var(--light);
+        border: none;
+      }
+      textarea {
+        resize: vertical;
+      }
 
       #loading {
         position: absolute;

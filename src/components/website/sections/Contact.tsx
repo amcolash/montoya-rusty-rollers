@@ -10,14 +10,23 @@ export function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
 
   return (
-    <Page id="contact" header="Contact us" style={{ background: 'hsl(320, 30%, 65%)' }} containerStyle={cardStyle}>
+    <Page id="contact" header="Contact Us" containerStyle={cardStyle}>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
-        <div style={{ background: 'rgba(0,0,0,0.1)', padding: '3rem', flex: 1 }}>
-          <h3>Our Info</h3>
+        <div
+          style={{
+            border: '1px solid #ddd',
+            background: '#fafafa',
+            padding: '1.5rem',
+            borderRadius: '0.5rem',
+            flex: 1,
+            minWidth: '15rem',
+          }}
+        >
+          <h3 style={{ marginTop: 0 }}>Our Info</h3>
           <EditableText id={TextId.contact} />
         </div>
         <Form
-          style={{ minWidth: '15rem', flex: 3 }}
+          style={{ minWidth: '15rem', flex: 4 }}
           fields={[
             { name: 'Name' },
             { name: 'Email' },
@@ -33,6 +42,7 @@ export function Contact() {
               emailjs.sendForm(serviceID, templateID, formRef.current!).then(resolve, (err) => reject(err));
             });
           }}
+          ariaLabel="Contact Form"
         />
       </div>
     </Page>

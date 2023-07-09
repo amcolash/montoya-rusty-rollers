@@ -96,23 +96,23 @@ export function EditableImage(props: EditableImageProps) {
             display: 'flex',
             justifyContent: 'center',
             flexWrap: 'wrap',
-            gap: '0.25rem',
+            gap: '1.25rem',
             border: adminMode ? '3px solid orange' : undefined,
           }}
         >
           {JSON.parse(val).map((value: { url: string; thumbnail: string }, i: number) => (
-            <div
-              key={value.url}
-              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0.5rem' }}
-            >
-              <button onClick={() => setIndex(i)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+            <div key={value.url} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <button
+                onClick={() => setIndex(i)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 0 }}
+              >
                 <img
                   src={value.thumbnail}
                   style={{
                     width: '100%',
                     height: '14rem',
                     objectFit: 'cover',
-                    borderRadius: '0.25rem',
+                    borderRadius: '0.35rem',
                     ...props.imageStyle,
                   }}
                 />

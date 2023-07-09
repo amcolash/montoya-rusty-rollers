@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { cssRule } from 'typestyle';
 
+interface FormProps {
+  fields: Field[];
+  onSubmit?: (values: FormData) => Promise<any>;
+  style?: React.CSSProperties;
+  formRef?: React.RefObject<HTMLFormElement>;
+  ariaLabel?: string;
+}
+
 interface Field {
   name: string;
   label?: string;
   type?: 'text' | 'textarea';
   required?: boolean;
   placeholder?: string;
-}
-
-interface FormProps {
-  fields: Field[];
-  onSubmit?: (values: FormData) => Promise<any>;
-  style?: React.CSSProperties;
-  formRef?: React.RefObject<HTMLFormElement>;
 }
 
 enum FormState {
@@ -35,17 +36,6 @@ cssRule('form', {
   $nest: {
     '& .field': {
       width: '100%',
-    },
-    '& input, & textarea': {
-      width: '100%',
-      padding: '0.5rem',
-      boxSizing: 'border-box',
-      borderRadius: '0.25rem',
-      border: 'none',
-      fontFamily: 'var(--fonts)',
-    },
-    '& textarea': {
-      resize: 'vertical',
     },
   },
 });
@@ -78,6 +68,7 @@ export function Form(props: FormProps) {
       }}
       style={props.style}
       ref={props.formRef}
+      aria-label={props.ariaLabel || 'form'}
     >
       {props.fields.map((field) => {
         const id = field.name.toLowerCase().replace(/ /g, '-');
@@ -88,7 +79,7 @@ export function Form(props: FormProps) {
             return (
               <Field
                 field={field}
-                element={<textarea id={id} name={id} placeholder={field.placeholder} required={required} />}
+                element={<textarea id={id} name={id} placeholder={field.placeholder} required={required} rows={4} />}
               />
             );
           default:
@@ -117,7 +108,12 @@ function Field(props: { field: Field; element: React.ReactElement }) {
     <div key={id} className="field">
       <label htmlFor={id}>
         {label}
-        {required && <span style={{ color: 'var(--destructive-hover)' }}> *</span>}
+        {required && (
+          <span style={{ color: 'var(--destructive-hover)' }} aria-hidden={true}>
+            {' '}
+            *
+          </span>
+        )}
       </label>
       {element}
     </div>
