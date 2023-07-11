@@ -60,7 +60,7 @@ const navStyle = style({
       fontSize: '1.2rem',
     },
     '& [aria-label="open mobile menu"]': {
-      display: 'flex',
+      marginBottom: '-6px',
     },
   },
 });
