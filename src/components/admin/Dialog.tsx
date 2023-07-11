@@ -32,7 +32,7 @@ export function Dialog(props: DialogProps) {
         top: 0,
         left: 0,
         background: 'rgba(0,0,0,0.5)',
-        zIndex: 50,
+        zIndex: 10,
       }}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) {

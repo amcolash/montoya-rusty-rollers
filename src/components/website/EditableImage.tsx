@@ -43,7 +43,7 @@ export function EditableImage(props: EditableImageProps) {
   return (
     <div style={{ position: 'relative', minWidth: 225, minHeight: 50, ...props.style }}>
       {adminMode && !props.readOnly && (
-        <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 9 }}>
+        <div style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 2 }}>
           <IconButton
             icon={<FaFileImage />}
             onClick={() => setFilePickerReference({ ref: reference, multi: props.multi === true })}
@@ -51,7 +51,7 @@ export function EditableImage(props: EditableImageProps) {
             {props.multi ? 'Choose Multiple Photos' : 'Choose Photo'}
           </IconButton>
           {!props.multi && val && import.meta.env.DEV && (
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.5rem' }}>
+            <div style={{ marginTop: '0.5rem' }}>
               <select
                 onChange={(e) => {
                   const itemPath = JSON.parse(val).itemPath;

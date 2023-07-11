@@ -19,12 +19,9 @@ export function AdminNav() {
         alignItems: 'center',
         justifyContent: 'center',
         background: 'var(--warning)',
-        margin: '0 -1rem -0.75rem',
-        marginTop: '1rem',
         padding: '0.5rem',
         color: 'var(--dark)',
         gap: '1rem',
-        width: 'calc(100vw - 2rem)',
       }}
     >
       {adminMode && (

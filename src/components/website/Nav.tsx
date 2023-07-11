@@ -1,51 +1,80 @@
+import { DesktopList, MobileList, Navbar } from 'accessible-navbar';
 import React, { Suspense, useEffect } from 'react';
-import { style } from 'typestyle';
+import { classes, style } from 'typestyle';
 import useResizeObserver from 'use-resize-observer';
 
 import { useLocation } from '../../hooks/useLocation';
 import { headerHeight } from '../../util/globalState';
 import { AdminNavLazy } from '../LazyComponents';
 
+// const navStyle = style({
+//   display: 'flex',
+//   justifyContent: 'space-around',
+//   alignItems: 'center',
+//   flexWrap: 'wrap',
+//   marginRight: '-1.25rem',
+//   width: '100%',
+//   maxWidth: 'calc(var(--max-width) + 200px)',
+
+//   $nest: {
+//     '& ul': {
+//       display: 'flex',
+//       justifyContent: 'center',
+//       flexWrap: 'wrap',
+//       listStyle: 'none',
+//       gap: '0.25rem 0.75rem',
+//       margin: '0.5rem 0',
+//       padding: 0,
+//     },
+//     '&: li': {
+//       textAlign: 'center',
+//     },
+//     '& a': {
+//       textAlign: 'center',
+//       display: 'flex',
+//       textDecoration: 'none',
+//       fontWeight: 'bold',
+//       color: '#bbb',
+//       transition: 'color 0.35s',
+//       padding: '0.35rem 0.75rem',
+
+//       $nest: {
+//         '&:hover': {
+//           color: 'var(--light)',
+//         },
+
+//         '&.active': {
+//           color: 'red',
+//         },
+//       },
+//     },
+//   },
+// });
+
 const navStyle = style({
-  display: 'flex',
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  flexWrap: 'wrap',
-  marginRight: '-1.25rem',
-  width: '100%',
-  maxWidth: 'calc(var(--max-width) + 200px)',
+  height: '85px !important',
+  padding: '0 20px !important',
 
   $nest: {
-    '& ul': {
-      display: 'flex',
-      justifyContent: 'center',
-      flexWrap: 'wrap',
-      listStyle: 'none',
-      gap: '0.25rem 0.75rem',
-      margin: '0.5rem 0',
-      padding: 0,
-    },
-    '&: li': {
-      textAlign: 'center',
-    },
     '& a': {
-      textAlign: 'center',
+      fontSize: '1.2rem',
+    },
+    '& [aria-label="open mobile menu"]': {
       display: 'flex',
-      textDecoration: 'none',
-      fontWeight: 'bold',
-      color: '#bbb',
-      transition: 'color 0.35s',
-      padding: '0.35rem 0.75rem',
+    },
+  },
+});
 
-      $nest: {
-        '&:hover': {
-          color: 'var(--light)',
-        },
+const mobileStyle = style({
+  zIndex: '4 !important',
 
-        '&.active': {
-          color: 'red',
-        },
-      },
+  $nest: {
+    '& a': {
+      fontSize: '2.5rem',
+    },
+    '& [aria-label="close mobile menu"]': {
+      top: '20px',
+      right: '20px',
     },
   },
 });
@@ -76,34 +105,30 @@ export function Nav() {
       style={{
         position: 'sticky',
         top: 0,
-        zIndex: 10,
-        boxSizing: 'border-box',
-        padding: '0.75rem 1rem',
-        color: 'var(--light)',
-        background: 'var(--dark)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+        zIndex: 3,
       }}
     >
-      <nav className={navStyle}>
-        <h1 style={{ margin: 0, textAlign: 'center' }}>Montoya Rusty Rollers Restoration</h1>
-        <ul>
-          {links.map(({ id, label }) => (
-            <li key={id}>
-              <a href={id} className={hash === id ? 'active' : ''}>
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <Navbar
+        applicationNodeId="root"
+        brand="Montoya Rusty Rollers Restoration"
+        desktopList={(props) => <DesktopList {...props} className={navStyle} />}
+        mobileList={(props) => <MobileList {...props} className={mobileStyle} />}
+        c="var(--light)"
+        bc="var(--dark)"
+        hc="var(--cta)"
+      >
+        {links.map(({ id, label }) => (
+          <a href={id} key={id} className={classes(hash === id ? 'active' : '')}>
+            {label}
+          </a>
+        ))}
 
-      {import.meta.env.DEV && !adminMode && (
-        <a href="#/admin" style={{ color: 'var(--warning)', position: 'absolute', right: '0.25rem', top: '3rem' }}>
-          Admin Page
-        </a>
-      )}
+        {import.meta.env.DEV && !adminMode && (
+          <a href="#/admin" style={{ color: 'var(--warning)' }}>
+            Admin Page
+          </a>
+        )}
+      </Navbar>
 
       {adminMode && (
         <Suspense>
