@@ -10,7 +10,7 @@ export function Work() {
     <Page
       id="our-work"
       header="Our Work"
-      containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.65)' }}
+      containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(0.25rem)' }}
       image={ImageId.work}
       imageStyle={{ backgroundRepeat: 'repeat', backgroundSize: 'unset' }}
     >

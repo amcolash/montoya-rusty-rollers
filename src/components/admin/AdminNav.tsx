@@ -15,18 +15,26 @@ export function AdminNav() {
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: '100%',
         background: 'var(--warning)',
-        padding: '0.5rem',
         color: 'var(--dark)',
-        gap: '1rem',
-        boxSizing: 'border-box',
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
       {adminMode && (
-        <>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            maxWidth: 'var(--max-width)',
+            padding: '0.5rem',
+            gap: '1rem',
+            boxSizing: 'border-box',
+          }}
+        >
           <h3 style={{ margin: 0 }}>[ADMIN MODE]</h3>
 
           <div style={{ flex: 1, textAlign: 'center' }}>
@@ -43,7 +51,7 @@ export function AdminNav() {
               <span>Logout</span>
             </IconButton>
           )}
-        </>
+        </div>
       )}
     </div>
   );

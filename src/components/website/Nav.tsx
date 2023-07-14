@@ -22,7 +22,7 @@ const headerStyle = style({
   zIndex: 3,
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
+  alignItems: 'center',
 
   background: 'var(--dark)',
   color: 'var(--light)',
@@ -33,8 +33,9 @@ const wrapperStyle = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '0.5rem 1rem',
-  maxWidth: '1400px',
+  maxWidth: 'var(--max-width)',
   width: '100%',
+  boxSizing: 'border-box',
 });
 
 const mobileBreakpoint = getComputedStyle(document.documentElement).getPropertyValue('--mobile-width');
@@ -167,7 +168,14 @@ export function Nav() {
               ))}
 
               {import.meta.env.DEV && !adminMode && (
-                <a href="#/admin" style={{ color: 'var(--warning)', marginTop: menuOpen ? '2rem' : undefined }}>
+                <a
+                  href="#/admin"
+                  style={{
+                    color: 'var(--warning)',
+                    marginTop: menuOpen ? '2rem' : undefined,
+                    marginLeft: menuOpen ? 'undefined' : '2rem',
+                  }}
+                >
                   Admin Page
                 </a>
               )}
