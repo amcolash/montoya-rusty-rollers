@@ -22,6 +22,7 @@ export function AdminNav() {
         padding: '0.5rem',
         color: 'var(--dark)',
         gap: '1rem',
+        boxSizing: 'border-box',
       }}
     >
       {adminMode && (

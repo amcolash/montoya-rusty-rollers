@@ -3,7 +3,7 @@ import { cssRule } from 'typestyle';
 
 interface FormProps {
   fields: Field[];
-  onSubmit?: (values: FormData) => Promise<any>;
+  onSubmit?: (values: FormData) => Promise<unknown>;
   style?: React.CSSProperties;
   formRef?: React.RefObject<HTMLFormElement>;
   ariaLabel?: string;
