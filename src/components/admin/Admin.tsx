@@ -1,20 +1,41 @@
 import { getAuth } from 'firebase/auth';
-import React, { Suspense } from 'react';
+import { ref, set } from 'firebase/database';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import ReactFocusLock from 'react-focus-lock';
 
-import { app } from '../../util/firebase';
+import { app, database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
 import { FilePickerLazy } from '../LazyComponents';
 import { Website } from '../website/Website';
 import { Login } from './Login';
 
+export const adminStorageKey = 'rusty-rollers-admin';
+
 export function Admin() {
   const auth = getAuth(app);
+  const [invalidUser, setInvalidUser] = useState(false);
   const [user, loading, error] = useAuthState(auth);
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
 
-  if (!loading && (!user || error)) return <Login />;
+  useEffect(() => {
+    if (user) {
+      // Attempt to write to the database to test if the user is an admin. If not, sign out
+      const reference = ref(database, `content/admin-test`);
+      set(reference, 'test')
+        .then(() => {
+          localStorage.setItem(adminStorageKey, 'true');
+        })
+        .catch((e) => {
+          console.error('invalid user', e);
+          localStorage.removeItem(adminStorageKey);
+          auth.signOut();
+          setInvalidUser(true);
+        });
+    }
+  }, [user]);
+
+  if (!loading && (!user || error)) return <Login invalidUser={invalidUser} />;
 
   return (
     <div>

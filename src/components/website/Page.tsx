@@ -31,7 +31,8 @@ export function Page(props: PageProps) {
     scrollSnapAlign: 'start',
     position: 'relative',
     overflow: 'hidden',
-    padding: '2rem 0',
+    padding: '3rem 0',
+    borderBottom: '1px solid #777',
   });
 
   return (

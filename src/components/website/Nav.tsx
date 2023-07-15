@@ -7,6 +7,7 @@ import useResizeObserver from 'use-resize-observer';
 import { useLocation } from '../../hooks/useLocation';
 import { headerHeight } from '../../util/globalState';
 import { AdminNavLazy } from '../LazyComponents';
+import { adminStorageKey } from '../admin/Admin';
 
 const links = [
   { id: '#home', label: 'Home' },
@@ -167,7 +168,7 @@ export function Nav() {
                 </li>
               ))}
 
-              {import.meta.env.DEV && !adminMode && (
+              {(import.meta.env.DEV || window.localStorage.getItem(adminStorageKey)) && !adminMode && (
                 <a
                   href="#/admin"
                   style={{

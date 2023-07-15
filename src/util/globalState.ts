@@ -15,3 +15,4 @@ export enum EditState {
 export const filePickerState = createGlobalState<FilePickerState | undefined>(undefined);
 export const headerHeight = createGlobalState<number | undefined>(undefined);
 export const editingState = createGlobalState<EditState>(EditState.None);
+export const attemptedLogin = createGlobalState<boolean>(false);

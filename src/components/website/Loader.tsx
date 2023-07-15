@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { keyframes, style } from 'typestyle';
 
 import { ReactComponent as Dust } from '../../images/dust.svg';
@@ -65,6 +65,11 @@ export function Loader(props: LoaderProps) {
   // Clear initial loading screen if visible
   const loader = document.getElementById('loading');
   setTimeout(() => loader?.classList.add('hidden'));
+
+  useEffect(() => {
+    const refreshTimer = setTimeout(() => window.location.reload(), 15000);
+    return () => clearTimeout(refreshTimer);
+  }, []);
 
   const clouds = [];
   for (let i = 0; i < 15; i++) {

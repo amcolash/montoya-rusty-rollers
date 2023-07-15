@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { loadingList } from '../../hooks/useDb';
+import ScrollToHashElement from '../ScrollToHashElement';
 import { Footer } from './Footer';
 import { Loader } from './Loader';
 import { Nav } from './Nav';
@@ -39,6 +40,7 @@ export function Website() {
         />
       )}
 
+      <ScrollToHashElement />
       <Nav />
 
       <Banner />
