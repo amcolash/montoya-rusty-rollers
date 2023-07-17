@@ -1,11 +1,11 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { GoogleLoginButton } from 'react-social-login-buttons';
 import { style } from 'typestyle';
 
 import { app } from '../../util/firebase';
 import { attemptedLogin } from '../../util/globalState';
+import { GoogleLoginButton } from './GoogleLoginButton';
 
 const provider = new GoogleAuthProvider();
 
