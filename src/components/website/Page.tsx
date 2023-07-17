@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { classes, style } from 'typestyle';
 
+import { useHashObserver } from '../../hooks/useHashObserver';
 import { headerHeight } from '../../util/globalState';
 import { EditableImage, ImageId } from './EditableImage';
 import { Header, HeaderProps } from './Header';
@@ -19,6 +20,8 @@ interface PageProps {
 
 export function Page(props: PageProps) {
   const height = headerHeight.useValue();
+  const ref = useRef(null);
+  useHashObserver(ref);
 
   const page = style({
     display: 'flex',
@@ -36,7 +39,7 @@ export function Page(props: PageProps) {
   });
 
   return (
-    <div id={props.id} className={classes(page, props.className)} style={props.style}>
+    <section id={props.id} className={classes(page, props.className)} style={props.style} ref={ref}>
       {props.image && (
         <EditableImage
           id={props.image}
@@ -49,6 +52,6 @@ export function Page(props: PageProps) {
         {props.header && <Header {...props.headerProps}>{props.header}</Header>}
         {props.children}
       </div>
-    </div>
+    </section>
   );
 }
