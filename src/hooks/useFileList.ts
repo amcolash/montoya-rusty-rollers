@@ -32,7 +32,7 @@ export function useFileList(path: string, refreshCounter: number): [File[], bool
         )
           continue;
 
-        const url = getImageUrl(item.fullPath, Size.Original);
+        const url = getImageUrl(item.fullPath, Size.Large, true);
         const thumbnail = getImageUrl(item.fullPath, Size.Medium, true);
 
         urls.push({ name: item.name, path: item.fullPath, url, thumbnail, ref: item });

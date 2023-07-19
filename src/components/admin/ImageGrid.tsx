@@ -131,7 +131,7 @@ export function ImageGrid(props: ImageGridProps) {
                             return [
                               ...prev,
                               {
-                                url: getImageUrl(i.path, Size.Large, true),
+                                url: i.url,
                                 thumbnail: i.thumbnail,
                                 itemPath: i.ref.fullPath,
                               },
