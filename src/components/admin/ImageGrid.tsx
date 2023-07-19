@@ -95,7 +95,6 @@ export function ImageGrid(props: ImageGridProps) {
           flexWrap: 'wrap',
           justifyContent: 'center',
           gap: '1rem',
-          padding: '0.75rem',
         }}
       >
         {loading && <div>Loading Images...</div>}

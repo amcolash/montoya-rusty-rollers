@@ -29,7 +29,7 @@ export function Page(props: PageProps) {
     alignItems: 'center',
     justifyContent: 'center',
 
-    minHeight: [`calc(100vh - ${height || 0}px)`, `calc(100dvh - ${height || 0}px)`],
+    minHeight: [`calc(100vh - ${height || 0}px)`, `calc(100svh - ${height || 0}px)`],
     boxSizing: 'border-box',
     scrollSnapAlign: 'start',
     position: 'relative',
@@ -45,6 +45,7 @@ export function Page(props: PageProps) {
           id={props.image}
           style={{ position: 'absolute', width: '100%', height: '100%' }}
           imageStyle={{ backgroundSize: 'cover', ...props.imageStyle }}
+          background={true}
         />
       )}
 

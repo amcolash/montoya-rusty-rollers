@@ -56,7 +56,7 @@ export function Services() {
           display: 'flex',
           justifyContent: 'center',
           textAlign: 'center',
-          gap: 'min(3vw, 2rem)',
+          gap: 'min(2vw, 2rem)',
         }}
       >
         <Section icon={<FaCarCrash className="icon" />} title="Repairs" textId={TextId.services1} />

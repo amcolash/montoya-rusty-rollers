@@ -14,8 +14,10 @@ const container = style({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  width: '100vw',
   height: '100dvh',
+  width: 'calc(100vw - 2rem)',
+  margin: 'auto',
+  textAlign: 'center',
 });
 
 interface LoginProps {

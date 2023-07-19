@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { style } from 'typestyle';
+import { media, style } from 'typestyle';
 
 interface DialogProps {
   title: ReactNode;
@@ -8,7 +8,18 @@ interface DialogProps {
   onClose: () => void;
 }
 
-const dialogStyle = style({});
+const mobileBreakpoint = getComputedStyle(document.documentElement).getPropertyValue('--mobile-width');
+const dialogStyle = style(
+  {
+    display: 'flex',
+    flexDirection: 'column',
+    maxHeight: '90vh',
+    width: '85vw',
+    background: 'var(--light)',
+    position: 'relative',
+  },
+  media({ maxWidth: mobileBreakpoint }, { width: '100vw', height: '100dvh', maxHeight: '100dvh' })
+);
 
 export function Dialog(props: DialogProps) {
   useEffect(() => {
@@ -42,7 +53,7 @@ export function Dialog(props: DialogProps) {
         }
       }}
     >
-      <div style={{ width: '85vw', background: 'var(--light)', position: 'relative' }}>
+      <div className={dialogStyle}>
         <div
           style={{
             display: 'flex',
@@ -64,8 +75,9 @@ export function Dialog(props: DialogProps) {
 
         <div
           style={{
-            height: '85dvh',
+            flex: 1,
             overflowY: 'auto',
+            padding: '1rem',
           }}
         >
           {props.children}
