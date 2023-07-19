@@ -33,7 +33,7 @@ export function useFileList(path: string, refreshCounter: number): [File[], bool
           continue;
 
         const url = getImageUrl(item.fullPath, Size.Original);
-        const thumbnail = getImageUrl(item.fullPath, Size.Medium);
+        const thumbnail = getImageUrl(item.fullPath, Size.Medium, true);
 
         urls.push({ name: item.name, path: item.fullPath, url, thumbnail, ref: item });
       }
@@ -46,7 +46,7 @@ export function useFileList(path: string, refreshCounter: number): [File[], bool
   return [files, loading];
 }
 
-enum Size {
+export enum Size {
   Original = '',
   Thumbnail = '_200x200',
   Medium = '_400x400',

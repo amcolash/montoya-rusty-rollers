@@ -4,7 +4,7 @@ import { FaFileDownload, FaRegTrashAlt, FaSave } from 'react-icons/fa';
 import { style } from 'typestyle';
 
 import { useDb } from '../../hooks/useDb';
-import { getImageRefs, useFileList } from '../../hooks/useFileList';
+import { Size, getImageRefs, getImageUrl, useFileList } from '../../hooks/useFileList';
 import { filePickerState } from '../../util/globalState';
 import { IconButton } from '../IconButton';
 
@@ -112,7 +112,7 @@ export function ImageGrid(props: ImageGridProps) {
                     if (filePickerReference.multi && checkboxRef.current) {
                       checkboxRef.current.click();
                     } else {
-                      setVal(JSON.stringify({ url: i.url, itemPath: i.ref.fullPath }));
+                      setVal(JSON.stringify({ url: getImageUrl(i.path, Size.Large, true), itemPath: i.ref.fullPath }));
                       setFilePickerReference(undefined);
                     }
                   }}
@@ -129,7 +129,14 @@ export function ImageGrid(props: ImageGridProps) {
 
                         setSelectedImages((prev) => {
                           if (e.target.checked) {
-                            return [...prev, { url: i.url, thumbnail: i.thumbnail, itemPath: i.ref.fullPath }];
+                            return [
+                              ...prev,
+                              {
+                                url: getImageUrl(i.path, Size.Large, true),
+                                thumbnail: i.thumbnail,
+                                itemPath: i.ref.fullPath,
+                              },
+                            ];
                           } else {
                             return prev.filter((p) => p.url !== i.url);
                           }
