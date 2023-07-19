@@ -1,6 +1,7 @@
 import { ref } from 'firebase/database';
 import React, { CSSProperties, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaFileImage, FaTimes } from 'react-icons/fa';
+import { media, style } from 'typestyle';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
@@ -9,7 +10,18 @@ import { getImageUrl } from '../../hooks/useFileList';
 import { useLocation } from '../../hooks/useLocation';
 import { database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
+import { mobileBreakpoint } from '../../util/styles';
 import { IconButton } from '../IconButton';
+
+const thumbnailStyle = style(
+  {
+    width: '100%',
+    height: '14rem',
+    objectFit: 'cover',
+    borderRadius: '0.35rem',
+  },
+  media({ maxWidth: mobileBreakpoint }, { width: '9rem', height: '9rem' })
+);
 
 export enum ImageId {
   header = 'header',
@@ -117,16 +129,7 @@ export function EditableImage(props: EditableImageProps) {
                 onClick={() => setIndex(i)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 0 }}
               >
-                <img
-                  src={value.thumbnail}
-                  style={{
-                    width: '100%',
-                    height: '14rem',
-                    objectFit: 'cover',
-                    borderRadius: '0.35rem',
-                    ...props.imageStyle,
-                  }}
-                />
+                <img className={thumbnailStyle} src={value.thumbnail} style={props.imageStyle} />
               </button>
               {adminMode && (
                 <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>

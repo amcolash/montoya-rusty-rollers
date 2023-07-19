@@ -6,6 +6,7 @@ import useResizeObserver from 'use-resize-observer';
 
 import { useLocation } from '../../hooks/useLocation';
 import { headerHeight } from '../../util/globalState';
+import { mobileBreakpoint } from '../../util/styles';
 import { AdminNavLazy } from '../LazyComponents';
 import { adminStorageKey } from '../admin/Admin';
 
@@ -39,7 +40,6 @@ const wrapperStyle = style({
   boxSizing: 'border-box',
 });
 
-const mobileBreakpoint = getComputedStyle(document.documentElement).getPropertyValue('--mobile-width');
 const mobileStyle = media(
   { maxWidth: mobileBreakpoint },
   {
@@ -174,7 +174,7 @@ export function Nav() {
                   style={{
                     color: 'var(--warning)',
                     marginTop: menuOpen ? '2rem' : undefined,
-                    marginLeft: menuOpen ? 'undefined' : '2rem',
+                    marginLeft: menuOpen ? undefined : '2rem',
                   }}
                 >
                   Admin Page

@@ -2,13 +2,14 @@ import React, { ReactNode, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { media, style } from 'typestyle';
 
+import { mobileBreakpoint } from '../../util/styles';
+
 interface DialogProps {
   title: ReactNode;
   children: ReactNode;
   onClose: () => void;
 }
 
-const mobileBreakpoint = getComputedStyle(document.documentElement).getPropertyValue('--mobile-width');
 const dialogStyle = style(
   {
     display: 'flex',
