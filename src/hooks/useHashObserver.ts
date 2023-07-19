@@ -7,7 +7,7 @@ const observer = new IntersectionObserver(
         const oldHash = window.location.hash;
         const hash = '#' + entry.target.id;
 
-        if (hash != oldHash) {
+        if (oldHash !== '#/admin' && hash !== oldHash) {
           history.replaceState(null, '', location + hash);
         }
       }

@@ -12,6 +12,7 @@ export function About() {
       header="About Us"
       image={ImageId.about}
       containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.65)' }}
+      imageStyle={{ backgroundRepeat: 'repeat', backgroundSize: 'unset' }}
     >
       <EditableImage
         id={ImageId.aboutTruck}
