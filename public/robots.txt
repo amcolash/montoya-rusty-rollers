@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://rustyrollersrestoration.com/sitemap.xml
+Sitemap: https://rustyrollersrestoration.com/sitemap.txt
