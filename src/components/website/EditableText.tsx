@@ -33,6 +33,7 @@ interface EditableTextProps {
   id: TextId;
   style?: CSSProperties;
   className?: string;
+  readonly?: boolean;
 }
 
 export function EditableText(props: EditableTextProps) {
@@ -59,11 +60,11 @@ export function EditableText(props: EditableTextProps) {
   return (
     <div className={props.className} style={{ display: 'flex', position: 'relative', ...props.style }}>
       <ContentEditable
-        disabled={!adminMode}
+        disabled={!adminMode || props.readonly}
         style={{ flex: 1 }}
         html={current}
         onChange={(e) => setCurrent(contentRef.current?.innerHTML || '')}
-        className={classes(editable, adminMode && adminStyles)}
+        className={classes(editable, adminMode && !props.readonly && adminStyles)}
         innerRef={contentRef}
       />
     </div>

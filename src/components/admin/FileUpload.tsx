@@ -72,8 +72,11 @@ export function FileUpload(props: FileUploadProps) {
               const storageRef = ref(storage, 'images/' + selectedFile.name);
               try {
                 await uploadFile(storageRef, selectedFile, { contentType: selectedFile.type });
-                if (inputRef.current) inputRef.current.value = '';
-                setSelectedFile(undefined);
+
+                setTimeout(() => {
+                  if (inputRef.current) inputRef.current.value = '';
+                  setSelectedFile(undefined);
+                }, 3000);
               } catch (err) {
                 console.error(err);
               }

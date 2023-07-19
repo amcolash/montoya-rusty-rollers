@@ -121,6 +121,8 @@ export function EditableImage(props: EditableImageProps) {
             flexWrap: 'wrap',
             gap: '1.25rem',
             border: adminMode ? '3px solid orange' : undefined,
+            padding: adminMode ? '1rem' : undefined,
+            paddingTop: adminMode ? '4rem' : undefined,
           }}
         >
           {JSON.parse(val).map((value: { url: string; thumbnail: string }, i: number) => (

@@ -31,7 +31,7 @@ const bannerStyle = style({
 export function Banner() {
   return (
     <Page id="home" image={ImageId.header}>
-      <EditableText id={TextId.banner} className={bannerStyle} />
+      <EditableText id={TextId.banner} className={bannerStyle} readonly={true} />
     </Page>
   );
 }
