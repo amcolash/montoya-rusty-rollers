@@ -10,6 +10,7 @@ import { database } from '../../util/firebase';
 
 export enum TextId {
   banner = 'banner',
+  bannerSubtitle = 'bannerSubtitle',
   services1 = 'services1',
   services2 = 'services2',
   services3 = 'services3',

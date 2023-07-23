@@ -28,10 +28,21 @@ const bannerStyle = style({
   animation: `${bannerAnimation} 1s ease-out forwards 0.5s`,
 });
 
+const subtitleStyle = style({
+  position: 'absolute !important',
+  bottom: '2rem',
+  right: 'min(3vw, 3rem)',
+  color: 'white',
+  fontSize: '1.25rem',
+  textShadow: '0.2rem 0.2rem 0.25rem var(--dark)',
+  fontWeight: '500',
+});
+
 export function Banner() {
   return (
     <Page id="home" image={ImageId.header}>
       <EditableText id={TextId.banner} className={bannerStyle} readonly={true} />
+      <EditableText id={TextId.bannerSubtitle} className={subtitleStyle} readonly={false} />
     </Page>
   );
 }
