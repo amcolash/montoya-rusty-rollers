@@ -27,6 +27,7 @@ export enum ImageId {
   header = 'header',
   services = 'services',
   work = 'work',
+  workLogo = 'workLogo',
   workGrid = 'workGrid',
   about = 'about',
   aboutCert = 'aboutCert',

@@ -13,6 +13,13 @@ export function Work() {
       containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(0.25rem)' }}
       image={ImageId.work}
     >
+      <EditableImage
+        id={ImageId.workLogo}
+        style={{ margin: '2rem 0', textAlign: 'center' }}
+        imageStyle={{ height: 250 }}
+        readOnly={true}
+      />
+
       <EditableText id={TextId.work} />
       <EditableImage id={ImageId.workGrid} multi={true} style={{ marginTop: '3rem' }} />
     </Page>

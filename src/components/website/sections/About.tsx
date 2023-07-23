@@ -16,14 +16,14 @@ export function About() {
       <EditableImage
         id={ImageId.aboutTruck}
         style={{ margin: '2rem 0', textAlign: 'center' }}
-        imageStyle={{ height: 200, width: undefined }}
+        imageStyle={{ height: 200 }}
         readOnly={true}
       />
       <EditableText id={TextId.about} />
       <EditableImage
         id={ImageId.aboutCert}
         style={{ marginTop: '2rem', textAlign: 'center' }}
-        imageStyle={{ height: 200, width: undefined }}
+        imageStyle={{ height: 200 }}
         readOnly={true}
       />
     </Page>
