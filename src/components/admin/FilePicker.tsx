@@ -9,6 +9,7 @@ import { ImageGrid } from './ImageGrid';
 export function FilePicker() {
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
   const [reloadCounter, setReloadCounter] = useState(0);
+  const [multiDirty, setMultiDirty] = useState(false);
 
   if (!filePickerReference) return null;
   return (
@@ -18,10 +19,22 @@ export function FilePicker() {
           Choose an Image <FaFileImage />
         </>
       }
-      onClose={() => setFilePickerReference(undefined)}
+      onClose={() => {
+        if (multiDirty) {
+          const ret = confirm('Changes you have made may not be saved. Are you sure you want to exit?');
+          if (!ret) return;
+        }
+
+        setFilePickerReference(undefined);
+      }}
     >
       <FileUpload reloadFiles={() => setReloadCounter(() => reloadCounter + 1)} />
-      <ImageGrid reloadCounter={reloadCounter} setReloadCounter={setReloadCounter} />
+      <ImageGrid
+        reloadCounter={reloadCounter}
+        setReloadCounter={setReloadCounter}
+        multiDirty={multiDirty}
+        setMultiDirty={setMultiDirty}
+      />
     </Dialog>
   );
 }

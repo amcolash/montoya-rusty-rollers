@@ -33,14 +33,17 @@ const imageButton = style({
 interface ImageGridProps {
   reloadCounter: number;
   setReloadCounter: (value: number) => void;
+  multiDirty: boolean;
+  setMultiDirty: (value: boolean) => void;
 }
 
 export function ImageGrid(props: ImageGridProps) {
+  const { reloadCounter, setReloadCounter, multiDirty, setMultiDirty } = props;
+
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const [images, loading] = useFileList('images/', props.reloadCounter);
+  const [images, loading] = useFileList('images/', reloadCounter);
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
-  const [multiDirty, setMultiDirty] = useState(false);
 
   if (!filePickerReference) return null;
 
@@ -127,7 +130,7 @@ export function ImageGrid(props: ImageGridProps) {
                         setMultiDirty(true);
 
                         setSelectedImages((prev) => {
-                          if (e.target.checked) {
+                          if ((e.target as HTMLInputElement).checked) {
                             return [
                               ...prev,
                               {
@@ -154,8 +157,8 @@ export function ImageGrid(props: ImageGridProps) {
                     loading="lazy"
                     onError={(e) =>
                       setTimeout(() => {
-                        e.target.src = '';
-                        e.target.src = i.thumbnail;
+                        (e.target as HTMLImageElement).src = '';
+                        (e.target as HTMLImageElement).src = i.thumbnail;
                       }, 1500)
                     }
                   />
@@ -177,7 +180,7 @@ export function ImageGrid(props: ImageGridProps) {
                         const refs = getImageRefs(i.ref);
                         await Promise.all(refs.map((r) => deleteObject(r)));
 
-                        props.setReloadCounter(props.reloadCounter + 1);
+                        setReloadCounter(reloadCounter + 1);
                       }
                     }}
                     style={{ padding: '0.35rem 1.25rem', height: '1.5rem' }}

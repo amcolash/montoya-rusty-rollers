@@ -1,5 +1,5 @@
 import { getAuth } from 'firebase/auth';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
 
 import { useLocation } from '../../hooks/useLocation';
@@ -11,6 +11,18 @@ export function AdminNav() {
   const auth = getAuth(app);
   const { adminMode } = useLocation();
   const [editState] = editingState.use();
+
+  useEffect(() => {
+    const handler = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = '';
+    };
+
+    if (editState !== EditState.None) window.addEventListener('beforeunload', handler);
+    else window.removeEventListener('beforeunload', handler);
+
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [editState]);
 
   return (
     <div
