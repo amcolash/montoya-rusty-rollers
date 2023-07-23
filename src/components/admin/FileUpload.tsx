@@ -35,7 +35,7 @@ export function FileUpload(props: FileUploadProps) {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [selectedFile, setSelectedFile] = useState<File>();
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [uploadFile, uploading, snapshot, error] = useUploadFile();
 
   return (
@@ -57,35 +57,34 @@ export function FileUpload(props: FileUploadProps) {
             accept="image/*"
             ref={inputRef}
             onChange={(e) => {
-              const file = e.target.files ? e.target.files[0] : undefined;
-              setSelectedFile(file);
+              setSelectedFiles(Array.from(e.target.files || []));
             }}
             className={fileInput}
             disabled={uploading}
+            multiple
           />
         </div>
         <IconButton
           icon={<FaFileUpload />}
-          disabled={uploading || !selectedFile}
+          disabled={uploading || selectedFiles.length === 0}
           onClick={async () => {
-            if (selectedFile) {
-              const storageRef = ref(storage, 'images/' + selectedFile.name);
+            for (const f of selectedFiles) {
+              const storageRef = ref(storage, 'images/' + f.name);
               try {
-                await uploadFile(storageRef, selectedFile, { contentType: selectedFile.type });
-
-                setTimeout(() => {
-                  if (inputRef.current) inputRef.current.value = '';
-                  setSelectedFile(undefined);
-                }, 3000);
+                await uploadFile(storageRef, f, { contentType: f.type });
               } catch (err) {
                 console.error(err);
               }
-
-              props.reloadFiles();
             }
+
+            setTimeout(() => {
+              if (inputRef.current) inputRef.current.value = '';
+              setSelectedFiles([]);
+              props.reloadFiles();
+            }, 3000);
           }}
         >
-          Upload Image
+          Upload Image{selectedFiles.length > 1 && 's'}
         </IconButton>
 
         {uploading && <FaHourglassHalf />}
