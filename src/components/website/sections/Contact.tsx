@@ -1,6 +1,6 @@
 import emailjs from '@emailjs/browser';
 import React, { useRef } from 'react';
-import { FaPhone } from 'react-icons/fa';
+import { FaFacebook, FaPhone } from 'react-icons/fa';
 
 import { cardStyle } from '../../../util/styles';
 import { ImageId } from '../EditableImage';
@@ -18,21 +18,15 @@ export function Contact() {
       image={ImageId.contact}
     >
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            fontSize: '1.2rem',
-            gap: '0.5rem',
-          }}
-        >
-          Call Us:
-          <a href="tel:505-710-1342">505-710-1342</a>
-          <FaPhone />
-        </div>
-
+        <SocialLink
+          label="Call Us: "
+          href={{ link: 'tel:505-710-1342', label: '505-710-1342' }}
+          icon={<FaPhone style={{ marginTop: '-4px' }} />}
+        />
+        <SocialLink
+          href={{ link: '#home', label: 'Visit our Facebook' }}
+          icon={<FaFacebook style={{ marginTop: '-2px' }} />}
+        />
         <Form
           fields={[
             { name: 'Name' },
@@ -53,5 +47,26 @@ export function Contact() {
         />
       </div>
     </Page>
+  );
+}
+
+function SocialLink(props: { href: { link: string; label: string }; icon: React.ReactElement; label?: string }) {
+  const { label, href, icon } = props;
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        fontSize: '1.2rem',
+        gap: '0.5rem',
+      }}
+    >
+      <span style={{ display: 'flex', marginRight: '0.75rem' }}>{icon}</span>
+      {label && <span>{label}</span>}
+      <a href={href.link}>{href.label}</a>
+    </div>
   );
 }

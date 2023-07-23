@@ -1,6 +1,6 @@
 import { deleteObject } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
-import { FaFileDownload, FaRegTrashAlt, FaSave } from 'react-icons/fa';
+import { FaRegTrashAlt, FaSave } from 'react-icons/fa';
 import { style } from 'typestyle';
 
 import { useDb } from '../../hooks/useDb';
@@ -11,7 +11,7 @@ import { IconButton } from '../IconButton';
 const imageButton = style({
   width: '10rem',
   height: '10rem',
-  padding: '0.25rem',
+  padding: '0',
   marginBottom: '0.5rem',
   background: 'transparent',
   border: '1px solid',
@@ -19,7 +19,7 @@ const imageButton = style({
 
   $nest: {
     '&:hover': {
-      background: 'lightgrey',
+      filter: 'brightness(0.8)',
     },
     '& img': {
       width: '100%',
@@ -161,13 +161,13 @@ export function ImageGrid(props: ImageGridProps) {
                   />
                 </button>
 
-                <div style={{ display: 'flex', gap: '0.25rem' }}>
-                  <IconButton
+                <div style={{ display: 'flex', gap: '0.25rem', justifyContent: 'center' }}>
+                  {/* <IconButton
                     icon={<FaFileDownload />}
                     onClick={() => window.open(i.url, '_blank')}
                     style={{ width: '100%', padding: '0.25rem' }}
                     title="Download Image"
-                  />
+                  /> */}
 
                   <IconButton
                     icon={<FaRegTrashAlt />}
@@ -180,7 +180,7 @@ export function ImageGrid(props: ImageGridProps) {
                         props.setReloadCounter(props.reloadCounter + 1);
                       }
                     }}
-                    style={{ width: '100%', padding: '0.25rem' }}
+                    style={{ padding: '0.35rem 1.25rem', height: '1.5rem' }}
                     title="Delete Image"
                   />
                 </div>
