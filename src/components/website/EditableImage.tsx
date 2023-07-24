@@ -20,7 +20,7 @@ const thumbnailStyle = style(
     objectFit: 'cover',
     borderRadius: '0.35rem',
   },
-  media({ maxWidth: mobileBreakpoint }, { width: '9rem', height: '9rem' })
+  media({ maxWidth: mobileBreakpoint }, { width: 'min(9rem, 37vw)', height: 'min(9rem, 37vw)' })
 );
 
 export enum ImageId {

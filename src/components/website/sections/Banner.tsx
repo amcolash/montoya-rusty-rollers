@@ -36,6 +36,8 @@ const subtitleStyle = style({
   fontSize: '1.25rem',
   textShadow: '0.2rem 0.2rem 0.25rem var(--dark)',
   fontWeight: '500',
+  maxWidth: '80vw',
+  textAlign: 'right',
 });
 
 export function Banner() {
