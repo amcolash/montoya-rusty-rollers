@@ -1,9 +1,22 @@
 import React from 'react';
+import { media, style } from 'typestyle';
 
-import { cardStyle } from '../../../util/styles';
+import { cardStyle, mobileBreakpoint } from '../../../util/styles';
 import { EditableImage, ImageId } from '../EditableImage';
 import { EditableText, TextId } from '../EditableText';
 import { Page } from '../Page';
+
+const logoStyle = style(
+  {
+    height: '250px !important',
+  },
+  media(
+    { maxWidth: mobileBreakpoint },
+    {
+      height: '200px !important',
+    }
+  )
+);
 
 export function Work() {
   return (
@@ -16,7 +29,7 @@ export function Work() {
       <EditableImage
         id={ImageId.workLogo}
         style={{ margin: '2rem 0', textAlign: 'center' }}
-        imageStyle={{ height: 250 }}
+        imageClassName={logoStyle}
         readOnly={true}
       />
 
