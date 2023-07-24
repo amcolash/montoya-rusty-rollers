@@ -1,6 +1,6 @@
 import emailjs from '@emailjs/browser';
 import React, { useRef } from 'react';
-import { FaFacebook, FaPhone } from 'react-icons/fa';
+import { FaFacebook, FaMap, FaPhone } from 'react-icons/fa';
 
 import { cardStyle } from '../../../util/styles';
 import { ImageId } from '../EditableImage';
@@ -17,7 +17,7 @@ export function Contact() {
       containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(0.25rem)' }}
       image={ImageId.contact}
     >
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
         <SocialLink
           label="Call Us: "
           href={{ link: 'tel:505-710-1342', label: '505-710-1342' }}
@@ -27,6 +27,7 @@ export function Contact() {
           href={{ link: '#home', label: 'Visit our Facebook' }}
           icon={<FaFacebook style={{ marginTop: '-2px' }} />}
         />
+        <SocialLink href={{ label: 'Belen, NM' }} icon={<FaMap style={{ marginTop: '-2px' }} />} />
         <Form
           fields={[
             { name: 'Name' },
@@ -50,7 +51,7 @@ export function Contact() {
   );
 }
 
-function SocialLink(props: { href: { link: string; label: string }; icon: React.ReactElement; label?: string }) {
+function SocialLink(props: { href: { link?: string; label: string }; icon: React.ReactElement; label?: string }) {
   const { label, href, icon } = props;
 
   return (
@@ -66,7 +67,7 @@ function SocialLink(props: { href: { link: string; label: string }; icon: React.
     >
       <span style={{ display: 'flex', marginRight: '0.75rem' }}>{icon}</span>
       {label && <span>{label}</span>}
-      <a href={href.link}>{href.label}</a>
+      {href.link ? <a href={href.link}>{href.label}</a> : href.label}
     </div>
   );
 }

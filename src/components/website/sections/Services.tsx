@@ -25,8 +25,8 @@ function Section(props: { icon: React.ReactNode; title: string; textId: TextId }
   return (
     <div className={section}>
       {props.icon}
-      <h3>{props.title}</h3>
-      <EditableText id={props.textId} />
+      <h3 style={{ fontSize: 'min(1.2rem, 4.5vw)' }}>{props.title}</h3>
+      <EditableText id={props.textId} style={{ fontSize: 'min(1.1rem, 4vw)' }} />
     </div>
   );
 }
