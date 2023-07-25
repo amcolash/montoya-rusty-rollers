@@ -35,7 +35,7 @@ export enum ImageId {
   contact = 'contact',
 }
 
-interface ImageData {
+export interface ImageData {
   url: string;
   itemPath: string;
   thumbnail?: string;
@@ -148,10 +148,12 @@ export function EditableImage(props: EditableImageProps) {
                     icon={<FaChevronLeft />}
                     disabled={i === 0}
                     onClick={() => {
-                      const arr = val;
+                      const arr = structuredClone(val);
+
                       const temp = arr[i];
                       arr[i] = arr[i - 1];
                       arr[i - 1] = temp;
+
                       setVal(arr);
                     }}
                   />
@@ -159,10 +161,12 @@ export function EditableImage(props: EditableImageProps) {
                     icon={<FaChevronRight />}
                     disabled={i === val.length - 1}
                     onClick={() => {
-                      const arr = val;
+                      const arr = structuredClone(val);
+
                       const temp = arr[i];
                       arr[i] = arr[i + 1];
                       arr[i + 1] = temp;
+
                       setVal(arr);
                     }}
                   />
@@ -170,8 +174,10 @@ export function EditableImage(props: EditableImageProps) {
                     icon={<FaTimes />}
                     buttonType="destructive"
                     onClick={() => {
-                      const arr = val;
+                      const arr = structuredClone(val);
+
                       arr.splice(i, 1);
+
                       setVal(arr);
                     }}
                   />

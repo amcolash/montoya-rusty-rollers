@@ -7,7 +7,8 @@ import { useDb } from '../../hooks/useDb';
 import { File, Size, getImageRefs, getImageUrl, useFileList } from '../../hooks/useFileList';
 import { filePickerState } from '../../util/globalState';
 import { IconButton } from '../IconButton';
-import { Meta, getImageTransform } from './Cropper';
+import { ImageData } from '../website/EditableImage';
+import { Meta } from './Cropper';
 
 const imageButton = style({
   width: '10rem',
@@ -50,9 +51,8 @@ export function ImageGrid(props: ImageGridProps) {
 
   if (!filePickerReference) return null;
 
-  const [val, loadingDb, error, setVal, saving] = useDb<string>(filePickerReference.ref);
-
-  const [selectedImages, setSelectedImages] = useState<{ url: string; thumbnail: string; itemPath: string }[]>([]);
+  const [val, loadingDb, error, setVal, saving] = useDb<ImageData[]>(filePickerReference.ref);
+  const [selectedImages, setSelectedImages] = useState<ImageData[]>([]);
 
   useEffect(() => {
     if (!val || !filePickerReference.multi) {
@@ -61,8 +61,7 @@ export function ImageGrid(props: ImageGridProps) {
     }
 
     try {
-      const parsed = JSON.parse(val || '') as { url: string; thumbnail: string; itemPath: string }[];
-      setSelectedImages(parsed);
+      setSelectedImages(val);
     } catch (err) {
       console.error(err);
       setSelectedImages([]);
@@ -84,7 +83,7 @@ export function ImageGrid(props: ImageGridProps) {
           icon={<FaSave />}
           buttonType="success"
           onClick={() => {
-            setVal(JSON.stringify(selectedImages));
+            setVal(selectedImages);
             setFilePickerReference(undefined);
           }}
           style={{ margin: '0.75rem' }}
@@ -117,7 +116,7 @@ export function ImageGrid(props: ImageGridProps) {
                     if (filePickerReference.multi && checkboxRef.current) {
                       checkboxRef.current.click();
                     } else {
-                      setVal(JSON.stringify({ url: getImageUrl(i.path, Size.Large, true), itemPath: i.ref.fullPath }));
+                      setVal([{ url: getImageUrl(i.path, Size.Large, true), itemPath: i.ref.fullPath }]);
                       setFilePickerReference(undefined);
                     }
                   }}
@@ -164,17 +163,16 @@ export function ImageGrid(props: ImageGridProps) {
                         (e.target as HTMLImageElement).src = i.thumbnail;
                       }, 1500)
                     }
-                    style={getImageTransform(i, props.imageMeta)}
                   />
                 </button>
 
                 <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
-                  <IconButton
+                  {/* <IconButton
                     icon={<FaEdit />}
                     onClick={() => setEditing(i)}
                     style={{ padding: '0.35rem 1.25rem', height: '1.5rem' }}
                     title="Edit Image"
-                  />
+                  /> */}
 
                   <IconButton
                     icon={<FaRegTrashAlt />}
