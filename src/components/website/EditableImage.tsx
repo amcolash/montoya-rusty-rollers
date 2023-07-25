@@ -1,5 +1,5 @@
 import { ref } from 'firebase/database';
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaFileImage, FaTimes } from 'react-icons/fa';
 import { media, style } from 'typestyle';
 import Lightbox from 'yet-another-react-lightbox';
@@ -35,6 +35,12 @@ export enum ImageId {
   contact = 'contact',
 }
 
+interface ImageData {
+  url: string;
+  itemPath: string;
+  thumbnail?: string;
+}
+
 interface EditableImageProps {
   id: ImageId;
   style?: CSSProperties;
@@ -51,33 +57,9 @@ export function EditableImage(props: EditableImageProps) {
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
 
   const reference = ref(database, `content/images/${props.id}`);
-  const [val, loading, error, setVal, saving] = useDb<string>(reference);
+  const [val, loading, error, setVal, saving] = useDb<ImageData[]>(reference);
 
   const [index, setIndex] = useState(-1);
-
-  // const imgMeta = ref(database, `images/metadata`);
-  // const [img, setImg] = useState<string>();
-
-  // useEffect(() => {
-  //   const imgPath = props.i.path.replace(/[./]/g, '_');
-  //   const meta = imgMeta && imgMeta[imgPath];
-  //   const rotation  === undefined ? true : Number.parseInt(Object.values(Orientation)[rotation + 4] as string),
-
-  //   loadImage(
-  //     val,
-  //     (img) => {
-  //       const base64data = (img as HTMLCanvasElement).toDataURL(`image/jpeg`);
-  //       setImg(base64data);
-  //     },
-  //     {
-  //       orientation:
-
-  //       canvas: true,
-  //       crossOrigin: 'anonymous',
-
-  //     }
-  //   );
-  // }, [val, imgMeta]);
 
   return (
     <div style={{ position: 'relative', minWidth: 225, minHeight: 50, ...props.style }}>
@@ -93,15 +75,15 @@ export function EditableImage(props: EditableImageProps) {
             <div style={{ marginTop: '0.5rem' }}>
               <select
                 onChange={(e) => {
-                  const itemPath = JSON.parse(val).itemPath;
+                  const itemPath = val[0].itemPath;
                   const { size, webp } = JSON.parse(e.target.value);
 
-                  setVal(
-                    JSON.stringify({
+                  setVal([
+                    {
                       url: getImageUrl(itemPath, size, webp),
                       itemPath,
-                    })
-                  );
+                    },
+                  ]);
                 }}
               >
                 <option value="" disabled selected>
@@ -132,7 +114,7 @@ export function EditableImage(props: EditableImageProps) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            backgroundImage: `url(${JSON.parse(val).url})`,
+            backgroundImage: `url(${val[0].url})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'contain',
             backgroundPosition: 'center',
@@ -140,7 +122,7 @@ export function EditableImage(props: EditableImageProps) {
           }}
         />
       )}
-      {val && props.multi && JSON.parse(val).length > 0 && (
+      {val && props.multi && val.length > 0 && (
         <div
           style={{
             display: 'flex',
@@ -152,7 +134,7 @@ export function EditableImage(props: EditableImageProps) {
             paddingTop: adminMode ? '4rem' : undefined,
           }}
         >
-          {JSON.parse(val).map((value: { url: string; thumbnail: string }, i: number) => (
+          {val.map((value, i: number) => (
             <div key={value.url} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <button
                 onClick={() => setIndex(i)}
@@ -166,31 +148,31 @@ export function EditableImage(props: EditableImageProps) {
                     icon={<FaChevronLeft />}
                     disabled={i === 0}
                     onClick={() => {
-                      const arr = JSON.parse(val);
+                      const arr = val;
                       const temp = arr[i];
                       arr[i] = arr[i - 1];
                       arr[i - 1] = temp;
-                      setVal(JSON.stringify(arr));
+                      setVal(arr);
                     }}
                   />
                   <IconButton
                     icon={<FaChevronRight />}
-                    disabled={i === JSON.parse(val).length - 1}
+                    disabled={i === val.length - 1}
                     onClick={() => {
-                      const arr = JSON.parse(val);
+                      const arr = val;
                       const temp = arr[i];
                       arr[i] = arr[i + 1];
                       arr[i + 1] = temp;
-                      setVal(JSON.stringify(arr));
+                      setVal(arr);
                     }}
                   />
                   <IconButton
                     icon={<FaTimes />}
                     buttonType="destructive"
                     onClick={() => {
-                      const arr = JSON.parse(val);
+                      const arr = val;
                       arr.splice(i, 1);
-                      setVal(JSON.stringify(arr));
+                      setVal(arr);
                     }}
                   />
                 </div>
@@ -202,7 +184,7 @@ export function EditableImage(props: EditableImageProps) {
             open={index >= 0}
             index={index}
             close={() => setIndex(-1)}
-            slides={JSON.parse(val).map((data: { url: string; thumbnail: string; itemPath: string }) => {
+            slides={val.map((data) => {
               return { src: data.url };
             })}
             controller={{ closeOnBackdropClick: true }}
