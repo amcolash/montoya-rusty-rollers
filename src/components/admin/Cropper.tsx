@@ -3,7 +3,7 @@ import { getStorage, ref } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
 import { useUploadFile } from 'react-firebase-hooks/storage';
 import { FaSave, FaTimes } from 'react-icons/fa';
-import { FaDownload, FaRotateLeft, FaRotateRight } from 'react-icons/fa6';
+import { FaRotateLeft, FaRotateRight } from 'react-icons/fa6';
 import ReactCrop, { type Crop, convertToPixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { cssRule } from 'typestyle';
@@ -27,6 +27,10 @@ export enum Orientation {
   DEG_90 = 6,
   DEG_180 = 3,
   DEG_270 = 8,
+}
+
+export function getEditedImageId(path: string) {
+  return path.replace(/[./]/g, '_') || '';
 }
 
 const defaultCrop: Crop = { unit: '%', x: 0, y: 0, width: 100, height: 100 };
@@ -74,7 +78,7 @@ export function Cropper(props: CropperProps) {
     <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
       {img && (
         <ReactCrop crop={crop} onChange={(pixelCrop, percentageCrop) => setCrop(percentageCrop)} keepSelection={true}>
-          <img src={img} style={{ maxHeight: 400, maxWidth: 400 }} />
+          <img src={img} style={{ maxHeight: 400, maxWidth: 'min(400px, 100%)' }} />
         </ReactCrop>
       )}
 

@@ -4,9 +4,10 @@ import { FaFileImage } from 'react-icons/fa';
 
 import { useDb } from '../../hooks/useDb';
 import { File } from '../../hooks/useFileList';
+import { metadataPath } from '../../hooks/useImageMeta';
 import { database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
-import { Cropper, Meta } from './Cropper';
+import { Cropper, Meta, getEditedImageId } from './Cropper';
 import { Dialog } from './Dialog';
 import { FileUpload } from './FileUpload';
 import { ImageGrid } from './ImageGrid';
@@ -17,10 +18,10 @@ export function FilePicker() {
   const [multiDirty, setMultiDirty] = useState(false);
   const [editing, setEditing] = useState<File | undefined>();
 
-  const reference = ref(database, `images/metadata`);
+  const reference = ref(database, metadataPath);
   const [val, loading, error, setVal, saving] = useDb<{ [key: string]: Meta }>(reference);
 
-  const editingPath = editing?.path.replace(/[./]/g, '_') || '';
+  const editingPath = getEditedImageId(editing?.path || '');
 
   if (!filePickerReference) return null;
   return (
@@ -48,7 +49,7 @@ export function FilePicker() {
             if (meta) {
               setVal({ ...val, [editingPath]: meta });
             } else {
-              const dbRef = ref(database, `images/metadata/${editingPath}`);
+              const dbRef = ref(database, `${metadataPath}/${editingPath}`);
               remove(dbRef);
             }
 

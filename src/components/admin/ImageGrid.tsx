@@ -5,6 +5,7 @@ import { style } from 'typestyle';
 
 import { useDb } from '../../hooks/useDb';
 import { File, Size, getImageRefs, getImageUrl, useFileList } from '../../hooks/useFileList';
+import { useImageMeta } from '../../hooks/useImageMeta';
 import { filePickerState } from '../../util/globalState';
 import { IconButton } from '../IconButton';
 import { ImageData } from '../website/EditableImage';
@@ -53,6 +54,8 @@ export function ImageGrid(props: ImageGridProps) {
 
   const [val, loadingDb, error, setVal, saving] = useDb<ImageData[]>(filePickerReference.ref);
   const [selectedImages, setSelectedImages] = useState<ImageData[]>([]);
+
+  const { getEditImageUrl } = useImageMeta();
 
   useEffect(() => {
     if (!val || !filePickerReference.multi) {
@@ -155,7 +158,7 @@ export function ImageGrid(props: ImageGridProps) {
                     />
                   )}
                   <img
-                    src={i.thumbnail}
+                    src={getEditImageUrl(i.path, i.thumbnail)}
                     loading="lazy"
                     onError={(e) =>
                       setTimeout(() => {
@@ -167,12 +170,12 @@ export function ImageGrid(props: ImageGridProps) {
                 </button>
 
                 <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
-                  {/* <IconButton
+                  <IconButton
                     icon={<FaEdit />}
                     onClick={() => setEditing(i)}
                     style={{ padding: '0.35rem 1.25rem', height: '1.5rem' }}
                     title="Edit Image"
-                  /> */}
+                  />
 
                   <IconButton
                     icon={<FaRegTrashAlt />}

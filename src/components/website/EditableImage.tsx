@@ -7,6 +7,7 @@ import 'yet-another-react-lightbox/styles.css';
 
 import { useDb } from '../../hooks/useDb';
 import { getImageUrl } from '../../hooks/useFileList';
+import { useImageMeta } from '../../hooks/useImageMeta';
 import { useLocation } from '../../hooks/useLocation';
 import { database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
@@ -58,6 +59,8 @@ export function EditableImage(props: EditableImageProps) {
 
   const reference = ref(database, `content/images/${props.id}`);
   const [val, loading, error, setVal, saving] = useDb<ImageData[]>(reference);
+
+  const { getEditImageUrl } = useImageMeta();
 
   const [index, setIndex] = useState(-1);
 
@@ -114,7 +117,7 @@ export function EditableImage(props: EditableImageProps) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            backgroundImage: `url(${val[0].url})`,
+            backgroundImage: `url(${getEditImageUrl(val[0].itemPath, val[0].url)})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'contain',
             backgroundPosition: 'center',
@@ -140,7 +143,11 @@ export function EditableImage(props: EditableImageProps) {
                 onClick={() => setIndex(i)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 0 }}
               >
-                <img className={thumbnailStyle} src={value.thumbnail} style={props.imageStyle} />
+                <img
+                  className={thumbnailStyle}
+                  src={getEditImageUrl(value.itemPath, value.thumbnail!)}
+                  style={props.imageStyle}
+                />
               </button>
               {adminMode && (
                 <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
@@ -191,7 +198,7 @@ export function EditableImage(props: EditableImageProps) {
             index={index}
             close={() => setIndex(-1)}
             slides={val.map((data) => {
-              return { src: data.url };
+              return { src: getEditImageUrl(data.itemPath, data.url) };
             })}
             controller={{ closeOnBackdropClick: true }}
           />
