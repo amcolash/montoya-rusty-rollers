@@ -1,12 +1,15 @@
 import loadImage from 'blueimp-load-image';
-import React, { CSSProperties, useEffect, useState } from 'react';
+import { getStorage, ref } from 'firebase/storage';
+import React, { useEffect, useRef, useState } from 'react';
+import { useUploadFile } from 'react-firebase-hooks/storage';
 import { FaSave, FaTimes } from 'react-icons/fa';
-import { FaRotateLeft, FaRotateRight } from 'react-icons/fa6';
-import ReactCrop, { type Crop } from 'react-image-crop';
+import { FaDownload, FaRotateLeft, FaRotateRight } from 'react-icons/fa6';
+import ReactCrop, { type Crop, convertToPixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { cssRule } from 'typestyle';
 
 import { File } from '../../hooks/useFileList';
+import { app } from '../../util/firebase';
 import { IconButton } from '../IconButton';
 
 cssRule('.ReactCrop__crop-selection', {
@@ -26,17 +29,6 @@ export enum Orientation {
   DEG_270 = 8,
 }
 
-export function getImageTransform(image: File, imageMeta?: { [key: string]: Meta }): CSSProperties {
-  const imgPath = image.path.replace(/[./]/g, '_');
-  const meta = imageMeta?.[imgPath];
-
-  if (!imageMeta || !meta) return {};
-
-  const rotation = meta.rotation;
-
-  return { transform: `${rotation ? `rotate(${rotation * 90}deg)` : 'unset'}` };
-}
-
 const defaultCrop: Crop = { unit: '%', x: 0, y: 0, width: 100, height: 100 };
 
 interface CropperProps {
@@ -46,6 +38,8 @@ interface CropperProps {
 }
 
 export function Cropper(props: CropperProps) {
+  const storage = getStorage(app);
+
   const [crop, setCrop] = useState<Crop>(props.initialMeta?.crop || defaultCrop);
   const [rotation, setRotation] = useState<number | undefined>(
     props.initialMeta ? props.initialMeta.rotation : undefined
@@ -53,7 +47,10 @@ export function Cropper(props: CropperProps) {
   const [initialLoad, setInitialLoad] = useState(true);
   const [img, setImg] = useState<string>();
 
-  const src = props.file.thumbnail;
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [uploadFile, uploading, snapshot, error] = useUploadFile();
+
+  const src = props.file.url;
 
   useEffect(() => {
     loadImage(
@@ -87,13 +84,26 @@ export function Cropper(props: CropperProps) {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '1.5rem' }}>
+        <canvas ref={canvasRef} style={{ display: 'none' }} />
+
         <IconButton
           icon={<FaSave />}
           buttonType="success"
-          style={{ marginLeft: '1rem' }}
-          onClick={() => {
-            if (crop && rotation) props.setMeta({ crop, rotation });
+          onClick={async () => {
+            if (crop || rotation) props.setMeta({ crop, rotation: rotation || 0 });
             else props.setMeta(undefined);
+
+            if (!canvasRef.current || !img) return;
+
+            const croppedImage = await generateImage(crop, canvasRef.current, img);
+            if (croppedImage) {
+              const storageRef = ref(storage, 'images/cropped/' + props.file.name);
+              try {
+                await uploadFile(storageRef, croppedImage, { contentType: 'image/jpeg' });
+              } catch (err) {
+                console.error(err);
+              }
+            }
           }}
         >
           Save
@@ -105,4 +115,20 @@ export function Cropper(props: CropperProps) {
       </div>
     </div>
   );
+}
+
+async function generateImage(crop: Crop, canvas: HTMLCanvasElement, img: string): Promise<Blob | null> {
+  const image = new Image();
+  image.src = img || '';
+
+  const pixelCrop = convertToPixelCrop(crop, image.width, image.height);
+  const { x, y, width, height } = pixelCrop;
+
+  canvas.width = width;
+  canvas.height = height;
+
+  const ctx = canvas.getContext('2d');
+  ctx?.drawImage(image, x, y, width, height, 0, 0, width, height);
+
+  return new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.9));
 }

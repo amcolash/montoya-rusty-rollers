@@ -1,5 +1,5 @@
 import { ref } from 'firebase/database';
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaFileImage, FaTimes } from 'react-icons/fa';
 import { media, style } from 'typestyle';
 import Lightbox from 'yet-another-react-lightbox';
@@ -54,6 +54,30 @@ export function EditableImage(props: EditableImageProps) {
   const [val, loading, error, setVal, saving] = useDb<string>(reference);
 
   const [index, setIndex] = useState(-1);
+
+  // const imgMeta = ref(database, `images/metadata`);
+  // const [img, setImg] = useState<string>();
+
+  // useEffect(() => {
+  //   const imgPath = props.i.path.replace(/[./]/g, '_');
+  //   const meta = imgMeta && imgMeta[imgPath];
+  //   const rotation  === undefined ? true : Number.parseInt(Object.values(Orientation)[rotation + 4] as string),
+
+  //   loadImage(
+  //     val,
+  //     (img) => {
+  //       const base64data = (img as HTMLCanvasElement).toDataURL(`image/jpeg`);
+  //       setImg(base64data);
+  //     },
+  //     {
+  //       orientation:
+
+  //       canvas: true,
+  //       crossOrigin: 'anonymous',
+
+  //     }
+  //   );
+  // }, [val, imgMeta]);
 
   return (
     <div style={{ position: 'relative', minWidth: 225, minHeight: 50, ...props.style }}>
