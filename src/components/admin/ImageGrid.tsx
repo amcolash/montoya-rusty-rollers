@@ -1,15 +1,17 @@
-import { deleteObject } from 'firebase/storage';
+import { ref as dbRef, remove } from 'firebase/database';
+import { deleteObject, getStorage, ref } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
 import { FaEdit, FaRegTrashAlt, FaSave } from 'react-icons/fa';
 import { style } from 'typestyle';
 
 import { useDb } from '../../hooks/useDb';
 import { File, Size, getImageRefs, getImageUrl, useFileList } from '../../hooks/useFileList';
-import { useImageMeta } from '../../hooks/useImageMeta';
+import { metadataPath, useImageMeta } from '../../hooks/useImageMeta';
+import { app, database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
 import { IconButton } from '../IconButton';
 import { ImageData } from '../website/EditableImage';
-import { Meta } from './Cropper';
+import { Meta, getEditedImageId } from './Cropper';
 
 const imageButton = style({
   width: '10rem',
@@ -55,7 +57,8 @@ export function ImageGrid(props: ImageGridProps) {
   const [val, loadingDb, error, setVal, saving] = useDb<ImageData[]>(filePickerReference.ref);
   const [selectedImages, setSelectedImages] = useState<ImageData[]>([]);
 
-  const { getEditImageUrl } = useImageMeta();
+  const { meta, getEditImageUrl } = useImageMeta();
+  const storage = getStorage(app);
 
   useEffect(() => {
     if (!val || !filePickerReference.multi) {
@@ -183,6 +186,18 @@ export function ImageGrid(props: ImageGridProps) {
                     onClick={async () => {
                       if (confirm('Are you sure you want to delete this image?')) {
                         const refs = getImageRefs(i.ref);
+
+                        // Delete edited images if they exist
+                        if (meta && meta[getEditedImageId(i.path)] !== undefined) {
+                          refs.forEach((r) => {
+                            refs.push(ref(storage, r.fullPath.replace('images/', 'images/cropped/')));
+                          });
+
+                          // Also remove metadata
+                          const metaRef = dbRef(database, `${metadataPath}/${getEditedImageId(i.path)}`);
+                          remove(metaRef);
+                        }
+
                         await Promise.all(refs.map((r) => deleteObject(r)));
 
                         setReloadCounter(reloadCounter + 1);

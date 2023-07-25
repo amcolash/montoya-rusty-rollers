@@ -17,5 +17,5 @@ export function useImageMeta() {
     return url;
   }, [val]);
 
-  return {val, getEditImageUrl};
+  return {meta: val, getEditImageUrl};
 }
