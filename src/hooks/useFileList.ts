@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { app } from '../util/firebase';
 
-interface File {
+export interface File {
   name: string;
   path: string;
   url: string;

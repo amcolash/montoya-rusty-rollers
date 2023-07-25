@@ -1,12 +1,13 @@
 import { deleteObject } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
-import { FaRegTrashAlt, FaSave } from 'react-icons/fa';
+import { FaEdit, FaRegTrashAlt, FaSave } from 'react-icons/fa';
 import { style } from 'typestyle';
 
 import { useDb } from '../../hooks/useDb';
-import { Size, getImageRefs, getImageUrl, useFileList } from '../../hooks/useFileList';
+import { File, Size, getImageRefs, getImageUrl, useFileList } from '../../hooks/useFileList';
 import { filePickerState } from '../../util/globalState';
 import { IconButton } from '../IconButton';
+import { Cropper } from './Cropper';
 
 const imageButton = style({
   width: '10rem',
@@ -32,13 +33,14 @@ const imageButton = style({
 
 interface ImageGridProps {
   reloadCounter: number;
-  setReloadCounter: (value: number) => void;
   multiDirty: boolean;
+  setReloadCounter: (value: number) => void;
   setMultiDirty: (value: boolean) => void;
+  setEditing: (value: File | undefined) => void;
 }
 
 export function ImageGrid(props: ImageGridProps) {
-  const { reloadCounter, setReloadCounter, multiDirty, setMultiDirty } = props;
+  const { reloadCounter, setReloadCounter, multiDirty, setMultiDirty, setEditing } = props;
 
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -164,13 +166,13 @@ export function ImageGrid(props: ImageGridProps) {
                   />
                 </button>
 
-                <div style={{ display: 'flex', gap: '0.25rem', justifyContent: 'center' }}>
-                  {/* <IconButton
-                    icon={<FaFileDownload />}
-                    onClick={() => window.open(i.url, '_blank')}
-                    style={{ width: '100%', padding: '0.25rem' }}
-                    title="Download Image"
-                  /> */}
+                <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+                  <IconButton
+                    icon={<FaEdit />}
+                    onClick={() => setEditing(i)}
+                    style={{ padding: '0.35rem 1.25rem', height: '1.5rem' }}
+                    title="Edit Image"
+                  />
 
                   <IconButton
                     icon={<FaRegTrashAlt />}

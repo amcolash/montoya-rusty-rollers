@@ -42,6 +42,7 @@ interface EditableImageProps {
   multi?: boolean;
   readOnly?: boolean;
   background?: boolean;
+  imageClassName?: string;
 }
 
 export function EditableImage(props: EditableImageProps) {
@@ -62,7 +63,7 @@ export function EditableImage(props: EditableImageProps) {
             icon={<FaFileImage />}
             onClick={() => setFilePickerReference({ ref: reference, multi: props.multi === true })}
           >
-            {props.multi ? 'Choose Multiple Photos' : props.background ? 'Choose Background' : 'Choose Photo'}
+            {props.multi ? 'Choose Multiple Images' : props.background ? 'Choose Background' : 'Choose Image'}
           </IconButton>
           {!props.multi && val && import.meta.env.DEV && (
             <div style={{ marginTop: '0.5rem' }}>
@@ -102,6 +103,7 @@ export function EditableImage(props: EditableImageProps) {
       )}
       {val && !props.multi && (
         <div
+          className={props.imageClassName}
           style={{
             width: '100%',
             height: '100%',

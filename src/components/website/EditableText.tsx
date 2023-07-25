@@ -25,6 +25,9 @@ const editable = style({
   fontFamily: 'inherit !important',
   fontSize: 'inherit !important',
   lineHeight: 'inherit !important',
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   whiteSpace: 'pre-line !important',
 });
 

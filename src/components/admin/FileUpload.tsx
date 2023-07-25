@@ -45,12 +45,12 @@ export function FileUpload(props: FileUploadProps) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          flexWrap: 'wrap',
+          flexDirection: 'column',
           gap: '1rem',
           margin: '1rem',
         }}
       >
-        <div>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <input
             id="file"
             type="file"
@@ -63,29 +63,31 @@ export function FileUpload(props: FileUploadProps) {
             disabled={uploading}
             multiple
           />
-        </div>
-        <IconButton
-          icon={<FaFileUpload />}
-          disabled={uploading || selectedFiles.length === 0}
-          onClick={async () => {
-            for (const f of selectedFiles) {
-              const storageRef = ref(storage, 'images/' + f.name);
-              try {
-                await uploadFile(storageRef, f, { contentType: f.type });
-              } catch (err) {
-                console.error(err);
-              }
-            }
 
-            setTimeout(() => {
-              if (inputRef.current) inputRef.current.value = '';
-              setSelectedFiles([]);
-              props.reloadFiles();
-            }, 3000);
-          }}
-        >
-          Upload Image{selectedFiles.length > 1 && 's'}
-        </IconButton>
+          <IconButton
+            icon={<FaFileUpload />}
+            disabled={uploading || selectedFiles.length === 0}
+            style={{ whiteSpace: 'nowrap' }}
+            onClick={async () => {
+              for (const f of selectedFiles) {
+                const storageRef = ref(storage, 'images/' + f.name);
+                try {
+                  await uploadFile(storageRef, f, { contentType: f.type });
+                } catch (err) {
+                  console.error(err);
+                }
+              }
+
+              setTimeout(() => {
+                if (inputRef.current) inputRef.current.value = '';
+                setSelectedFiles([]);
+                props.reloadFiles();
+              }, 3000);
+            }}
+          >
+            Upload Image{selectedFiles.length > 1 && 's'}
+          </IconButton>
+        </div>
 
         {uploading && <FaHourglassHalf />}
       </div>
