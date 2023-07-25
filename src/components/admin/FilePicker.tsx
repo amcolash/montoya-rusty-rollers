@@ -1,9 +1,12 @@
+import { ref, remove } from 'firebase/database';
 import React, { useState } from 'react';
 import { FaFileImage } from 'react-icons/fa';
 
+import { useDb } from '../../hooks/useDb';
 import { File } from '../../hooks/useFileList';
+import { database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
-import { Cropper } from './Cropper';
+import { Cropper, Meta } from './Cropper';
 import { Dialog } from './Dialog';
 import { FileUpload } from './FileUpload';
 import { ImageGrid } from './ImageGrid';
@@ -13,6 +16,11 @@ export function FilePicker() {
   const [reloadCounter, setReloadCounter] = useState(0);
   const [multiDirty, setMultiDirty] = useState(false);
   const [editing, setEditing] = useState<File | undefined>();
+
+  const reference = ref(database, `images/metadata`);
+  const [val, loading, error, setVal, saving] = useDb<{ [key: string]: Meta }>(reference);
+
+  const editingPath = editing?.path.replace(/[./]/g, '_') || '';
 
   if (!filePickerReference) return null;
   return (
@@ -35,9 +43,13 @@ export function FilePicker() {
       {editing ? (
         <Cropper
           file={editing}
-          setCrop={(crop) => {
-            if (crop !== undefined) {
-              console.log(crop);
+          initialMeta={val && val[editingPath]}
+          setMeta={(meta?: Meta) => {
+            if (meta) {
+              setVal({ ...val, [editingPath]: meta });
+            } else {
+              const dbRef = ref(database, `images/metadata/${editingPath}`);
+              remove(dbRef);
             }
 
             setEditing(undefined);
@@ -52,6 +64,7 @@ export function FilePicker() {
             setReloadCounter={setReloadCounter}
             setMultiDirty={setMultiDirty}
             setEditing={setEditing}
+            imageMeta={val}
           />
         </>
       )}

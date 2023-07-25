@@ -7,7 +7,7 @@ import { useDb } from '../../hooks/useDb';
 import { File, Size, getImageRefs, getImageUrl, useFileList } from '../../hooks/useFileList';
 import { filePickerState } from '../../util/globalState';
 import { IconButton } from '../IconButton';
-import { Cropper } from './Cropper';
+import { Meta, getImageTransform } from './Cropper';
 
 const imageButton = style({
   width: '10rem',
@@ -37,6 +37,7 @@ interface ImageGridProps {
   setReloadCounter: (value: number) => void;
   setMultiDirty: (value: boolean) => void;
   setEditing: (value: File | undefined) => void;
+  imageMeta: { [key: string]: Meta } | undefined;
 }
 
 export function ImageGrid(props: ImageGridProps) {
@@ -163,6 +164,7 @@ export function ImageGrid(props: ImageGridProps) {
                         (e.target as HTMLImageElement).src = i.thumbnail;
                       }, 1500)
                     }
+                    style={getImageTransform(i, props.imageMeta)}
                   />
                 </button>
 
