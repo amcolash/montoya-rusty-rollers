@@ -62,7 +62,7 @@ export function Form(props: FormProps) {
             .finally(() =>
               setTimeout(() => {
                 setFormState(FormState.Default);
-              }, 3000)
+              }, 3000),
             );
         }
       }}
@@ -93,7 +93,7 @@ export function Form(props: FormProps) {
       })}
 
       {props.onSubmit && (
-        <button type="submit" style={{ width: '100%', fontSize: '1.1rem' }}>
+        <button type="submit" style={{ width: '100%', fontSize: '1.1rem' }} aria-description="Submit Form">
           {formState}
         </button>
       )}

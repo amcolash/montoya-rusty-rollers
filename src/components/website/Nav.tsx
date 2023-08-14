@@ -68,7 +68,7 @@ const mobileStyle = media(
         display: 'none',
       },
     },
-  }
+  },
 );
 
 const desktopStyle = media({ minWidth: mobileBreakpoint }, {});
@@ -91,7 +91,7 @@ const ulStyle = style(
   },
 
   desktopStyle,
-  mobileStyle
+  mobileStyle,
 );
 
 const menuButtonStyle = style(
@@ -105,7 +105,7 @@ const menuButtonStyle = style(
     right: '1rem',
     zIndex: 5,
   },
-  media({ maxWidth: mobileBreakpoint }, { display: 'flex' })
+  media({ maxWidth: mobileBreakpoint }, { display: 'flex' }),
 );
 
 export function Nav() {
@@ -136,6 +136,8 @@ export function Nav() {
             aria-label="Menu"
             aria-controls="primary-navigation"
             aria-expanded={menuOpen}
+            aria-hidden={!menuOpen}
+            disabled={!menuOpen}
             className={menuButtonStyle}
             onClick={() => setMenuOpen(!menuOpen)}
           >
