@@ -72,7 +72,7 @@ export function FileUpload(props: FileUploadProps) {
               for (const f of selectedFiles) {
                 const storageRef = ref(storage, 'images/' + f.name);
                 try {
-                  await uploadFile(storageRef, f, { contentType: f.type });
+                  await uploadFile(storageRef, f, { contentType: f.type, cacheControl: 'public,max-age=31536000' });
                 } catch (err) {
                   console.error(err);
                 }
