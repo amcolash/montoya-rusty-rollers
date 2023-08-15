@@ -6,9 +6,10 @@ import { media, style } from 'typestyle';
 import { useDb } from '../../hooks/useDb';
 import { useImageMeta } from '../../hooks/useImageMeta';
 import { useLocation } from '../../hooks/useLocation';
+import { useProgressiveImage } from '../../hooks/useProgressiveImage';
 import { database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
-import { getImageUrl } from '../../util/imageUrl';
+import { Size, getImageUrl } from '../../util/imageUrl';
 import { mobileBreakpoint } from '../../util/styles';
 import { IconButton } from '../IconButton';
 import { LightboxLazy } from '../LazyComponents';
@@ -63,8 +64,15 @@ export function EditableImage(props: EditableImageProps) {
 
   const [index, setIndex] = useState(-1);
 
+  const tempImages = val?.map((value) =>
+    getEditImageUrl(value.itemPath, getImageUrl(value.itemPath, Size.Placeholder, true))
+  );
+  const loadedImages = val?.map((value) =>
+    useProgressiveImage(getEditImageUrl(value.itemPath, props.multi ? value.thumbnail! : value.url))
+  );
+
   return (
-    <div style={{ position: 'relative', minWidth: 'min(100%, 225px)', minHeight: 50, ...props.style }}>
+    <div style={{ position: 'relative', minWidth: '', minHeight: 50, ...props.style }}>
       {adminMode && !props.readOnly && (
         <div style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 2 }}>
           <IconButton
@@ -116,10 +124,12 @@ export function EditableImage(props: EditableImageProps) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            backgroundImage: `url(${getEditImageUrl(val[0].itemPath, val[0].url)})`,
+            backgroundImage: `url(${loadedImages![0] || tempImages![0]})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'contain',
             backgroundPosition: 'center',
+            filter: `blur(${loadedImages![0] ? 0 : 5}px)`,
+            transition: 'filter 0.35s',
             ...props.imageStyle,
           }}
         />
@@ -144,8 +154,13 @@ export function EditableImage(props: EditableImageProps) {
               >
                 <img
                   className={thumbnailStyle}
-                  src={getEditImageUrl(value.itemPath, value.thumbnail!)}
-                  style={props.imageStyle}
+                  // src={getEditImageUrl(value.itemPath, value.thumbnail!)}
+                  src={loadedImages![i] || tempImages![i]}
+                  style={{
+                    ...props.imageStyle,
+                    filter: `blur(${loadedImages![i] ? 0 : 5}px)`,
+                    transition: 'filter 0.35s',
+                  }}
                   loading="lazy"
                 />
               </button>
