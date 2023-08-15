@@ -27,144 +27,13 @@
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
-
-    <style>
-      :root {
-        --dark: #333;
-        --light: #eee;
-
-        --cta: hsl(209, 35%, 55%);
-        --cta-hover: hsl(209, 35%, 50%);
-        --cta-disabled: hsl(209, 15%, 75%);
-        --cta-border: hsl(209, 35%, 25%);
-
-        --destructive: hsl(0, 35%, 55%);
-        --destructive-hover: hsl(0, 35%, 50%);
-        --destructive-disabled: hsl(0, 15%, 75%);
-        --destructive-border: hsl(0, 35%, 25%);
-
-        --success: hsl(120, 35%, 55%);
-        --success-hover: hsl(120, 35%, 50%);
-        --success-disabled: hsl(120, 15%, 75%);
-        --success-border: hsl(120, 35%, 25%);
-
-        --warning: hsl(60, 65%, 55%);
-        --warning-hover: hsl(60, 65%, 50%);
-        --warning-disabled: hsl(60, 15%, 75%);
-        --warning-border: hsl(60, 65%, 35%);
-
-        --max-width: 1200px;
-        --mobile-width: 800px;
-        --fonts: 'Poppins', 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-      }
-      html {
-        height: 100vh;
-        height: 100dvh;
-        overflow: hidden;
-      }
-      body {
-        margin: 0;
-        font-family: var(--fonts);
-        /* scroll-snap-type: y proximity; */
-        overflow-y: auto;
-        height: 100vh;
-        height: 100dvh;
-      }
-      button,
-      input,
-      textarea {
-        width: 100%;
-        padding: 0.5rem;
-        box-sizing: border-box;
-        border-radius: 0.25rem;
-        border: 1px solid #ddd;
-        font-family: var(--fonts);
-      }
-      input[type='checkbox'] {
-        width: unset;
-      }
-      button {
-        padding: 0.5rem 1rem;
-        width: unset;
-        background: var(--cta);
-        border: 1px solid var(--cta-border);
-        color: white;
-      }
-      textarea {
-        resize: vertical;
-      }
-
-      #loading {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        height: 100dvh;
-        width: 100vw;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        background: var(--dark);
-        color: var(--light);
-        z-index: 99;
-        transition: opacity 0.5s;
-      }
-      #loading.hidden {
-        opacity: 0;
-        pointer-events: none;
-      }
-      #truck {
-        animation: truckAnimation 2s linear infinite;
-        width: 250px;
-        height: 250px;
-      }
-      .hidden #truck {
-        animation-play-state: paused;
-      }
-
-      @keyframes truckAnimation {
-        0% {
-          transform: translate(1px, 1px) rotate(0deg);
-        }
-        10% {
-          transform: translate(-1px, -2px) rotate(-1deg);
-        }
-        20% {
-          transform: translate(-3px, 0px) rotate(1deg);
-        }
-        30% {
-          transform: translate(3px, 2px) rotate(0deg);
-        }
-        40% {
-          transform: translate(1px, -1px) rotate(1deg);
-        }
-        50% {
-          transform: translate(-1px, 2px) rotate(-1deg);
-        }
-        60% {
-          transform: translate(-3px, 1px) rotate(0deg);
-        }
-        70% {
-          transform: translate(3px, 1px) rotate(-1deg);
-        }
-        80% {
-          transform: translate(-1px, -1px) rotate(1deg);
-        }
-        90% {
-          transform: translate(1px, 2px) rotate(0deg);
-        }
-        100% {
-          transform: translate(1px, 1px) rotate(0deg);
-        }
-      }
-    </style>
-    <script type="module" crossorigin src="./assets/index-5794b322.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/firebase_app-8d4ba75c.js">
-    <link rel="modulepreload" crossorigin href="./assets/firebase_database-a9302d9a.js">
-    <link rel="modulepreload" crossorigin href="./assets/firebase_auth-ecfe032f.js">
-    <link rel="modulepreload" crossorigin href="./assets/firebase_storage-3b718f90.js">
-    <link rel="stylesheet" href="./assets/index-9eeef9d1.css">
+    <link rel="stylesheet" href="./style.css" />
+    <script type="module" crossorigin src="./assets/index-247dde23.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/preact-8b6c8b24.js">
+    <link rel="modulepreload" crossorigin href="./assets/firebase_app-66b96a84.js">
+    <link rel="modulepreload" crossorigin href="./assets/firebase_database-5a5f9de6.js">
+    <link rel="modulepreload" crossorigin href="./assets/firebase_auth-43c6f5e5.js">
+    <link rel="stylesheet" href="./assets/index-a822e795.css">
   </head>
   <body>
     <div id="loading">
@@ -179,20 +48,7 @@
 
     <div id="root"></div>
 
-    <script nomodule>
-      const loading = document.getElementById('loading');
-      loading.style.display = 'none';
-
-      const root = document.getElementById('root');
-      root.innerHTML =
-        '<h1>Sorry, your internet browser is not supported by this page, or is not up to date.</h1>' +
-        '<h2>Please try a supported browser, such as ' +
-        '<a href="https://www.google.com/chrome/">Chrome</a>, ' +
-        '<a href="https://www.mozilla.org/en-US/firefox/">Firefox</a>, ' +
-        '<a href="https://www.microsoft.com/en-us/edge">Edge</a>, ' +
-        'or <a href="https://www.apple.com/safari/">Safari</a>.' +
-        '</h2>';
-    </script>
+    <script nomodule src="./old_browser.js"></script>
 
     
     
