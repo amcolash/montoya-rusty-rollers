@@ -2,6 +2,7 @@
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
+      console.log(entry.target, entry.isIntersecting);
       if (entry.isIntersecting) {
         const location = window.location.toString().split('#')[0];
         const oldHash = window.location.hash;
@@ -13,7 +14,7 @@ const observer = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.85 }
+  { threshold: 0.65 }
 );
 
 export function useHashObserver(ref: React.RefObject<HTMLElement>) {
