@@ -6,10 +6,10 @@ import ReactFocusLock from 'react-focus-lock';
 
 import { app, database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
+import { adminStorageKey } from '../../util/localStorageKeys';
 import { FilePickerLazy } from '../LazyComponents';
 import { Website } from '../website/Website';
 import { Login } from './Login';
-import { adminStorageKey } from '../../util/localStorageKeys';
 
 export function Admin() {
   const auth = getAuth(app);

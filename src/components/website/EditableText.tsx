@@ -86,7 +86,7 @@ export function EditableText(props: EditableTextProps) {
           className={classes(editable, adminStyles)}
           innerRef={contentRef}
         />
-      </Suspense>,
+      </Suspense>
     );
   }
 

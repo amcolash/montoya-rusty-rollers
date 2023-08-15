@@ -4,11 +4,11 @@ import { FaChevronLeft, FaChevronRight, FaFileImage, FaTimes } from 'react-icons
 import { media, style } from 'typestyle';
 
 import { useDb } from '../../hooks/useDb';
-import { getImageUrl } from '../../util/imageUrl';
 import { useImageMeta } from '../../hooks/useImageMeta';
 import { useLocation } from '../../hooks/useLocation';
 import { database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
+import { getImageUrl } from '../../util/imageUrl';
 import { mobileBreakpoint } from '../../util/styles';
 import { IconButton } from '../IconButton';
 import { LightboxLazy } from '../LazyComponents';
@@ -20,7 +20,7 @@ const thumbnailStyle = style(
     objectFit: 'cover',
     borderRadius: '0.35rem',
   },
-  media({ maxWidth: mobileBreakpoint }, { width: 'min(9rem, 37vw)', height: 'min(9rem, 37vw)' }),
+  media({ maxWidth: mobileBreakpoint }, { width: 'min(9rem, 37vw)', height: 'min(9rem, 37vw)' })
 );
 
 export enum ImageId {

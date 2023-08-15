@@ -32,8 +32,8 @@ const bannerStyle = style(
     { orientation: 'landscape', maxHeight: 450 },
     {
       top: '1rem',
-    },
-  ),
+    }
+  )
 );
 
 const subtitleStyle = style(
@@ -53,8 +53,8 @@ const subtitleStyle = style(
     {
       bottom: '1rem',
       fontSize: 'max(1rem, min(5vw, 1.5rem))',
-    },
-  ),
+    }
+  )
 );
 
 export function Banner() {

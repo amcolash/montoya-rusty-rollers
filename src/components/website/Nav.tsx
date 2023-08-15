@@ -6,9 +6,9 @@ import useResizeObserver from 'use-resize-observer';
 
 import { useLocation } from '../../hooks/useLocation';
 import { headerHeight } from '../../util/globalState';
+import { adminStorageKey } from '../../util/localStorageKeys';
 import { mobileBreakpoint } from '../../util/styles';
 import { AdminNavLazy } from '../LazyComponents';
-import { adminStorageKey } from '../../util/localStorageKeys';
 
 const links = [
   { id: '#home', label: 'Home' },
@@ -68,7 +68,7 @@ const mobileStyle = media(
         display: 'none',
       },
     },
-  },
+  }
 );
 
 const desktopStyle = media({ minWidth: mobileBreakpoint }, {});
@@ -91,7 +91,7 @@ const ulStyle = style(
   },
 
   desktopStyle,
-  mobileStyle,
+  mobileStyle
 );
 
 const menuButtonStyle = style(
@@ -105,7 +105,7 @@ const menuButtonStyle = style(
     right: '1rem',
     zIndex: 5,
   },
-  media({ maxWidth: mobileBreakpoint }, { display: 'flex' }),
+  media({ maxWidth: mobileBreakpoint }, { display: 'flex' })
 );
 
 export function Nav() {

@@ -1,8 +1,9 @@
 import { ref } from 'firebase/database';
-import { database } from '../util/firebase';
-import { useDb } from './useDb';
 import { useCallback } from 'react';
 import { type Crop } from 'react-image-crop';
+
+import { database } from '../util/firebase';
+import { useDb } from './useDb';
 
 export type Meta = {
   crop: Crop;
@@ -34,7 +35,7 @@ export function useImageMeta() {
       if (val && val[path] !== undefined) return url.replace('images%2F', 'images%2Fcropped%2F');
       return url;
     },
-    [val],
+    [val]
   );
 
   return { meta: val, getEditImageUrl };

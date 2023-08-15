@@ -9,9 +9,9 @@ import { File, getImageRefs, useFileList } from '../../hooks/useFileList';
 import { Meta, getEditedImageId, metadataPath, useImageMeta } from '../../hooks/useImageMeta';
 import { app, database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
+import { Size, getImageUrl } from '../../util/imageUrl';
 import { IconButton } from '../IconButton';
 import { ImageData } from '../website/EditableImage';
-import { Size, getImageUrl } from '../../util/imageUrl';
 
 const imageButton = style({
   width: '10rem',

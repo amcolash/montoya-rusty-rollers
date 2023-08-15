@@ -62,7 +62,7 @@ export function Form(props: FormProps) {
             .finally(() =>
               setTimeout(() => {
                 setFormState(FormState.Default);
-              }, 3000),
+              }, 3000)
             );
         }
       }}

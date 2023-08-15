@@ -9,9 +9,9 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { cssRule } from 'typestyle';
 
 import { File } from '../../hooks/useFileList';
+import { Meta, Orientation } from '../../hooks/useImageMeta';
 import { app } from '../../util/firebase';
 import { IconButton } from '../IconButton';
-import { Meta, Orientation } from '../../hooks/useImageMeta';
 
 cssRule('.ReactCrop__crop-selection', {
   animationPlayState: 'paused !important',
@@ -30,7 +30,7 @@ export function Cropper(props: CropperProps) {
 
   const [crop, setCrop] = useState<Crop>(props.initialMeta?.crop || defaultCrop);
   const [rotation, setRotation] = useState<number | undefined>(
-    props.initialMeta ? props.initialMeta.rotation : undefined,
+    props.initialMeta ? props.initialMeta.rotation : undefined
   );
   const [initialLoad, setInitialLoad] = useState(true);
   const [img, setImg] = useState<string>();
@@ -54,7 +54,7 @@ export function Cropper(props: CropperProps) {
           rotation === undefined ? true : Number.parseInt(Object.values(Orientation)[rotation + 4] as string),
         canvas: true,
         crossOrigin: 'anonymous',
-      },
+      }
     );
   }, [src, rotation || 0]);
 
