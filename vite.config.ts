@@ -16,6 +16,7 @@ export default defineConfig({
           firebase_auth: ['firebase/auth'],
           firebase_database: ['firebase/database'],
           firebase_storage: ['firebase/storage'],
+          preact: ['preact'],
         },
       },
       plugins: [cleanup({ comments: 'none' })],
