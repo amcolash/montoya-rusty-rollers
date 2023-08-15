@@ -1,12 +1,12 @@
 import { ref } from 'firebase/database';
-import React, { CSSProperties, useEffect, useState } from 'react';
-import ContentEditable from 'react-contenteditable';
+import React, { CSSProperties, Suspense, useEffect, useState } from 'react';
 import { classes, style } from 'typestyle';
 
 import { useDb } from '../../hooks/useDb';
 import useDebounce from '../../hooks/useDebounce';
 import { useLocation } from '../../hooks/useLocation';
 import { database } from '../../util/firebase';
+import { ContentEditableLazy } from '../LazyComponents';
 
 export enum TextId {
   banner = 'banner',
@@ -20,6 +20,8 @@ export enum TextId {
 }
 
 const editable = style({
+  flex: 1,
+
   color: 'inherit !important',
   backgroundColor: 'inherit !important',
   fontFamily: 'inherit !important',
@@ -63,14 +65,19 @@ export function EditableText(props: EditableTextProps) {
 
   return (
     <div className={props.className} style={{ display: 'flex', position: 'relative', ...props.style }}>
-      <ContentEditable
-        disabled={!adminMode || props.readonly}
-        style={{ flex: 1 }}
-        html={current}
-        onChange={(e) => setCurrent(contentRef.current?.innerHTML || '')}
-        className={classes(editable, adminMode && !props.readonly && adminStyles)}
-        innerRef={contentRef}
-      />
+      {adminMode && (
+        <Suspense>
+          <ContentEditableLazy
+            disabled={props.readonly}
+            html={current}
+            onChange={(e) => setCurrent(contentRef.current?.innerHTML || '')}
+            className={classes(editable, !props.readonly && adminStyles)}
+            innerRef={contentRef}
+          />
+        </Suspense>
+      )}
+
+      {!adminMode && <div className={editable} dangerouslySetInnerHTML={{ __html: val || '' }} />}
     </div>
   );
 }

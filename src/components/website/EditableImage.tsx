@@ -1,9 +1,7 @@
 import { ref } from 'firebase/database';
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, Suspense, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaFileImage, FaTimes } from 'react-icons/fa';
 import { media, style } from 'typestyle';
-import Lightbox from 'yet-another-react-lightbox';
-import 'yet-another-react-lightbox/styles.css';
 
 import { useDb } from '../../hooks/useDb';
 import { getImageUrl } from '../../util/imageUrl';
@@ -13,6 +11,7 @@ import { database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
 import { mobileBreakpoint } from '../../util/styles';
 import { IconButton } from '../IconButton';
+import { LightboxLazy } from '../LazyComponents';
 
 const thumbnailStyle = style(
   {
@@ -193,15 +192,19 @@ export function EditableImage(props: EditableImageProps) {
             </div>
           ))}
 
-          <Lightbox
-            open={index >= 0}
-            index={index}
-            close={() => setIndex(-1)}
-            slides={val.map((data) => {
-              return { src: getEditImageUrl(data.itemPath, data.url) };
-            })}
-            controller={{ closeOnBackdropClick: true }}
-          />
+          {index >= 0 && (
+            <Suspense>
+              <LightboxLazy
+                open={index >= 0}
+                index={index}
+                close={() => setIndex(-1)}
+                slides={val.map((data) => {
+                  return { src: getEditImageUrl(data.itemPath, data.url) };
+                })}
+                controller={{ closeOnBackdropClick: true }}
+              />
+            </Suspense>
+          )}
         </div>
       )}
     </div>
