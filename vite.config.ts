@@ -2,6 +2,7 @@ import preact from '@preact/preset-vite';
 import cleanup from 'rollup-plugin-cleanup';
 import { defineConfig } from 'vite';
 import eslint from 'vite-plugin-eslint';
+import Sitemap from 'vite-plugin-sitemap';
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
@@ -18,7 +19,10 @@ export default defineConfig({
           firebase_storage: ['firebase/storage'],
         },
       },
-      plugins: [cleanup({ comments: 'none' })],
+      plugins: [
+        cleanup({ comments: 'none' }),
+        Sitemap({ hostname: 'https://rustyrollersrestoration.com/', outDir: 'build', exclude: ['/admin'] }),
+      ],
     },
   },
   server: {
