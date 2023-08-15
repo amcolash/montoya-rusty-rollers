@@ -64,7 +64,7 @@ export function EditableImage(props: EditableImageProps) {
   const [index, setIndex] = useState(-1);
 
   return (
-    <div style={{ position: 'relative', minWidth: 225, minHeight: 50, ...props.style }}>
+    <div style={{ position: 'relative', minWidth: 'min(100%, 225px)', minHeight: 50, ...props.style }}>
       {adminMode && !props.readOnly && (
         <div style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 2 }}>
           <IconButton

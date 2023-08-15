@@ -68,6 +68,7 @@ export function EditableText(props: EditableTextProps) {
     className: props.className,
     style: {
       display: 'flex',
+      flexDirection: 'column',
       position: 'relative',
       ...props.style,
     },

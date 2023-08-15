@@ -42,6 +42,17 @@ body {
   height: 100dvh;
 }
 
+:focus {
+  outline-style: solid;
+  outline-width: 4px;
+  outline-offset: 2px;
+  outline-color: var(--dark);
+}
+
+header *:focus {
+  outline-color: var(--light);
+}
+
 button,
 input,
 textarea {
