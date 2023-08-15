@@ -21,7 +21,7 @@ export function Website() {
         clearInterval(timer);
 
         document.body.scrollTop = 0;
-        setTimeout(() => setLoaded(true), 250);
+        setTimeout(() => setLoaded(true), 150);
 
         setTimeout(() => {
           setLoaderRemoved(true);

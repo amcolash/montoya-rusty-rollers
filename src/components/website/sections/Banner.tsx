@@ -60,8 +60,8 @@ const subtitleStyle = style(
 export function Banner() {
   return (
     <Page id="home" image={ImageId.header}>
-      <EditableText id={TextId.banner} className={bannerStyle} readonly={true} />
-      <EditableText id={TextId.bannerSubtitle} className={subtitleStyle} readonly={true} />
+      <EditableText id={TextId.banner} className={bannerStyle} readonly={true} heading="h2" />
+      <EditableText id={TextId.bannerSubtitle} className={subtitleStyle} readonly={true} heading="h3" />
     </Page>
   );
 }

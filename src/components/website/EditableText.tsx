@@ -40,6 +40,7 @@ interface EditableTextProps {
   style?: CSSProperties;
   className?: string;
   readonly?: boolean;
+  heading?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 
 export function EditableText(props: EditableTextProps) {
@@ -63,21 +64,31 @@ export function EditableText(props: EditableTextProps) {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  return (
-    <div className={props.className} style={{ display: 'flex', position: 'relative', ...props.style }}>
-      {adminMode && (
-        <Suspense>
-          <ContentEditableLazy
-            disabled={props.readonly}
-            html={current}
-            onChange={(e) => setCurrent(contentRef.current?.innerHTML || '')}
-            className={classes(editable, !props.readonly && adminStyles)}
-            innerRef={contentRef}
-          />
-        </Suspense>
-      )}
+  const properties = {
+    className: props.className,
+    style: {
+      display: 'flex',
+      position: 'relative',
+      ...props.style,
+    },
+  };
 
-      {!adminMode && <div className={editable} dangerouslySetInnerHTML={{ __html: val || '' }} />}
-    </div>
-  );
+  const headingElement = props.heading || 'div';
+
+  if (adminMode && !props.readonly) {
+    return React.createElement(
+      headingElement,
+      { ...properties },
+      <Suspense>
+        <ContentEditableLazy
+          html={current}
+          onChange={(e) => setCurrent(contentRef.current?.innerHTML || '')}
+          className={classes(editable, adminStyles)}
+          innerRef={contentRef}
+        />
+      </Suspense>,
+    );
+  }
+
+  return React.createElement(headingElement, { ...properties, dangerouslySetInnerHTML: { __html: val || '' } });
 }

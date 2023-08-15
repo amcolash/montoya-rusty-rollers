@@ -18,7 +18,7 @@ interface Field {
 }
 
 enum FormState {
-  Default = 'Send',
+  Default = 'Send Message',
   Sending = 'Sending...',
   Sent = 'Message Sent!',
   Error = 'Something went wrong...',

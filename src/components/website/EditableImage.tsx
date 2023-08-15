@@ -146,6 +146,7 @@ export function EditableImage(props: EditableImageProps) {
                   className={thumbnailStyle}
                   src={getEditImageUrl(value.itemPath, value.thumbnail!)}
                   style={props.imageStyle}
+                  loading="lazy"
                 />
               </button>
               {adminMode && (
