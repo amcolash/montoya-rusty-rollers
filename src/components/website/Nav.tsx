@@ -1,9 +1,9 @@
 import React, { Suspense, useEffect, useState } from 'react';
-import ReactFocusLock from 'react-focus-lock';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { media, style } from 'typestyle';
 import useResizeObserver from 'use-resize-observer';
 
+import { useFocusLock } from '../../hooks/useFocusLock';
 import { useLocation } from '../../hooks/useLocation';
 import { headerHeight } from '../../util/globalState';
 import { adminStorageKey } from '../../util/localStorageKeys';
@@ -86,6 +86,7 @@ const ulStyle = style(
         textDecoration: 'none',
         color: 'var(--light)',
         whiteSpace: 'nowrap',
+        borderRadius: '0.05rem',
       },
     },
   },
@@ -116,6 +117,7 @@ export function Nav() {
   });
 
   const { adminMode, hash } = useLocation();
+  const containerRef = useFocusLock(menuOpen);
 
   useEffect(() => {
     document.body.style.scrollPaddingTop = height + 'px';
@@ -123,68 +125,69 @@ export function Nav() {
   }, [height]);
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : 'auto';
-  }, [menuOpen]);
+    const listener = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('keydown', listener);
+
+    return () => document.removeEventListener('keydown', listener);
+  }, []);
 
   return (
     <header ref={headerRef} className={headerStyle}>
-      <div className={wrapperStyle}>
+      <div className={wrapperStyle} ref={containerRef}>
         <h1 style={{ margin: 0 }}>Rusty Rollers Restoration</h1>
 
-        <ReactFocusLock disabled={!menuOpen}>
-          <button
-            aria-label="Menu"
-            aria-controls="primary-navigation"
-            aria-expanded={menuOpen}
-            aria-hidden={!menuOpen}
-            disabled={!menuOpen}
-            className={menuButtonStyle}
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-          </button>
+        <button
+          aria-label="Menu"
+          aria-controls="primary-navigation"
+          aria-expanded={menuOpen}
+          className={menuButtonStyle}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        </button>
 
-          <nav
-            style={
-              menuOpen
-                ? {
-                    width: '100%',
-                    height: '100%',
-                    position: 'fixed',
-                    inset: '0 0 0 0',
-                    background: 'rgba(0, 0, 0, 0.85)',
-                  }
-                : undefined
-            }
-            onClick={(e) => {
-              const okTags = ['A', 'UL', 'LI'];
-              if (!okTags.includes((e.target as HTMLElement).tagName)) setMenuOpen(false);
-            }}
-          >
-            <ul id="primary-navigation" data-visible={menuOpen} className={ulStyle}>
-              {links.map(({ id, label }) => (
-                <li key={id}>
-                  <a href={id} onClick={() => setMenuOpen(false)}>
-                    {label}
-                  </a>
-                </li>
-              ))}
-
-              {(import.meta.env.DEV || window.localStorage.getItem(adminStorageKey)) && !adminMode && (
-                <a
-                  href="#/admin"
-                  style={{
-                    color: 'var(--warning)',
-                    marginTop: menuOpen ? '2rem' : undefined,
-                    marginLeft: menuOpen ? undefined : '2rem',
-                  }}
-                >
-                  Admin Page
+        <nav
+          style={
+            menuOpen
+              ? {
+                  width: '100%',
+                  height: '100%',
+                  position: 'fixed',
+                  inset: '0 0 0 0',
+                  background: 'rgba(0, 0, 0, 0.85)',
+                }
+              : undefined
+          }
+          onClick={(e) => {
+            const okTags = ['A', 'UL', 'LI'];
+            if (!okTags.includes((e.target as HTMLElement).tagName)) setMenuOpen(false);
+          }}
+        >
+          <ul id="primary-navigation" data-visible={menuOpen} className={ulStyle}>
+            {links.map(({ id, label }) => (
+              <li key={id}>
+                <a href={id} onClick={() => setMenuOpen(false)}>
+                  {label}
                 </a>
-              )}
-            </ul>
-          </nav>
-        </ReactFocusLock>
+              </li>
+            ))}
+
+            {(import.meta.env.DEV || window.localStorage.getItem(adminStorageKey)) && !adminMode && (
+              <a
+                href="#/admin"
+                style={{
+                  color: 'var(--warning)',
+                  marginTop: menuOpen ? '2rem' : undefined,
+                  marginLeft: menuOpen ? undefined : '2rem',
+                }}
+              >
+                Admin Page
+              </a>
+            )}
+          </ul>
+        </nav>
       </div>
 
       {adminMode && (

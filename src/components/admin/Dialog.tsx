@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { media, style } from 'typestyle';
 
+import { useFocusLock } from '../../hooks/useFocusLock';
 import { mobileBreakpoint } from '../../util/styles';
 
 interface DialogProps {
@@ -22,7 +23,20 @@ const dialogStyle = style(
   media({ maxWidth: mobileBreakpoint }, { width: '100vw', height: '100dvh', maxHeight: '100dvh' })
 );
 
+const closeStyle = style({
+  display: 'flex',
+  padding: '0.75rem',
+  position: 'absolute',
+  right: '0.5rem',
+  background: 'none',
+  border: 'none',
+  outlineColor: 'var(--light)',
+  outlineOffset: '-6px',
+});
+
 export function Dialog(props: DialogProps) {
+  const dialogRef = useFocusLock();
+
   useEffect(() => {
     const listener = (event: KeyboardEvent) => {
       if (event.key === 'Escape') props.onClose();
@@ -53,6 +67,7 @@ export function Dialog(props: DialogProps) {
           e.preventDefault();
         }
       }}
+      ref={dialogRef}
     >
       <div className={dialogStyle}>
         <div
@@ -66,10 +81,7 @@ export function Dialog(props: DialogProps) {
           }}
         >
           <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>{props.title}</h3>
-          <button
-            onClick={() => props.onClose()}
-            style={{ position: 'absolute', right: '0.5rem', background: 'none', border: 'none' }}
-          >
+          <button onClick={() => props.onClose()} className={closeStyle}>
             <FaTimes />
           </button>
         </div>

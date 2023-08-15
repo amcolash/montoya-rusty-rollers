@@ -2,7 +2,6 @@ import { getAuth } from 'firebase/auth';
 import { ref, set } from 'firebase/database';
 import React, { Suspense, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import ReactFocusLock from 'react-focus-lock';
 
 import { app, database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
@@ -39,11 +38,9 @@ export function Admin() {
   return (
     <div>
       {filePickerReference && (
-        <ReactFocusLock>
-          <Suspense>
-            <FilePickerLazy />
-          </Suspense>
-        </ReactFocusLock>
+        <Suspense>
+          <FilePickerLazy />
+        </Suspense>
       )}
 
       <Website />
