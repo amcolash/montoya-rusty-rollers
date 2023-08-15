@@ -2,7 +2,6 @@
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      console.log(entry.target, entry.isIntersecting);
       if (entry.isIntersecting) {
         const location = window.location.toString().split('#')[0];
         const oldHash = window.location.hash;
