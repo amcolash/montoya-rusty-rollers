@@ -7,12 +7,7 @@ import { Page } from '../Page';
 
 export function About() {
   return (
-    <Page
-      id="about-us"
-      header="About Us"
-      image={ImageId.about}
-      containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(0.25rem)' }}
-    >
+    <Page id="about-us" header="About Us" image={ImageId.about} containerStyle={cardStyle}>
       <EditableImage
         id={ImageId.aboutTruck}
         style={{ margin: '2rem 0', textAlign: 'center' }}

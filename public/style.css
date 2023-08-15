@@ -73,28 +73,11 @@ button {
   width: unset;
   background: var(--cta);
   border: 1px solid var(--cta-border);
-  color: white;
+  color: var(--light);
 }
 
 textarea {
   resize: vertical;
-}
-
-#loading {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  height: 100dvh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background: var(--dark);
-  color: var(--light);
-  z-index: 99;
-  transition: opacity 0.5s;
 }
 
 #loading.hidden {

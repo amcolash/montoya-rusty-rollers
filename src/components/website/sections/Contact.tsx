@@ -11,12 +11,7 @@ export function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
 
   return (
-    <Page
-      id="contact"
-      header="Contact Us"
-      containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(0.25rem)' }}
-      image={ImageId.contact}
-    >
+    <Page id="contact" header="Contact Us" containerStyle={cardStyle} image={ImageId.contact}>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
         <SocialLink
           label="Call Us: "

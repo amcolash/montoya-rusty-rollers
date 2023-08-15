@@ -17,6 +17,25 @@
     <meta name="googlebot" content="index, follow" />
     <meta name="google" content="notranslate" />
 
+    <style>
+      #loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        height: 100dvh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: var(--dark, #333);
+        color: var(--light, #eee);
+        z-index: 99;
+        transition: opacity 0.5s;
+      }
+    </style>
+
     <link type="image/png" rel="icon" href="./favicon.svg" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />

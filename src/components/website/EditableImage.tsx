@@ -128,7 +128,7 @@ export function EditableImage(props: EditableImageProps) {
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'contain',
             backgroundPosition: 'center',
-            filter: `blur(${loadedImages![0] ? 0 : 5}px)`,
+            filter: `blur(${loadedImages![0] ? 0 : 16}px)`,
             transition: 'filter 0.35s',
             ...props.imageStyle,
           }}
@@ -158,7 +158,7 @@ export function EditableImage(props: EditableImageProps) {
                   src={loadedImages![i] || tempImages![i]}
                   style={{
                     ...props.imageStyle,
-                    filter: `blur(${loadedImages![i] ? 0 : 5}px)`,
+                    filter: `blur(${loadedImages![i] ? 0 : 16}px)`,
                     transition: 'filter 0.35s',
                   }}
                   loading="lazy"

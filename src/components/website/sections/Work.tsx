@@ -20,12 +20,7 @@ const logoStyle = style(
 
 export function Work() {
   return (
-    <Page
-      id="our-work"
-      header="Our Work"
-      containerStyle={{ ...cardStyle, background: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(0.25rem)' }}
-      image={ImageId.work}
-    >
+    <Page id="our-work" header="Our Work" containerStyle={cardStyle} image={ImageId.work}>
       <EditableImage
         id={ImageId.workLogo}
         style={{ margin: '2rem 0', textAlign: 'center' }}
