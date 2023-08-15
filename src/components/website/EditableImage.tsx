@@ -6,7 +6,7 @@ import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
 import { useDb } from '../../hooks/useDb';
-import { getImageUrl } from '../../hooks/useFileList';
+import { getImageUrl } from '../../util/imageUrl';
 import { useImageMeta } from '../../hooks/useImageMeta';
 import { useLocation } from '../../hooks/useLocation';
 import { database } from '../../util/firebase';
@@ -21,7 +21,7 @@ const thumbnailStyle = style(
     objectFit: 'cover',
     borderRadius: '0.35rem',
   },
-  media({ maxWidth: mobileBreakpoint }, { width: 'min(9rem, 37vw)', height: 'min(9rem, 37vw)' })
+  media({ maxWidth: mobileBreakpoint }, { width: 'min(9rem, 37vw)', height: 'min(9rem, 37vw)' }),
 );
 
 export enum ImageId {

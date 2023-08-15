@@ -9,8 +9,7 @@ import { filePickerState } from '../../util/globalState';
 import { FilePickerLazy } from '../LazyComponents';
 import { Website } from '../website/Website';
 import { Login } from './Login';
-
-export const adminStorageKey = 'rusty-rollers-admin';
+import { adminStorageKey } from '../../util/localStorageKeys';
 
 export function Admin() {
   const auth = getAuth(app);

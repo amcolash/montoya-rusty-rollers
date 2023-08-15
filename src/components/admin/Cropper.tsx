@@ -11,27 +11,11 @@ import { cssRule } from 'typestyle';
 import { File } from '../../hooks/useFileList';
 import { app } from '../../util/firebase';
 import { IconButton } from '../IconButton';
+import { Meta, Orientation } from '../../hooks/useImageMeta';
 
 cssRule('.ReactCrop__crop-selection', {
   animationPlayState: 'paused !important',
 });
-
-export type Meta = {
-  crop: Crop;
-  rotation: number;
-};
-
-// This enum is only used when loading the image and is not the rotation value saved
-export enum Orientation {
-  DEG_0 = 1,
-  DEG_90 = 6,
-  DEG_180 = 3,
-  DEG_270 = 8,
-}
-
-export function getEditedImageId(path: string) {
-  return path.replace(/[./]/g, '_') || '';
-}
 
 const defaultCrop: Crop = { unit: '%', x: 0, y: 0, width: 100, height: 100 };
 
@@ -46,7 +30,7 @@ export function Cropper(props: CropperProps) {
 
   const [crop, setCrop] = useState<Crop>(props.initialMeta?.crop || defaultCrop);
   const [rotation, setRotation] = useState<number | undefined>(
-    props.initialMeta ? props.initialMeta.rotation : undefined
+    props.initialMeta ? props.initialMeta.rotation : undefined,
   );
   const [initialLoad, setInitialLoad] = useState(true);
   const [img, setImg] = useState<string>();
@@ -70,7 +54,7 @@ export function Cropper(props: CropperProps) {
           rotation === undefined ? true : Number.parseInt(Object.values(Orientation)[rotation + 4] as string),
         canvas: true,
         crossOrigin: 'anonymous',
-      }
+      },
     );
   }, [src, rotation || 0]);
 

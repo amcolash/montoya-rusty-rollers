@@ -8,7 +8,7 @@ import { useLocation } from '../../hooks/useLocation';
 import { headerHeight } from '../../util/globalState';
 import { mobileBreakpoint } from '../../util/styles';
 import { AdminNavLazy } from '../LazyComponents';
-import { adminStorageKey } from '../admin/Admin';
+import { adminStorageKey } from '../../util/localStorageKeys';
 
 const links = [
   { id: '#home', label: 'Home' },

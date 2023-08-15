@@ -4,10 +4,10 @@ import { FaFileImage } from 'react-icons/fa';
 
 import { useDb } from '../../hooks/useDb';
 import { File } from '../../hooks/useFileList';
-import { metadataPath } from '../../hooks/useImageMeta';
+import { Meta, getEditedImageId, metadataPath } from '../../hooks/useImageMeta';
 import { database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
-import { Cropper, Meta, getEditedImageId } from './Cropper';
+import { Cropper } from './Cropper';
 import { Dialog } from './Dialog';
 import { FileUpload } from './FileUpload';
 import { ImageGrid } from './ImageGrid';
