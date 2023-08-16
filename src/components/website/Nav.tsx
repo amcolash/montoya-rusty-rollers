@@ -20,7 +20,7 @@ const links = [
 
 const headerStyle = style({
   position: 'sticky',
-  top: 0,
+  top: -1,
   zIndex: 3,
   display: 'flex',
   flexDirection: 'column',
@@ -109,19 +109,29 @@ const menuButtonStyle = style(
   media({ maxWidth: mobileBreakpoint }, { display: 'flex' })
 );
 
-const navStyle = style({
-  opacity: 0,
-  transition: 'all 0.15s',
-});
+const navStyle = style(
+  media(
+    { maxWidth: mobileBreakpoint },
+    {
+      opacity: 0,
+      transition: 'all 0.15s',
+    }
+  )
+);
 
-const openStyle = style({
-  width: '100%',
-  height: '100%',
-  position: 'fixed',
-  inset: '0 0 0 0',
-  background: 'rgba(0, 0, 0, 0.85)',
-  opacity: 1,
-});
+const openStyle = style(
+  media(
+    { maxWidth: mobileBreakpoint },
+    {
+      width: '100%',
+      height: '100%',
+      position: 'fixed',
+      inset: '0 0 0 0',
+      background: 'rgba(0, 0, 0, 0.85)',
+      opacity: 1,
+    }
+  )
+);
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
