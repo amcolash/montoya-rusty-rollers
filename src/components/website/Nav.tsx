@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import { media, style } from 'typestyle';
+import { classes, media, style } from 'typestyle';
 import useResizeObserver from 'use-resize-observer';
 
 import { useFocusLock } from '../../hooks/useFocusLock';
@@ -109,6 +109,20 @@ const menuButtonStyle = style(
   media({ maxWidth: mobileBreakpoint }, { display: 'flex' })
 );
 
+const navStyle = style({
+  opacity: 0,
+  transition: 'all 0.15s',
+});
+
+const openStyle = style({
+  width: '100%',
+  height: '100%',
+  position: 'fixed',
+  inset: '0 0 0 0',
+  background: 'rgba(0, 0, 0, 0.85)',
+  opacity: 1,
+});
+
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [globalHeight, setGlobalHeight] = headerHeight.use();
@@ -149,17 +163,7 @@ export function Nav() {
         </button>
 
         <nav
-          style={
-            menuOpen
-              ? {
-                  width: '100%',
-                  height: '100%',
-                  position: 'fixed',
-                  inset: '0 0 0 0',
-                  background: 'rgba(0, 0, 0, 0.85)',
-                }
-              : undefined
-          }
+          className={classes(menuOpen && openStyle, navStyle)}
           onClick={(e) => {
             const okTags = ['A', 'UL', 'LI'];
             if (!okTags.includes((e.target as HTMLElement).tagName)) setMenuOpen(false);

@@ -119,17 +119,19 @@ export function EditableImage(props: EditableImageProps) {
       )}
       {val && !props.multi && (
         <div
+          ref={loadedImages![0].ref}
           className={props.imageClassName}
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            backgroundImage: `url(${loadedImages![0] || tempImages![0]})`,
+
+            backgroundImage: `url(${loadedImages![0].loaded || tempImages![0]})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'contain',
             backgroundPosition: 'center',
-            filter: `blur(${loadedImages![0] ? 0 : 16}px)`,
-            transition: 'filter 0.35s',
+            filter: `blur(${loadedImages![0].loaded ? 0 : 16}px)`,
+            transition: 'filter 0.25s',
             ...props.imageStyle,
           }}
         />
@@ -153,15 +155,14 @@ export function EditableImage(props: EditableImageProps) {
                 style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 0 }}
               >
                 <img
+                  ref={loadedImages![i].ref}
                   className={thumbnailStyle}
-                  // src={getEditImageUrl(value.itemPath, value.thumbnail!)}
-                  src={loadedImages![i] || tempImages![i]}
+                  src={loadedImages![i].loaded || tempImages![i]}
                   style={{
                     ...props.imageStyle,
                     filter: `blur(${loadedImages![i] ? 0 : 16}px)`,
-                    transition: 'filter 0.35s',
+                    transition: 'filter 0.25s',
                   }}
-                  loading="lazy"
                 />
               </button>
               {adminMode && (

@@ -17,10 +17,7 @@ const observer = new IntersectionObserver(
 );
 
 export function useHashObserver(ref: React.RefObject<HTMLElement>) {
-  // Wait a moment before watching the element
-  setTimeout(() => {
-    if (ref.current) observer.observe(ref.current);
-  }, 1000);
+  if (ref.current) observer.observe(ref.current);
 
   return () => {
     if (ref.current) observer.unobserve(ref.current);

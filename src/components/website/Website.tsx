@@ -27,7 +27,7 @@ export function Website() {
           setLoaderRemoved(true);
         }, 1000);
       }
-    }, 100);
+    }, 50);
 
     return () => clearInterval(timer);
   }, []);

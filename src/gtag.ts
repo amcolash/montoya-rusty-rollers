@@ -2,7 +2,7 @@
 
 let gtmDidInit = false;
 
-document.addEventListener('DOMContentLoaded', () => setTimeout(initGTM, 3500));
+document.addEventListener('DOMContentLoaded', () => setTimeout(initGTM, 5000));
 
 document.addEventListener('scroll', initGTMOnEvent);
 document.addEventListener('mousemove', initGTMOnEvent);
