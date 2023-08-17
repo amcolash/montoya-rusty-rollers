@@ -1,5 +1,5 @@
 import emailjs from '@emailjs/browser';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FaFacebook, FaMap, FaPhone } from 'react-icons/fa';
 
 import { cardStyle } from '../../../util/styles';
@@ -8,6 +8,12 @@ import { Form } from '../Form';
 import { Page } from '../Page';
 
 export function Contact() {
+  useEffect(() => {
+    // Init emailjs
+    const publicKey = 'Ht6JdHW9yl4CS63qN';
+    emailjs.init(publicKey);
+  }, []);
+
   const formRef = useRef<HTMLFormElement>(null);
 
   return (
