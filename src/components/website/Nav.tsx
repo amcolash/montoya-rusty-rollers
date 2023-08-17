@@ -183,7 +183,7 @@ export function Nav() {
             {links.map(({ id, label }) => (
               <li key={id}>
                 <a href={id} onClick={() => setMenuOpen(false)}>
-                  {label}
+                  <span data-nosnippet>{label}</span>
                 </a>
               </li>
             ))}
