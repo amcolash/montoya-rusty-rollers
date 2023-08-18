@@ -1,11 +1,9 @@
-import { ref } from 'firebase/database';
 import React, { CSSProperties, Suspense, useEffect, useState } from 'react';
 import { classes, style } from 'typestyle';
 
 import { useDb } from '../../hooks/useDb';
 import useDebounce from '../../hooks/useDebounce';
 import { useLocation } from '../../hooks/useLocation';
-import { database } from '../../util/firebase';
 import { ContentEditableLazy } from '../LazyComponents';
 
 export enum TextId {
@@ -50,7 +48,7 @@ export function EditableText(props: EditableTextProps) {
   const contentRef = React.useRef<HTMLDivElement>(null);
   const debouncedValue = useDebounce(current, 1000);
 
-  const reference = ref(database, `content/text/${props.id}`);
+  const reference = `content/text/${props.id}`;
   const [val, loading, error, setVal, saving] = useDb<string>(reference);
 
   useEffect(() => {

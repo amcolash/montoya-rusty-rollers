@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
-import { loadingList } from '../../hooks/useDb';
+import { loadingList, useDbLoader } from '../../hooks/useDb';
 import ScrollToHashElement from '../ScrollToHashElement';
 import { Footer } from './Footer';
 import { Loader } from './Loader';
@@ -11,9 +11,14 @@ import { Contact } from './sections/Contact';
 import { Services } from './sections/Services';
 import { Work } from './sections/Work';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const DBContext = createContext<any>(undefined);
+
 export function Website() {
   const [loaded, setLoaded] = useState(false);
   const [loaderRemoved, setLoaderRemoved] = useState(false);
+
+  const dbFn = useDbLoader();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -40,16 +45,20 @@ export function Website() {
         />
       )}
 
-      <ScrollToHashElement />
-      <Nav />
+      {loaded && (
+        <DBContext.Provider value={dbFn}>
+          <ScrollToHashElement />
+          <Nav />
 
-      <Banner />
-      <Services />
-      <Work />
-      <About />
-      <Contact />
+          <Banner />
+          <Services />
+          <Work />
+          <About />
+          <Contact />
 
-      <Footer />
+          <Footer />
+        </DBContext.Provider>
+      )}
     </>
   );
 }

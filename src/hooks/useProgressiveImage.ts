@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 // From https://stackoverflow.com/a/60458593/2303432
-export function useProgressiveImage(src: string) {
-  const ref = useRef<HTMLImageElement | HTMLDivElement>();
-  const [sourceLoaded, setSourceLoaded] = useState<string>();
+export function useProgressiveImage(temp: string, large: string) {
+  const ref = useRef<HTMLImageElement | HTMLDivElement>(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(onIntersection, {
@@ -11,23 +11,23 @@ export function useProgressiveImage(src: string) {
       rootMargin: Math.max(window.innerHeight, window.innerWidth) * 1.5 + 'px',
     });
 
-    if (ref.current) observer.observe(ref.current);
+    if (ref.current && !loaded) observer.observe(ref.current);
 
     return () => {
       if (ref.current) observer.unobserve(ref.current);
     };
-  }, [ref, sourceLoaded]);
+  }, [ref, loaded]);
 
   const onIntersection = useCallback(
     (entries) => {
-      if (!entries[0].isIntersecting || sourceLoaded) return;
+      if (!entries[0].isIntersecting || loaded) return;
 
       const img = new Image();
-      img.src = src;
-      img.onload = () => setSourceLoaded(src);
+      img.src = large;
+      img.onload = () => setLoaded(true);
     },
-    [src, sourceLoaded]
+    [large, loaded]
   );
 
-  return { ref, loaded: sourceLoaded };
+  return { ref, temp, large, loaded };
 }

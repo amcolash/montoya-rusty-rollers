@@ -3,11 +3,12 @@ import { ref, set } from 'firebase/database';
 import React, { Suspense, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
+import { useDbLoader } from '../../hooks/useDb';
 import { app, database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
 import { adminStorageKey } from '../../util/localStorageKeys';
 import { FilePickerLazy } from '../LazyComponents';
-import { Website } from '../website/Website';
+import { DBContext, Website } from '../website/Website';
 import { Login } from './Login';
 
 export function Admin() {
@@ -15,6 +16,8 @@ export function Admin() {
   const [invalidUser, setInvalidUser] = useState(false);
   const [user, loading, error] = useAuthState(auth);
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
+
+  const dbFn = useDbLoader();
 
   useEffect(() => {
     if (user) {
@@ -36,7 +39,7 @@ export function Admin() {
   if (!loading && (!user || error)) return <Login invalidUser={invalidUser} />;
 
   return (
-    <div>
+    <DBContext.Provider value={dbFn}>
       {filePickerReference && (
         <Suspense>
           <FilePickerLazy />
@@ -44,6 +47,6 @@ export function Admin() {
       )}
 
       <Website />
-    </div>
+    </DBContext.Provider>
   );
 }

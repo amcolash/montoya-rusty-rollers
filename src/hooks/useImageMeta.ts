@@ -1,8 +1,6 @@
-import { ref } from 'firebase/database';
 import { useCallback } from 'react';
 import { type Crop } from 'react-image-crop';
 
-import { database } from '../util/firebase';
 import { useDb } from './useDb';
 
 export type Meta = {
@@ -25,8 +23,7 @@ export function getEditedImageId(path: string) {
 }
 
 export function useImageMeta() {
-  const reference = ref(database, metadataPath);
-  const [val, loading, error, setVal, saving] = useDb<{ [key: string]: Meta }>(reference);
+  const [val, loading, error, setVal, saving] = useDb<{ [key: string]: Meta }>(metadataPath);
 
   const getEditImageUrl = useCallback(
     (itemPath: string, url: string) => {

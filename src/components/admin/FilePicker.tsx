@@ -18,8 +18,7 @@ export function FilePicker() {
   const [multiDirty, setMultiDirty] = useState(false);
   const [editing, setEditing] = useState<File | undefined>();
 
-  const reference = ref(database, metadataPath);
-  const [val, loading, error, setVal, saving] = useDb<{ [key: string]: Meta }>(reference);
+  const [val, loading, error, setVal, saving] = useDb<{ [key: string]: Meta }>(metadataPath);
 
   const editingPath = getEditedImageId(editing?.path || '');
 

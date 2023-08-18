@@ -26,6 +26,7 @@ export function useFileList(path: string, refreshCounter: number): [File[], bool
 
       for (const item of result.items) {
         if (
+          item.name.includes('16x16') ||
           item.name.includes('200x200') ||
           item.name.includes('400x400') ||
           item.name.includes('1000x1000') ||

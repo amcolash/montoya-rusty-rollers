@@ -1,5 +1,4 @@
-import { ref } from 'firebase/database';
-import React, { CSSProperties, Suspense, useState } from 'react';
+import React, { CSSProperties, Suspense, useMemo, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaFileImage, FaTimes } from 'react-icons/fa';
 import { media, style } from 'typestyle';
 
@@ -7,7 +6,6 @@ import { useDb } from '../../hooks/useDb';
 import { useImageMeta } from '../../hooks/useImageMeta';
 import { useLocation } from '../../hooks/useLocation';
 import { useProgressiveImage } from '../../hooks/useProgressiveImage';
-import { database } from '../../util/firebase';
 import { filePickerState } from '../../util/globalState';
 import { Size, getImageUrl } from '../../util/imageUrl';
 import { mobileBreakpoint } from '../../util/styles';
@@ -57,19 +55,21 @@ export function EditableImage(props: EditableImageProps) {
 
   const [filePickerReference, setFilePickerReference] = filePickerState.use();
 
-  const reference = ref(database, `content/images/${props.id}`);
+  const reference = `content/images/${props.id}`;
   const [val, loading, error, setVal, saving] = useDb<ImageData[]>(reference);
 
   const { getEditImageUrl } = useImageMeta();
 
   const [index, setIndex] = useState(-1);
 
-  const tempImages = val?.map((value) =>
-    getEditImageUrl(value.itemPath, getImageUrl(value.itemPath, Size.Placeholder, true))
-  );
-  const loadedImages = val?.map((value) =>
-    useProgressiveImage(getEditImageUrl(value.itemPath, props.multi ? value.thumbnail! : value.url))
-  );
+  const images = val?.map((value) => {
+    const tempImage = getEditImageUrl(value.itemPath, getImageUrl(value.itemPath, Size.Placeholder, true));
+    const largeImage = getEditImageUrl(value.itemPath, props.multi ? value.thumbnail! : value.url);
+
+    return useProgressiveImage(tempImage, largeImage);
+  });
+
+  if (!images) return null;
 
   return (
     <div style={{ position: 'relative', minWidth: '', minHeight: 50, ...props.style }}>
@@ -119,18 +119,18 @@ export function EditableImage(props: EditableImageProps) {
       )}
       {val && !props.multi && (
         <div
-          ref={loadedImages![0].ref}
+          ref={images[0].ref}
           className={props.imageClassName}
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
 
-            backgroundImage: `url(${loadedImages![0].loaded || tempImages![0]})`,
+            backgroundImage: `url(${images[0].loaded ? images[0].large : images[0].temp})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'contain',
             backgroundPosition: 'center',
-            filter: `blur(${loadedImages![0].loaded ? 0 : 16}px)`,
+            filter: `blur(${images[0].loaded ? 0 : 16}px)`,
             transition: 'filter 0.25s',
             ...props.imageStyle,
           }}
@@ -152,15 +152,22 @@ export function EditableImage(props: EditableImageProps) {
             <div key={value.url} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <button
                 onClick={() => setIndex(i)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 0 }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0,
+                  lineHeight: 0,
+                  overflow: 'hidden',
+                }}
               >
                 <img
-                  ref={loadedImages![i].ref}
+                  ref={images[i].ref}
                   className={thumbnailStyle}
-                  src={loadedImages![i].loaded || tempImages![i]}
+                  src={images[i].loaded ? images[i].large : images[i].temp}
                   style={{
                     ...props.imageStyle,
-                    filter: `blur(${loadedImages![i] ? 0 : 16}px)`,
+                    filter: `blur(${images[i].loaded ? 0 : 8}px)`,
                     transition: 'filter 0.25s',
                   }}
                 />
@@ -170,7 +177,7 @@ export function EditableImage(props: EditableImageProps) {
                   <IconButton
                     icon={<FaChevronLeft />}
                     disabled={i === 0}
-                    onClick={() => {
+                    onClick={(e) => {
                       const arr = structuredClone(val);
 
                       const temp = arr[i];
@@ -183,7 +190,7 @@ export function EditableImage(props: EditableImageProps) {
                   <IconButton
                     icon={<FaChevronRight />}
                     disabled={i === val.length - 1}
-                    onClick={() => {
+                    onClick={(e) => {
                       const arr = structuredClone(val);
 
                       const temp = arr[i];

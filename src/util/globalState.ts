@@ -1,8 +1,7 @@
-import { DatabaseReference } from 'firebase/database';
 import { createGlobalState } from 'react-global-hooks';
 
 interface FilePickerState {
-  ref: DatabaseReference;
+  ref: string;
   multi: boolean;
 }
 
