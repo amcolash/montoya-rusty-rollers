@@ -17,6 +17,7 @@ export default defineConfig({
           firebase_auth: ['firebase/auth'],
           firebase_database: ['firebase/database'],
           firebase_storage: ['firebase/storage'],
+          lightbox: ['yet-another-react-lightbox', 'yet-another-react-lightbox/styles.css'],
         },
       },
       plugins: [

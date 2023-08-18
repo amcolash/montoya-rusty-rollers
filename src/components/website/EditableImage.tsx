@@ -1,4 +1,4 @@
-import React, { CSSProperties, Suspense, useMemo, useState } from 'react';
+import React, { CSSProperties, Suspense, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaFileImage, FaTimes } from 'react-icons/fa';
 import { media, style } from 'typestyle';
 

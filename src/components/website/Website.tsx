@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 
 import { loadingList, useDbLoader } from '../../hooks/useDb';
+import { lightboxLoading } from '../../util/globalState';
 import ScrollToHashElement from '../ScrollToHashElement';
 import { Footer } from './Footer';
 import { Loader } from './Loader';
@@ -17,6 +18,7 @@ export const DBContext = createContext<any>(undefined);
 export function Website() {
   const [loaded, setLoaded] = useState(false);
   const [loaderRemoved, setLoaderRemoved] = useState(false);
+  const [lightbox, setLightbox] = lightboxLoading.use();
 
   const dbFn = useDbLoader();
 
@@ -37,11 +39,18 @@ export function Website() {
     return () => clearInterval(timer);
   }, []);
 
+  const loaderVisible = !loaderRemoved || lightbox;
+  const loaderFading = loaded && !lightbox;
+
   return (
     <>
-      {!loaderRemoved && (
+      {loaderVisible && (
         <Loader
-          style={{ opacity: loaded ? 0 : 1, transition: 'opacity 0.5s', pointerEvents: loaded ? 'none' : undefined }}
+          style={{
+            opacity: loaderFading ? 0 : 1,
+            transition: 'opacity 0.5s',
+            pointerEvents: loaderFading ? 'none' : undefined,
+          }}
         />
       )}
 
