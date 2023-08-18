@@ -61,7 +61,7 @@ export function EditableText(props: EditableTextProps) {
     if (debouncedValue && debouncedValue.length > 0) setVal(debouncedValue);
   }, [debouncedValue]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return null;
   if (error) return <div>Error: {error.message}</div>;
 
   const properties = {

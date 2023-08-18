@@ -36,7 +36,6 @@ export function Page(props: PageProps) {
     overflow: 'hidden',
     padding: '3rem 0',
     borderBottom: '1px solid #777',
-    backgroundColor: 'var(--dark)',
   });
 
   return (

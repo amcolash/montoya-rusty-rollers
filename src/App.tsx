@@ -12,7 +12,7 @@ export function App() {
 
   if (adminMode)
     return (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <AdminLazy />
       </Suspense>
     );
